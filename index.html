@@ -54,7 +54,7 @@
         <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Switch theme" title="Switch theme">
           <span class="theme-icon-sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span><span class="theme-icon-moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
         </button>
-        <a href="#pricing" class="btn btn-primary">Get D3 — $29</a>
+        <a href="#pricing" class="btn btn-primary"><span>Get D3</span><span class="nav-btn-price"> — $29</span></a>
       </div>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span></span><span></span><span></span></button>
@@ -67,7 +67,7 @@
       
       <div class="announcement-bar">
         <span class="pulse-dot"></span>
-        <span>Tired of AI platforms burning your credits? <strong>Stop paying $30/month.</strong></span>
+        <span>Tired of AI platforms burning your credits? <strong class="announcement-strong">Stop paying $30/month.</strong></span>
       </div>
 
       <h1 class="hero-title">
@@ -87,10 +87,10 @@
       </div>
 
       <div class="hero-badges">
-        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 100% Local &amp; Private</span>
-        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Unlimited Exports</span>
-        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> No Monthly Subscriptions</span>
-        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Windows 10/11 &amp; macOS Ready</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Local &amp; Private</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Unlimited Exports</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> No Subscriptions</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Windows &amp; Mac Ready</span>
       </div>
 
       <!-- Interactive Real App Live Demo -->
@@ -170,7 +170,7 @@
               </div>
 
               <div class="privacy-note">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--green);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 <span>Your files stay on this computer. Nothing is uploaded.</span>
               </div>
             </div>
@@ -360,7 +360,7 @@
               <div id="demo-render-done-view" class="render-done-view" style="display: none; align-items: center; justify-content: space-between;">
                 <div style="display: flex; align-items: center; gap: 12px;">
                   <div class="render-cam-icon done-check">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--green);"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
                   <div>
                     <strong style="color: var(--bone); font-size: 13px;">Export complete!</strong>
@@ -1127,7 +1127,7 @@
                 renderProgView.style.display = 'none';
                 renderDoneView.style.display = 'flex';
                 if (statusText) statusText.textContent = 'Export complete!';
-                if (statusDot) statusDot.style.background = '#16A34A';
+                if (statusDot) statusDot.style.background = 'var(--green)';
               }
             }, 50);
           });
