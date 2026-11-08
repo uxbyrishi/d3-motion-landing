@@ -1,4 +1,4 @@
-# D3 Motion — Polar.sh Product Setup & Digital Distribution Guide
+# D3 Motion - Polar.sh Product Setup & Digital Distribution Guide
 
 **Platform:** [Polar.sh](https://polar.sh)  
 **MCP Server Endpoint:** `https://mcp.polar.sh/mcp/polar-mcp`  
@@ -27,7 +27,7 @@ Once you click "Authorize" on Polar, the agent will have programmatic access to 
 ## 2. Organized Product Details for Polar Dashboard
 
 ### A. General Information
-- **Product Name:** `D3 Motion — Professional HTML to MP4 Video Engine`
+- **Product Name:** `D3 Motion - Professional HTML to MP4 Video Engine`
 - **Tagline:** `Convert HTML, CSS, JavaScript, Canvas, and Three.js animations into broadcast-quality 4K 60FPS MP4 video locally.`
 - **Price:** `$29.00 USD` (One-time payment)
 - **Product Type:** Digital Product / Software Download
@@ -63,18 +63,18 @@ The standalone zip packages are prepared in `html-to-video/release/packages/`:
 - **File Size:** `372.9 MB`
 - **Path:** `release/packages/D3-Motion-Windows-x64-Complete.zip`
 - **Contents:**
-  - `D3-Motion-Setup.exe` (Self-contained Windows 10/11 x64 Installer)
-  - `README-Windows.txt` (Zero-setup guide & instructions)
-  - `sample-animations/` (3 ready-to-test animation projects: Kinetic Typography, Canvas Particles, SVG Gradient Orb)
+ - `D3-Motion-Setup.exe` (Self-contained Windows 10/11 x64 Installer)
+ - `README-Windows.txt` (Zero-setup guide & instructions)
+ - `sample-animations/` (3 ready-to-test animation projects: Kinetic Typography, Canvas Particles, SVG Gradient Orb)
 
 ### Package 2: macOS Edition (`D3-Motion-macOS-Complete.zip`)
 - **File Size:** `821.3 MB`
 - **Path:** `release/packages/D3-Motion-macOS-Complete.zip`
 - **Contents:**
-  - `D3-Motion-Mac-arm64.dmg` (Apple Silicon M1/M2/M3/M4 Installer)
-  - `D3-Motion-Mac-x64.dmg` (Intel Mac Installer)
-  - `README-macOS-Instructions.txt` (Detailed Gatekeeper & first-launch instructions)
-  - `sample-animations/` (3 ready-to-test animation projects)
+ - `D3-Motion-Mac-arm64.dmg` (Apple Silicon M1/M2/M3/M4 Installer)
+ - `D3-Motion-Mac-x64.dmg` (Intel Mac Installer)
+ - `README-macOS-Instructions.txt` (Detailed Gatekeeper & first-launch instructions)
+ - `sample-animations/` (3 ready-to-test animation projects)
 
 ---
 
