@@ -7,14 +7,37 @@
   <title>D3 HTML to Video - Drag. Drop. Download. | Local HTML to MP4 Converter</title>
   <meta name="description" content="Tired of AI video platforms burning credits just to convert HTML to video? D3 converts HTML, CSS, and Canvas animations directly to broadcast-grade 4K 60FPS MP4 locally on your computer. One-time payment, lifetime free forever.">
   <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="canonical" href="https://d3motion.pro/">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0B0C10">
+
+  <!-- Open Graph / Facebook / LinkedIn / WhatsApp / Discord / Slack -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://d3motion.pro/">
+  <meta property="og:site_name" content="D3 HTML to Video">
+  <meta property="og:title" content="D3 HTML to Video - Turn HTML into Crisp 4K 60 FPS Video">
+  <meta property="og:description" content="100% Local, private offline rendering engine for CSS keyframes, Three.js, SVG and Canvas animations. No credits. No subscriptions. Drag. Drop. Download.">
+  <meta property="og:image" content="https://d3motion.pro/assets/og-image.png">
+  <meta property="og:image:secure_url" content="https://d3motion.pro/assets/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="D3 HTML to Video Desktop Studio - 100% Local 4K 60 FPS MP4 Rendering">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://d3motion.pro/">
+  <meta name="twitter:title" content="D3 HTML to Video - Turn HTML into Crisp 4K 60 FPS Video">
+  <meta name="twitter:description" content="100% Local, private offline rendering engine for CSS keyframes, Three.js, SVG and Canvas animations. No credits. No subscriptions. Drag. Drop. Download.">
+  <meta name="twitter:image" content="https://d3motion.pro/assets/og-image.png">
+  <meta name="twitter:image:alt" content="D3 HTML to Video Desktop Studio - 100% Local 4K 60 FPS MP4 Rendering">
+
   <link rel="stylesheet" href="styles.css">
   <script>
     (function() {
       try {
         var saved = localStorage.getItem('theme');
-        var theme = (saved === 'dark' || saved === 'light') 
-          ? saved 
-          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        var theme = (saved === 'dark' || saved === 'light') ? saved : 'dark';
         document.documentElement.setAttribute('data-theme', theme);
       } catch(e) {}
     })();
