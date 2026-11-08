@@ -5,9 +5,6 @@
   function stored() {
     try { var v = localStorage.getItem(KEY); return v === 'dark' || v === 'light' ? v : null; } catch (e) { return null; }
   }
-  function systemTheme() {
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
   function apply(theme) {
     root.setAttribute('data-theme', theme);
     var btn = document.getElementById('theme-toggle');
@@ -18,7 +15,8 @@
     }
   }
 
-  apply(stored() || root.getAttribute('data-theme') || systemTheme());
+  // Default to dark theme unless user explicitly chose otherwise in localStorage
+  apply(stored() || 'dark');
 
   var themeBtn = document.getElementById('theme-toggle');
   if (themeBtn) {
@@ -29,10 +27,10 @@
     });
   }
 
-  // Follow the OS theme until the visitor picks one themselves
+  // Keep dark theme default unless visitor explicitly toggles
   if (window.matchMedia) {
     var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    var onChange = function () { if (!stored()) apply(systemTheme()); };
+    var onChange = function () { if (stored()) apply(stored()); };
     if (mq.addEventListener) mq.addEventListener('change', onChange);
   }
 

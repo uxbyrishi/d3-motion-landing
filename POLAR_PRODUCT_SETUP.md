@@ -112,5 +112,5 @@ Thank you for purchasing D3 Motion!
 - **First Launch (Gatekeeper):** Right-click (or Control-click) "D3 Motion" in Applications and choose "Open", then click the "Open" button in the prompt. You only need to do this once!
 - If macOS blocks the app, open **System Settings > Privacy & Security**, scroll down to Security, and click **"Open Anyway"**.
 
-Need help? Contact support@d3motion.app or read the full manual at https://d3-motion-landing.vercel.app/instructions.html
+Need help? Contact d3motion.pro@gmail.com or read the full manual at https://d3-motion-landing.vercel.app/instructions.html
 ```
