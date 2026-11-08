@@ -897,61 +897,64 @@
 </head>
 <body>
 
-  <!-- Top Tutorial Header & Controls -->
+    <!-- Top Tutorial Header & Controls -->
   <header class="tutorial-header">
-    <a href="index.html" class="brand-group" title="Back to Landing Page">
-      <div class="brand-icon-box-sm">
-        <svg width="20" height="14" viewBox="0 0 240 170" fill="none">
-          <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="var(--logo-a, #F0EFEA)"/>
-          <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
-        </svg>
-      </div>
-      <div class="brand-text-col">
-        <span class="brand-name">D3 HTML to Video</span>
-        <span class="brand-sub">Interactive OS Tutorial</span>
-      </div>
-    </a>
+    <div class="tutorial-nav-row">
+      <a href="index.html" class="brand-group" title="Back to Landing Page">
+        <div class="brand-icon-box-sm">
+          <svg width="20" height="14" viewBox="0 0 240 170" fill="none">
+            <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="var(--logo-a, #F0EFEA)"/>
+            <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+          </svg>
+        </div>
+        <div class="brand-text-col">
+          <span class="brand-name">D3 HTML to Video</span>
+          <span class="brand-sub">Interactive OS Tutorial</span>
+        </div>
+      </a>
 
-    <!-- OS Switcher Tab -->
-    <div class="os-switcher" role="tablist" aria-label="Operating System Selection">
-      <button type="button" id="tab-os-windows" class="os-btn " role="tab" aria-selected="false">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
-        <span>Windows 11</span>
-      </button>
-      <button type="button" id="tab-os-mac" class="os-btn active" role="tab" aria-selected="true">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 1.01-2.87-.96.04-2.14.65-2.8 1.42-.58.67-.99 1.72-.94 2.76 1.08.08 2.12-.56 2.73-1.31z"/></svg>
-        <span>macOS</span>
-      </button>
+      <!-- Navigation & Theme Actions -->
+      <div class="header-nav-actions">
+        <a href="#written-guide" class="btn-ctrl">Written Guide</a>
+        <a href="index.html" class="btn-ctrl"><span>←</span> Landing Page</a>
+        <button id="tut-theme-toggle" class="btn-ctrl tut-theme-btn" type="button" title="Toggle theme" aria-label="Toggle theme">
+          <span class="theme-icon-sun">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </span>
+          <span class="theme-icon-moon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </span>
+        </button>
+      </div>
     </div>
 
-    <!-- Step Trackers (Identical 5 Steps) -->
-    <div class="step-pills" id="step-pills-bar">
-      <!-- Injected via JavaScript based on active OS -->
-    </div>
+    <div class="tutorial-player-row">
+      <!-- OS Switcher Tab -->
+      <div class="os-switcher" role="tablist" aria-label="Operating System Selection">
+        <button type="button" id="tab-os-windows" class="os-btn" role="tab" aria-selected="false">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+          <span>Windows 11</span>
+        </button>
+        <button type="button" id="tab-os-mac" class="os-btn active" role="tab" aria-selected="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 1.01-2.87-.96.04-2.14.65-2.8 1.42-.58.67-.99 1.72-.94 2.76 1.08.08 2.12-.56 2.73-1.31z"/></svg>
+          <span>macOS</span>
+        </button>
+      </div>
 
-    <!-- Header Actions -->
-    <div class="header-actions">
-      <button id="tut-theme-toggle" class="btn-ctrl theme-toggle-btn" type="button" title="Toggle theme">
-        <span class="theme-icon-sun">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        </span>
-        <span class="theme-icon-moon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </span>
-        <span id="tut-theme-toggle-label">Theme</span>
-      </button>
-      <button id="btn-toggle-play" class="btn-ctrl" type="button">
-        <span id="play-icon">❚❚</span> <span id="play-text">Pause</span>
-      </button>
-      <button id="btn-restart" class="btn-ctrl" type="button">
-        <span>↺</span> Restart
-      </button>
-      <a href="#written-guide" class="btn-ctrl">
-        <span>📖</span> Written Guide
-      </a>
-      <a href="index.html" class="btn-ctrl">
-        <span>←</span> Landing Page
-      </a>
+      <!-- Step Trackers (Identical 5 Steps) -->
+      <div class="step-pills" id="step-pills-bar">
+        <!-- Injected via JavaScript based on active OS -->
+      </div>
+
+      <!-- Playback Actions -->
+      <div class="playback-controls">
+        <button id="btn-toggle-play" class="btn-ctrl" type="button">
+          <span id="play-icon">❚❚</span> <span id="play-text">Pause</span>
+        </button>
+        <button id="btn-restart" class="btn-ctrl" type="button">
+          <span>↺</span> Restart
+        </button>
+      </div>
     </div>
   </header>
 
@@ -1438,20 +1441,6 @@
           <li><strong>No Prerequisites:</strong> You do <strong>not</strong> need to install Node.js, Python, Git, Playwright, or FFmpeg via command line. Everything is bundled inside the installer.</li>
         </ul>
 
-        <!-- Visual Example UI -->
-        <figure class="motion-ui-figure">
-          <div class="motion-ui-fig-header">
-            <div class="fig-dots"><span></span><span></span><span></span></div>
-            <div class="fig-title">D3 Motion Desktop Studio - Initial Launch Window</div>
-            <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green);">● Offline Ready</span>
-          </div>
-          <img src="assets/real-app-screen.png" alt="D3 Motion Desktop Studio UI" loading="lazy">
-          <figcaption class="fig-caption">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            <span>The native D3 workspace provides direct drag-and-drop ingestion, aspect ratio selection, and live canvas preview.</span>
-          </figcaption>
-        </figure>
-
         <div class="os-dual-grid">
           <div class="os-branch-box">
             <div class="os-branch-head">
@@ -1533,20 +1522,6 @@
           Because D3 Motion is an independent, air-gapped utility distributed directly to creators without telemetry or corporate certificates, modern operating systems show a standard first-run verification prompt. <strong>This happens only once on your initial launch.</strong>
         </p>
 
-        <!-- Visual Example UI -->
-        <figure class="motion-ui-figure">
-          <div class="motion-ui-fig-header">
-            <div class="fig-dots"><span></span><span></span><span></span></div>
-            <div class="fig-title">System Security Verification Dialogs</div>
-            <span style="font-family: var(--font-mono); font-size: 10px; color: var(--amber);">First-Launch Verification</span>
-          </div>
-          <img src="assets/tutorial-step3-scalpx.png" alt="Security Verification Dialog Walkthrough" loading="lazy">
-          <figcaption class="fig-caption">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span>macOS Gatekeeper and Windows SmartScreen prompts require one simple click to approve your offline utility.</span>
-          </figcaption>
-        </figure>
-
         <div class="os-dual-grid">
           <div class="os-branch-box">
             <div class="os-branch-head">
@@ -1622,20 +1597,6 @@
           </div>
         </div>
 
-        <!-- Visual Example UI -->
-        <figure class="motion-ui-figure">
-          <div class="motion-ui-fig-header">
-            <div class="fig-dots"><span></span><span></span><span></span></div>
-            <div class="fig-title">Project Ingestion &amp; Live Viewport Display</div>
-            <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green);">● Ingestion Active</span>
-          </div>
-          <img src="assets/tutorial-step4-scalpx.png" alt="Drag and Drop Project Ingestion" loading="lazy">
-          <figcaption class="fig-caption">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>D3 instantly mounts a local sandboxed server, initializes the animation clock, and displays a live interactive canvas.</span>
-          </figcaption>
-        </figure>
-
         <div class="callout-box callout-warning">
           <div class="callout-head">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E8A741" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -1669,20 +1630,6 @@
           <li><strong>Zero Jitter:</strong> Even if your laptop takes 200ms to render a heavy 4K 3D scene, the resulting MP4 plays back at a buttery-smooth, broadcast-locked 60 FPS.</li>
         </ul>
 
-        <!-- Visual Example UI -->
-        <figure class="motion-ui-figure">
-          <div class="motion-ui-fig-header">
-            <div class="fig-dots"><span></span><span></span><span></span></div>
-            <div class="fig-title">Hardware-Accelerated Frame Capture &amp; FFmpeg Assembly</div>
-            <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green);">● GPU Encoding</span>
-          </div>
-          <img src="assets/real-app-rendering.png" alt="D3 Motion Rendering Pipeline" loading="lazy">
-          <figcaption class="fig-caption">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-            <span>Real-time frame counter, duration scrubber, and instant GPU frame pipeline.</span>
-          </figcaption>
-        </figure>
-
         <h3 style="font-size: 16px; color: var(--bone); margin: 20px 0 10px;">Select Your Export Presets:</h3>
         <ol style="margin: 0 0 16px 20px;">
           <li><strong>Resolution:</strong> Choose 1080p Landscape (1920 × 1080), 4K UHD (3840 × 2160), 9:16 Vertical for Reels/Shorts/TikTok (1080 × 1920), or 1:1 Square (1080 × 1080).</li>
@@ -1690,20 +1637,6 @@
           <li><strong>Framerate:</strong> Select <strong>60 FPS</strong> for ultra-smooth fluid UI motions, or 30 FPS / 24 FPS for cinematic styles.</li>
           <li>Click <strong>Render MP4</strong>. The static FFmpeg encoder instantly compiles frames into an H.264 (yuv420p) video ready for upload or video editors!</li>
         </ol>
-
-        <!-- Export Complete Figure -->
-        <figure class="motion-ui-figure">
-          <div class="motion-ui-fig-header">
-            <div class="fig-dots"><span></span><span></span><span></span></div>
-            <div class="fig-title">Export Complete - Ready to Share</div>
-            <span style="font-family: var(--font-mono); font-size: 10px; color: var(--green);">✓ Saved to Disk</span>
-          </div>
-          <img src="assets/real-app-export.png" alt="D3 Motion Export Complete" loading="lazy">
-          <figcaption class="fig-caption">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Completed videos are saved locally to your Videos / Movies folder. Click "Show in Folder" or "Save MP4" to access immediately.</span>
-          </figcaption>
-        </figure>
       </div>
     </article>
 
