@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>Privacy Policy — D3 HTML to Video</title>
+  <meta name="description" content="Privacy Policy for D3 HTML to Video desktop application: Zero telemetry, zero cloud uploads, 100% local operation.">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        var theme = (saved === 'dark' || saved === 'light') 
+          ? saved 
+          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch(e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="ambient-glow-top"></div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand-link" aria-label="D3 HTML to Video home">
+        <div class="brand-icon-box"><svg width="24" height="17" viewBox="0 0 240 170" fill="none" aria-hidden="true"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg></div>
+        <div><span class="brand-title">D3</span><span class="brand-tag">PRIVACY</span></div>
+      </a>
+
+      <ul class="nav-links" id="site-nav">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#demo">Live demo</a></li>
+        <li class="nav-dropdown">
+          <button type="button" class="nav-dropdown-btn" aria-haspopup="true">
+            <span>Tutorials</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="tutorial-windows.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color: var(--signal-bright);"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg><span>Windows 11</span></a></li>
+            <li><a href="tutorial-mac.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color: var(--signal-bright);"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 1.01-2.87-.96.04-2.14.65-2.8 1.42-.58.67-.99 1.72-.94 2.76 1.08.08 2.12-.56 2.73-1.31z"/></svg><span>macOS</span></a></li>
+          </ul>
+        </li>
+        <li><a href="instructions.html">Docs</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Switch theme" title="Switch theme">
+          <span class="theme-icon-sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span><span class="theme-icon-moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+        </button>
+        <a href="index.html#pricing" class="btn btn-primary">Get D3 — $29</a>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main class="container doc-shell">
+    <div class="doc-content">
+      <div class="doc-header">
+        <span class="section-tag">DATA SECURITY &amp; PROTECTION</span>
+        <h1 class="doc-title">Privacy Policy</h1>
+        <div class="doc-updated">Effective Date: January 1, 2026 • Last Updated: 2026</div>
+      </div>
+
+      <div class="doc-body">
+        <p>
+          At <strong>D3 Motion Engine</strong>, we believe software should respect user sovereignty. This Privacy Policy details our strict commitment to zero data collection, air-gapped local processing, and absolute privacy across the <strong>D3 HTML to Video</strong> desktop application and official website.
+        </p>
+
+        <div class="doc-box" style="border-color: rgba(65, 232, 110, 0.4); background: rgba(65, 232, 110, 0.08);">
+          <strong style="color: var(--green); display: block; margin-bottom: 4px;">Summary of Our Privacy Guarantee:</strong>
+          D3 operates 100% locally on your computer. Your HTML code, JavaScript files, images, client assets, and rendered video outputs are <strong>never</strong> transmitted to our servers or any third-party cloud service. We collect zero telemetry and zero personal data.
+        </div>
+
+        <h2>1. Data We Do NOT Collect</h2>
+        <ul>
+          <li><strong>No File Uploads:</strong> When you drag and drop an HTML or ZIP file into D3, it is served entirely via an internal loopback address (<code>localhost</code>) isolated to your computer. Nothing is ever uploaded over the internet.</li>
+          <li><strong>No User Source Code or Media:</strong> We have no mechanism or desire to access, inspect, copy, or train models on your proprietary web animations or rendered MP4 videos.</li>
+          <li><strong>No Usage Telemetry or Analytics:</strong> The desktop application does not include tracking scripts, Google Analytics, Sentry crash trackers, Mixpanel, or behavioral beacons.</li>
+          <li><strong>No Keystrokes or Input Monitoring:</strong> Custom dimensions, delay buffers, frame rates, and render settings remain strictly in local memory.</li>
+          <li><strong>No Accounts or Passwords:</strong> The application does not require you to create an account, register an email, or sign in to use its full features.</li>
+        </ul>
+
+        <h2>2. Local Loopback Architecture</h2>
+        <p>
+          To render HTML animations that rely on relative assets, stylesheets, web fonts, and scripts, the Software creates an ephemeral HTTP server bound strictly to the local loopback interface (<code>127.0.0.1</code>). This local server:
+        </p>
+        <ul>
+          <li>Rejects all inbound network connections originating outside your machine.</li>
+          <li>Shuts down immediately upon window closure or application exit.</li>
+          <li>Transmits zero packets across external networks.</li>
+        </ul>
+
+        <h2>3. Website &amp; Purchase Data</h2>
+        <p>
+          When you purchase a license through our website:
+        </p>
+        <ul>
+          <li><strong>Payment Processing:</strong> Transactions are processed by PCI-DSS certified payment providers (such as Stripe or Lemon Squeezy). Your credit card numbers, billing addresses, and payment details are processed directly by the payment processor and are never stored on our servers.</li>
+          <li><strong>License Fulfillment:</strong> We receive only your email address and transaction ID strictly to issue and verify your lifetime license key. We do not sell, rent, or trade your contact information.</li>
+        </ul>
+
+        <h2>4. GDPR, CCPA, and Global Compliance</h2>
+        <p>
+          Because our Software collects zero personal data, telemetry, or user analytics, our compliance posture is inherently strict by architectural design:
+        </p>
+        <ul>
+          <li><strong>Data Minimization:</strong> We adhere to the strictest interpretation of Article 5(1)(c) of the EU GDPR by collecting zero unnecessary data.</li>
+          <li><strong>Right to Erasure:</strong> If you ever wish your purchase record removed from our billing gateway, contact us and we will purge it within 48 hours.</li>
+          <li><strong>No "Sale" of Data:</strong> We do not sell user data under the California Consumer Privacy Act (CCPA) or any other data privacy statute.</li>
+        </ul>
+
+        <h2>5. Security of Local Environment</h2>
+        <p>
+          The Chromium renderer operates within an isolated sandbox with context isolation enabled. The Software prevents untrusted remote code execution by restricting the rendering viewport exclusively to the imported project's local directory.
+        </p>
+
+        <h2>6. Contact Regarding Privacy</h2>
+        <p>
+          If you have questions, inquiries, or require a formal data processing verification for enterprise deployment, please contact our privacy compliance officer at:
+        </p>
+        <p>
+          <code>privacy@d3motion.app</code>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-mini">
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="instructions.html">Documentation</a></li>
+        <li><a href="tutorial-windows.html">Windows tutorial</a></li>
+        <li><a href="tutorial-mac.html">macOS tutorial</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="license.html">License Agreement</a></li>
+      </ul>
+      <div class="footer-bottom" style="border:0;padding-top:0;"><span>© 2026 D3 Motion Engine. All rights reserved.</span></div>
+    </div>
+  </footer>
+
+  <script src="site.js" defer></script>
+</body>
+</html>

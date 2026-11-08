@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>D3 HTML to Video — Interactive Motion Tutorial (Windows 11 &amp; macOS)</title>
+  <meta name="description" content="Step-by-step interactive motion simulation of D3 HTML to Video on Windows 11 and macOS. Experience installation, security verification, drag & drop, and 60 FPS broadcast MP4 export.">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="tutorial-fit.css">
+  <style>
+    :root {
+      --tut-w: 1200px;
+      --tut-h: 640px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--ink);
+      color: var(--bone);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+      padding-bottom: 30px;
+    }
+
+    /* ---- Master Header ---- */
+    .tutorial-header {
+      width: 100%;
+      background: var(--header-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon-box-sm {
+      width: 32px;
+      height: 32px;
+      background: var(--panel);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .brand-text-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--bone);
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--steel);
+      font-family: var(--font-mono);
+    }
+
+    /* OS Switcher in Header */
+    .os-switcher {
+      display: flex;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 4px;
+    }
+
+    .os-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--steel);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .os-btn:hover {
+      color: var(--bone);
+      background: var(--hover);
+    }
+
+    .os-btn.active {
+      background: var(--surface-card);
+      color: var(--signal-bright);
+      border-color: var(--border-subtle);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Step Pills */
+    .step-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+    }
+
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: var(--panel);
+      border: 1px solid var(--border-subtle);
+      color: var(--steel);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .step-pill span.num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: var(--hover);
+      color: var(--steel);
+    }
+
+    .step-pill:hover {
+      background: var(--hover);
+      color: var(--bone);
+    }
+
+    .step-pill.active {
+      background: var(--signal);
+      color: #FFFFFF;
+      border-color: var(--signal);
+      box-shadow: 0 0 12px var(--signal-glow);
+    }
+
+    .step-pill.active span.num {
+      background: rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+    }
+
+    /* Header Actions */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ctrl {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: var(--panel);
+      border: 1px solid var(--border-medium);
+      color: var(--bone);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-ctrl:hover {
+      background: var(--hover);
+      border-color: var(--signal);
+      color: var(--signal-bright);
+    }
+
+    /* ---- Fixed Standard Viewport (1200 x 640) ---- */
+    .tutorial-stage-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 0;
+      position: relative;
+    }
+
+    .motion-viewport {
+      width: var(--tut-w);
+      height: var(--tut-h);
+      max-width: var(--tut-w);
+      position: relative;
+      background: #060810;
+      border: 1px solid var(--border-medium);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transform-origin: top center;
+    }
+
+    /* Desktops: Both fill exact 1200x640 frame */
+    .os-stage {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .os-stage.active {
+      display: block;
+    }
+
+    /* ---- WINDOWS 11 STAGE ---- */
+    #stage-windows {
+      background: radial-gradient(circle at 50% 35%, #18264e 0%, #0d1326 40%, #060810 85%);
+    }
+
+    [data-theme="light"] #stage-windows {
+      background: radial-gradient(circle at 50% 35%, #D6E4FA 0%, #C4D7F5 45%, #ADC5EC 85%);
+    }
+
+    .win-bloom {
+      position: absolute;
+      top: 15%;
+      left: 35%;
+      width: 440px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(73, 115, 255, 0.28) 0%, rgba(13, 19, 38, 0) 70%);
+      transform: rotate(-25deg);
+      filter: blur(45px);
+      pointer-events: none;
+    }
+
+    [data-theme="light"] .win-bloom {
+      background: radial-gradient(ellipse, rgba(59, 130, 246, 0.35) 0%, rgba(214, 228, 250, 0) 70%);
+    }
+
+    /* Windows 11 Taskbar */
+    .win-taskbar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: rgba(20, 24, 34, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 50;
+    }
+
+    [data-theme="light"] .win-taskbar {
+      background: rgba(240, 244, 250, 0.88);
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .win-tb-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .win-tb-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .win-tb-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    [data-theme="light"] .win-tb-icon:hover {
+      background: rgba(15, 23, 42, 0.08);
+    }
+
+    .win-tb-icon.active-indicator {
+      position: relative;
+    }
+
+    .win-tb-icon.active-indicator::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 3px;
+      background: var(--signal-bright);
+      border-radius: 2px;
+    }
+
+    /* Windows Desktop Icons */
+    .win-desktop-icons {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 5;
+    }
+
+    .win-desk-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 72px;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
+    }
+
+    .win-desk-item:hover, .win-desk-item.selected {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    [data-theme="light"] .win-desk-item:hover, [data-theme="light"] .win-desk-item.selected {
+      background: rgba(15, 23, 42, 0.08);
+      border-color: rgba(15, 23, 42, 0.15);
+    }
+
+    .win-desk-label {
+      font-size: 11px;
+      margin-top: 4px;
+      color: #FFFFFF;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      line-height: 1.2;
+    }
+
+    [data-theme="light"] .win-desk-label {
+      color: #0F172A;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+    }
+
+    /* ---- macOS STAGE ---- */
+    #stage-mac {
+      background: radial-gradient(circle at 20% 30%, #1e293b 0%, #0f172a 60%, #020617 100%);
+    }
+
+    [data-theme="light"] #stage-mac {
+      background: radial-gradient(circle at 20% 30%, #bfdbfe 0%, #e2e8f0 50%, #f1f5f9 100%);
+    }
+
+    .mac-bloom {
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%);
+      top: -80px;
+      left: 20%;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    [data-theme="light"] .mac-bloom {
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(147, 197, 253, 0.15) 50%, transparent 70%);
+    }
+
+    /* macOS Menu Bar */
+    .mac-menubar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 28px;
+      background: rgba(20, 20, 25, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #E2E8F0;
+      z-index: 50;
+    }
+
+    [data-theme="light"] .mac-menubar {
+      background: rgba(255, 255, 255, 0.82);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      color: #0F172A;
+    }
+
+    .mac-menu-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mac-dock {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 18px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      z-index: 50;
+    }
+
+    [data-theme="light"] .mac-dock {
+      background: rgba(255, 255, 255, 0.65);
+      border-color: rgba(15, 23, 42, 0.12);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .mac-dock-item {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .mac-dock-item:hover {
+      transform: translateY(-8px) scale(1.15);
+    }
+
+    .mac-dock-item.running::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #FFFFFF;
+    }
+
+    [data-theme="light"] .mac-dock-item.running::after {
+      background: #0F172A;
+    }
+
+    /* ---- WINDOW SYSTEM (IDENTICAL SIZES FOR BOTH OS) ---- */
+    .sim-window {
+      position: absolute;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      display: none;
+      flex-direction: column;
+      z-index: 20;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      background: var(--surface-card);
+    }
+
+    [data-theme="light"] .sim-window {
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(15, 23, 42, 0.1);
+    }
+
+    .sim-window.visible {
+      display: flex;
+    }
+
+    /* Browser Window: Standard 820 x 450 centered */
+    .window-browser {
+      width: 820px;
+      height: 450px;
+      left: calc(50% - 410px);
+      top: 42px;
+    }
+
+    /* Security Dialog: 520 x 330 centered */
+    .window-security {
+      width: 520px;
+      height: 330px;
+      left: calc(50% - 260px);
+      top: 100px;
+      z-index: 35;
+    }
+
+    /* Setup / Installer: 540 x 360 centered */
+    .window-setup {
+      width: 540px;
+      height: 360px;
+      left: calc(50% - 270px);
+      top: 85px;
+      z-index: 30;
+    }
+
+    /* Real App Window: 880 x 500 centered */
+    .window-real-app {
+      width: 880px;
+      height: 500px;
+      left: calc(50% - 440px);
+      top: 36px;
+      z-index: 25;
+    }
+
+    /* Standard Window Titlebars */
+    .win-titlebar {
+      height: 36px;
+      background: #181B22;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+    }
+
+    [data-theme="light"] .win-titlebar {
+      background: #F1F5F9;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .win-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mac-titlebar {
+      height: 36px;
+      background: #181B22;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      position: relative;
+    }
+
+    [data-theme="light"] .mac-titlebar {
+      background: #F1F5F9;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .mac-traffic-lights {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .traffic-light {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .tl-close { background: #FF5F56; border: 1px solid #E0443E; }
+    .tl-min { background: #FFBD2E; border: 1px solid #DEA123; }
+    .tl-max { background: #27C93F; border: 1px solid #1AAB29; }
+
+    /* Browser Content Layout */
+    .browser-toolbar {
+      height: 38px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 10px;
+    }
+
+    .browser-url-bar {
+      flex: 1;
+      height: 26px;
+      background: var(--field);
+      border: 1px solid var(--border-medium);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 6px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--steel);
+    }
+
+    .browser-stage-body {
+      flex: 1;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      gap: 14px;
+    }
+
+    .dl-hero-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-medium);
+      border-radius: 12px;
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      max-width: 480px;
+      box-shadow: var(--shadow-md);
+    }
+
+    /* ---- Real App Simulation (Inside Window) ---- */
+    .app-inner-grid {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      flex: 1;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .app-sidebar {
+      background: var(--panel);
+      border-right: 1px solid var(--border-subtle);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+    }
+
+    .app-dropzone-sim {
+      border: 2px dashed var(--signal);
+      background: var(--signal-subtle);
+      border-radius: 10px;
+      padding: 20px 14px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .app-dropzone-sim.pulse {
+      background: rgba(37, 99, 235, 0.18);
+      border-color: var(--signal-bright);
+      box-shadow: 0 0 20px var(--signal-glow);
+    }
+
+    .app-main-canvas-area {
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      background: var(--field);
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .app-canvas-frame {
+      width: 420px;
+      height: 240px;
+      background: #000;
+      border-radius: 8px;
+      border: 1px solid var(--border-medium);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ---- Notifications ---- */
+    .sim-toast-win {
+      position: absolute;
+      bottom: 58px;
+      right: 20px;
+      width: 320px;
+      background: rgba(24, 27, 34, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 12px 14px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+      z-index: 60;
+      display: none;
+      align-items: center;
+      gap: 12px;
+    }
+
+    [data-theme="light"] .sim-toast-win {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .sim-toast-mac {
+      position: absolute;
+      top: 36px;
+      right: 20px;
+      width: 320px;
+      background: rgba(28, 30, 38, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 12px 14px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+      z-index: 60;
+      display: none;
+      align-items: center;
+      gap: 12px;
+    }
+
+    [data-theme="light"] .sim-toast-mac {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+    }
+
+    /* Virtual Cursor & Drag Ghost */
+    #tut-cursor {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      pointer-events: none;
+      z-index: 1000;
+      transition: top 0.4s cubic-bezier(0.22, 1, 0.36, 1), left 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.2s;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+    }
+
+    #tut-cursor.clicking {
+      transform: scale(0.85);
+    }
+
+    #tut-drag-ghost {
+      position: absolute;
+      z-index: 999;
+      pointer-events: none;
+      display: none;
+      background: var(--surface-card);
+      border: 1px solid var(--signal);
+      border-radius: 6px;
+      padding: 6px 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--bone);
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Explainer Overlay Banner (Exact Same Position & Styling for Both) */
+    .step-explainer-dock {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(14, 16, 21, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 99px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 65;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      max-width: 820px;
+      width: calc(100% - 40px);
+    }
+
+    [data-theme="light"] .step-explainer-dock {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+    }
+
+    .step-badge {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--signal);
+      padding: 4px 10px;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .step-text {
+      font-size: 13px;
+      color: var(--bone);
+      font-weight: 500;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Edge Download Flyout */
+    .win-edge-flyout {
+      position: absolute;
+      top: 78px;
+      right: calc(50% - 395px);
+      width: 290px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: var(--shadow-lg);
+      z-index: 35;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Responsive Fitting */
+    @media (max-width: 1240px) {
+      .motion-viewport {
+        transform: scale(var(--fit, 1));
+        transform-origin: top center;
+        margin-bottom: calc(var(--tut-h) * (var(--fit, 1) - 1));
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Tutorial Header & Controls -->
+  <header class="tutorial-header">
+    <a href="index.html" class="brand-group" title="Back to Landing Page">
+      <div class="brand-icon-box-sm">
+        <svg width="20" height="14" viewBox="0 0 240 170" fill="none">
+          <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="var(--logo-a, #F0EFEA)"/>
+          <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+        </svg>
+      </div>
+      <div class="brand-text-col">
+        <span class="brand-name">D3 HTML to Video</span>
+        <span class="brand-sub">Interactive OS Tutorial</span>
+      </div>
+    </a>
+
+    <!-- OS Switcher Tab -->
+    <div class="os-switcher" role="tablist" aria-label="Operating System Selection">
+      <button type="button" id="tab-os-windows" class="os-btn active" role="tab" aria-selected="true">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+        <span>Windows 11</span>
+      </button>
+      <button type="button" id="tab-os-mac" class="os-btn " role="tab" aria-selected="false">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 1.01-2.87-.96.04-2.14.65-2.8 1.42-.58.67-.99 1.72-.94 2.76 1.08.08 2.12-.56 2.73-1.31z"/></svg>
+        <span>macOS</span>
+      </button>
+    </div>
+
+    <!-- Step Trackers (Identical 5 Steps) -->
+    <div class="step-pills" id="step-pills-bar">
+      <!-- Injected via JavaScript based on active OS -->
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button id="tut-theme-toggle" class="btn-ctrl theme-toggle-btn" type="button" title="Toggle theme">
+        <span class="theme-icon-sun">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </span>
+        <span class="theme-icon-moon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </span>
+        <span id="tut-theme-toggle-label">Theme</span>
+      </button>
+      <button id="btn-toggle-play" class="btn-ctrl" type="button">
+        <span id="play-icon">❚❚</span> <span id="play-text">Pause</span>
+      </button>
+      <button id="btn-restart" class="btn-ctrl" type="button">
+        <span>↺</span> Restart
+      </button>
+      <a href="index.html" class="btn-ctrl">
+        <span>←</span> Landing Page
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Viewport (1200 x 640) -->
+  <div class="tutorial-stage-wrap">
+    <main class="motion-viewport" id="motion-viewport">
+      
+      <!-- Virtual Cursor & Drag Ghost -->
+      <div id="tut-cursor">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M4 3L18 10L11.5 12.5L8.5 19L4 3Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div id="tut-drag-ghost">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        <span>ScalpX_Onboarding_fixed.html</span>
+      </div>
+
+      <!-- ==================== WINDOWS 11 STAGE ==================== -->
+      <section class="os-stage active" id="stage-windows">
+        <div class="win-bloom"></div>
+
+        <!-- Desktop Shortcuts -->
+        <div class="win-desktop-icons">
+          <div class="win-desk-item" id="win-desk-thispc">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span class="win-desk-label">This PC</span>
+          </div>
+          <div class="win-desk-item" id="win-desk-recycle">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            <span class="win-desk-label">Recycle Bin</span>
+          </div>
+          <div class="win-desk-item" id="win-desk-sample-html">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span class="win-desk-label">ScalpX_Onboarding_fixed.html</span>
+          </div>
+          <div class="win-desk-item" id="win-desk-app-shortcut" style="display: none;">
+            <div style="width: 34px; height: 34px; background: #14171E; border-radius: 8px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.15);">
+              <svg width="20" height="14" viewBox="0 0 240 170" fill="none"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg>
+            </div>
+            <span class="win-desk-label">HTML to Video</span>
+          </div>
+        </div>
+
+        <!-- Windows Edge Browser Window -->
+        <div class="sim-window window-browser" id="win-browser">
+          <div class="win-titlebar">
+            <span style="font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/></svg>
+              D3 HTML to Video — Download
+            </span>
+            <div class="win-ctrls">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+          </div>
+          <div class="browser-toolbar">
+            <div class="browser-url-bar">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>https://d3motion.app/download</span>
+            </div>
+          </div>
+          <div class="browser-stage-body">
+            <div class="dl-hero-card">
+              <div style="width: 48px; height: 48px; background: var(--panel); border-radius: 12px; display: grid; place-items: center;">
+                <svg width="28" height="20" viewBox="0 0 240 170" fill="none"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg>
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 18px;">Download D3 for Windows</h3>
+              <p style="font-size: 12px; color: var(--steel);">One-time purchase · Lifetime free forever · Bundled with native Chromium &amp; FFmpeg.</p>
+              <button type="button" id="win-btn-download" class="btn btn-primary" style="margin-top: 6px; font-size: 13px; padding: 10px 22px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Download HTML-to-Video-Setup.exe (356 MB)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edge Download Flyout -->
+        <div class="win-edge-flyout" id="win-edge-flyout">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 600;">
+            <span>Downloads</span>
+            <span style="color: var(--signal-bright);">Completed</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 11px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--signal)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              <strong>HTML-to-Video-Setup.exe</strong>
+              <div style="font-size: 10px; color: var(--steel);">356 MB · Download complete</div>
+            </div>
+          </div>
+          <button type="button" id="win-btn-open-file" class="btn btn-secondary" style="font-size: 11px; padding: 5px 10px; justify-content: center;">
+            <span>Open file</span>
+          </button>
+        </div>
+
+        <!-- Windows NSIS Installer Window -->
+        <div class="sim-window window-setup" id="win-installer">
+          <div class="win-titlebar">
+            <span style="font-size: 11px; font-weight: 500;">D3 HTML to Video Setup</span>
+            <div class="win-ctrls">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+          </div>
+          <div style="padding: 24px; display: flex; flex-direction: column; gap: 14px; flex: 1;">
+            <h3 style="font-family: var(--font-display); font-size: 16px;">Installing D3 HTML to Video</h3>
+            <p style="font-size: 12px; color: var(--steel);">Extracting bundled headless Chromium and FFmpeg binary encoder...</p>
+            <div class="demo-sim-track" style="margin-top: 8px;">
+              <div id="win-setup-prog" style="height: 100%; width: 0%; background: var(--signal); transition: width 0.15s ease;"></div>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--steel);" id="win-setup-status">
+              Ready to install...
+            </div>
+            <div style="margin-top: auto; display: flex; justify-content: flex-end; gap: 8px;">
+              <button type="button" id="win-btn-install" class="btn btn-primary" style="font-size: 12px; padding: 6px 16px;">
+                <span>Install</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Windows SmartScreen Window -->
+        <div class="sim-window window-security" id="win-smartscreen">
+          <div style="background: #0078D7; color: #FFFFFF; padding: 22px; display: flex; flex-direction: column; gap: 12px; flex: 1;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <h3 style="font-size: 17px; font-weight: 600;">Windows protected your PC</h3>
+            </div>
+            <p style="font-size: 12px; line-height: 1.5; opacity: 0.95;">
+              Microsoft Defender SmartScreen prevented an unrecognized app from starting. Running this app might put your PC at risk.
+            </p>
+            <div id="win-smart-more" style="display: none; font-size: 11.5px; opacity: 0.9; line-height: 1.5;">
+              <strong>App:</strong> HTML-to-Video-Setup.exe<br>
+              <strong>Publisher:</strong> ScalpX LLC (D3 Video Engine)
+            </div>
+            <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center;">
+              <a href="#" id="win-link-moreinfo" style="color: #FFFFFF; font-size: 12px; text-decoration: underline;">More info</a>
+              <div style="display: flex; gap: 8px;">
+                <button type="button" id="win-btn-runanyway" class="btn" style="background: rgba(255,255,255,0.2); color: #FFF; border: 1px solid rgba(255,255,255,0.4); font-size: 12px; padding: 6px 14px; display: none;">
+                  Run anyway
+                </button>
+                <button type="button" class="btn" style="background: #FFFFFF; color: #0078D7; font-size: 12px; padding: 6px 14px;">
+                  Don't run
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Windows Real App Window -->
+        <div class="sim-window window-real-app" id="win-real-app">
+          <div class="win-titlebar">
+            <span style="font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="10" viewBox="0 0 240 170" fill="none"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg>
+              D3 HTML to Video — Broadcast Studio
+            </span>
+            <div class="win-ctrls">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+          </div>
+          <div class="app-inner-grid">
+            <div class="app-sidebar">
+              <div class="app-dropzone-sim" id="win-app-dropzone">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--signal)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <strong style="font-size: 12px; color: var(--bone);">Drop HTML File Here</strong>
+                <span style="font-size: 10px; color: var(--steel);">or click to browse local files</span>
+              </div>
+              <div id="win-app-loaded" style="display: none; flex-direction: column; gap: 8px;">
+                <div style="font-size: 11px; padding: 8px; background: var(--field); border-radius: 6px; border: 1px solid var(--border-medium);">
+                  <strong style="color: var(--bone);">ScalpX_Onboarding_fixed.html</strong>
+                  <div style="font-size: 10px; color: var(--steel); margin-top: 2px;">1920×1080 · 11s duration</div>
+                </div>
+                <div style="display: flex; gap: 6px;">
+                  <button type="button" class="btn btn-secondary" style="font-size: 10px; padding: 4px 8px; flex: 1;">1080p</button>
+                  <button type="button" class="btn btn-secondary" style="font-size: 10px; padding: 4px 8px; flex: 1;">4K UHD</button>
+                  <button type="button" class="btn btn-secondary active" style="font-size: 10px; padding: 4px 8px; flex: 1; background: var(--signal); color: #FFF;">60 FPS</button>
+                </div>
+              </div>
+              <button type="button" id="win-btn-start-render" class="btn btn-primary" style="margin-top: auto; font-size: 12px; padding: 8px 12px; justify-content: center;" disabled>
+                <span>Render MP4 (Broadcast)</span>
+              </button>
+            </div>
+            <div class="app-main-canvas-area">
+              <div class="app-canvas-frame">
+                <canvas id="win-canvas-preview" width="420" height="240"></canvas>
+              </div>
+              <div style="margin-top: 12px; width: 420px;" id="win-render-telemetry">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-family: var(--font-mono); color: var(--steel);">
+                  <span id="win-tele-status">Waiting for HTML file</span>
+                  <span id="win-tele-fps">60 FPS</span>
+                </div>
+                <div class="demo-sim-track" style="margin-top: 6px;">
+                  <div id="win-tele-bar" style="height: 100%; width: 0%; background: var(--signal); transition: width 0.08s linear;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Windows Toast Notification -->
+        <div class="sim-toast-win" id="win-toast">
+          <div style="width: 32px; height: 32px; background: #16A34A; border-radius: 6px; display: grid; place-items: center; color: #FFF;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <strong style="font-size: 12px; color: var(--bone);">Export Complete</strong>
+            <p style="font-size: 11px; color: var(--steel); margin-top: 2px;">ScalpX_Onboarding.mp4 (60 FPS) saved to Videos.</p>
+          </div>
+        </div>
+
+        <!-- Windows 11 Taskbar -->
+        <div class="win-taskbar">
+          <div style="font-size: 11px; color: var(--steel); font-family: var(--font-mono); display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+            <span>24°C Sunny</span>
+          </div>
+          <div class="win-tb-center">
+            <button class="win-tb-icon" title="Start">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#0078D7"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            </button>
+            <button class="win-tb-icon" title="Search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </button>
+            <button class="win-tb-icon active-indicator" id="win-tb-edge" title="Microsoft Edge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#0078D7"><circle cx="12" cy="12" r="10"/></svg>
+            </button>
+            <button class="win-tb-icon" id="win-tb-app" style="display: none;" title="HTML to Video">
+              <svg width="16" height="11" viewBox="0 0 240 170" fill="none"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg>
+            </button>
+          </div>
+          <div style="font-size: 11px; font-family: var(--font-mono); color: var(--steel);">
+            7:00 PM · 11/5/2026
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== macOS STAGE ==================== -->
+      <section class="os-stage " id="stage-mac">
+        <div class="mac-bloom"></div>
+
+        <!-- macOS Menu Bar -->
+        <div class="mac-menubar">
+          <div class="mac-menu-left">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 1.01-2.87-.96.04-2.14.65-2.8 1.42-.58.67-.99 1.72-.94 2.76 1.08.08 2.12-.56 2.73-1.31z"/></svg>
+            <strong style="font-weight: 700;">D3 HTML to Video</strong>
+            <span>File</span>
+            <span>Edit</span>
+            <span>View</span>
+            <span>Window</span>
+            <span>Help</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 11px;">
+            <span>100%</span>
+            <span>Wed Nov 5 7:00 PM</span>
+          </div>
+        </div>
+
+        <!-- Desktop File -->
+        <div style="position: absolute; top: 46px; right: 20px; display: flex; flex-direction: column; align-items: center; width: 80px; text-align: center; cursor: pointer;" id="mac-desk-sample-html">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span style="font-size: 11px; color: #FFF; text-shadow: 0 1px 3px rgba(0,0,0,0.8); margin-top: 4px; line-height: 1.2;">ScalpX_Onboarding_fixed.html</span>
+        </div>
+
+        <!-- Safari Window -->
+        <div class="sim-window window-browser" id="mac-browser">
+          <div class="mac-titlebar">
+            <div class="mac-traffic-lights">
+              <span class="traffic-light tl-close"></span>
+              <span class="traffic-light tl-min"></span>
+              <span class="traffic-light tl-max"></span>
+            </div>
+            <span style="position: absolute; left: 50%; transform: translateX(-50%); font-size: 11.5px; font-weight: 600;">D3 HTML to Video — Download</span>
+          </div>
+          <div class="browser-toolbar">
+            <div class="browser-url-bar">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              <span>https://d3motion.app/download</span>
+            </div>
+          </div>
+          <div class="browser-stage-body">
+            <div class="dl-hero-card">
+              <div style="width: 48px; height: 48px; background: var(--panel); border-radius: 12px; display: grid; place-items: center;">
+                <svg width="28" height="20" viewBox="0 0 240 170" fill="none"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg>
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 18px;">Download D3 for macOS</h3>
+              <p style="font-size: 12px; color: var(--steel);">Universal Binary (Apple Silicon M1/M2/M3/M4 &amp; Intel x86) · Lifetime license.</p>
+              <button type="button" id="mac-btn-download" class="btn btn-primary" style="margin-top: 6px; font-size: 13px; padding: 10px 22px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Download HTML-to-Video-Setup.dmg (360 MB)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- macOS DMG Finder Window -->
+        <div class="sim-window window-setup" id="mac-dmg-finder">
+          <div class="mac-titlebar">
+            <div class="mac-traffic-lights">
+              <span class="traffic-light tl-close"></span>
+              <span class="traffic-light tl-min"></span>
+              <span class="traffic-light tl-max"></span>
+            </div>
+            <span style="position: absolute; left: 50%; transform: translateX(-50%); font-size: 11.5px; font-weight: 600;">HTML to Video Installer</span>
+          </div>
+          <div style="flex: 1; display: flex; align-items: center; justify-content: space-around; padding: 24px; background: var(--surface);">
+            <!-- App Icon -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;" id="mac-dmg-app-item">
+              <div style="width: 64px; height: 64px; background: #14171E; border-radius: 14px; display: grid; place-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15);">
+                <svg width="34" height="24" viewBox="0 0 240 170" fill="none"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg>
+              </div>
+              <strong style="font-size: 12px; color: var(--bone);">D3 HTML to Video</strong>
+            </div>
+
+            <!-- Drag Arrow -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--signal-bright);">
+              <svg width="60" height="24" viewBox="0 0 60 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="12" x2="52" y2="12"/><polyline points="44 4 52 12 44 20"/></svg>
+              <span style="font-size: 10px; font-family: var(--font-mono); color: var(--steel);">Drag to Install</span>
+            </div>
+
+            <!-- Applications Folder -->
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;" id="mac-dmg-apps-folder">
+              <div style="width: 64px; height: 64px; background: #2563EB; border-radius: 14px; display: grid; place-items: center; box-shadow: 0 10px 25px rgba(37,99,235,0.3);">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <strong style="font-size: 12px; color: var(--bone);">Applications</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- macOS Gatekeeper Dialog -->
+        <div class="sim-window window-security" id="mac-gatekeeper">
+          <div style="padding: 24px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; flex: 1; background: var(--surface-card);">
+            <div style="width: 48px; height: 48px; background: rgba(37, 99, 235, 0.15); border-radius: 50%; display: grid; place-items: center; color: var(--signal);">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 style="font-size: 15px; font-weight: 700; color: var(--bone);">“D3 HTML to Video” is an app downloaded from the Internet</h3>
+            <p style="font-size: 11.5px; color: var(--steel); line-height: 1.45;">
+              macOS verified that this app is clean and safe to run. Air-gapped local converter with zero network tracking.
+            </p>
+            <div style="margin-top: auto; display: flex; gap: 10px; width: 100%; justify-content: flex-end;">
+              <button type="button" class="btn btn-secondary" style="font-size: 12px; padding: 6px 14px;">Cancel</button>
+              <button type="button" id="mac-btn-open-anyway" class="btn btn-primary" style="font-size: 12px; padding: 6px 18px;">
+                <span>Open</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- macOS Real App Window -->
+        <div class="sim-window window-real-app" id="mac-real-app">
+          <div class="mac-titlebar">
+            <div class="mac-traffic-lights">
+              <span class="traffic-light tl-close"></span>
+              <span class="traffic-light tl-min"></span>
+              <span class="traffic-light tl-max"></span>
+            </div>
+            <span style="position: absolute; left: 50%; transform: translateX(-50%); font-size: 11.5px; font-weight: 600;">D3 HTML to Video — Studio</span>
+          </div>
+          <div class="app-inner-grid">
+            <div class="app-sidebar">
+              <div class="app-dropzone-sim" id="mac-app-dropzone">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--signal)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <strong style="font-size: 12px; color: var(--bone);">Drop HTML File Here</strong>
+                <span style="font-size: 10px; color: var(--steel);">drag any .html or .zip bundle</span>
+              </div>
+              <div id="mac-app-loaded" style="display: none; flex-direction: column; gap: 8px;">
+                <div style="font-size: 11px; padding: 8px; background: var(--field); border-radius: 6px; border: 1px solid var(--border-medium);">
+                  <strong style="color: var(--bone);">ScalpX_Onboarding_fixed.html</strong>
+                  <div style="font-size: 10px; color: var(--steel); margin-top: 2px;">1920×1080 · 11s duration</div>
+                </div>
+                <div style="display: flex; gap: 6px;">
+                  <button type="button" class="btn btn-secondary" style="font-size: 10px; padding: 4px 8px; flex: 1;">1080p</button>
+                  <button type="button" class="btn btn-secondary" style="font-size: 10px; padding: 4px 8px; flex: 1;">4K UHD</button>
+                  <button type="button" class="btn btn-secondary active" style="font-size: 10px; padding: 4px 8px; flex: 1; background: var(--signal); color: #FFF;">60 FPS</button>
+                </div>
+              </div>
+              <button type="button" id="mac-btn-start-render" class="btn btn-primary" style="margin-top: auto; font-size: 12px; padding: 8px 12px; justify-content: center;" disabled>
+                <span>Render MP4 (Broadcast)</span>
+              </button>
+            </div>
+            <div class="app-main-canvas-area">
+              <div class="app-canvas-frame">
+                <canvas id="mac-canvas-preview" width="420" height="240"></canvas>
+              </div>
+              <div style="margin-top: 12px; width: 420px;" id="mac-render-telemetry">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-family: var(--font-mono); color: var(--steel);">
+                  <span id="mac-tele-status">Waiting for HTML file</span>
+                  <span id="mac-tele-fps">60 FPS</span>
+                </div>
+                <div class="demo-sim-track" style="margin-top: 6px;">
+                  <div id="mac-tele-bar" style="height: 100%; width: 0%; background: var(--signal); transition: width 0.08s linear;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- macOS Toast Notification -->
+        <div class="sim-toast-mac" id="mac-toast">
+          <div style="width: 32px; height: 32px; background: #16A34A; border-radius: 8px; display: grid; place-items: center; color: #FFF;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <strong style="font-size: 12px; color: var(--bone);">Export Complete</strong>
+            <p style="font-size: 11px; color: var(--steel); margin-top: 2px;">ScalpX_Onboarding.mp4 (60 FPS) ready in Movies.</p>
+          </div>
+        </div>
+
+        <!-- macOS Dock -->
+        <div class="mac-dock">
+          <div class="mac-dock-item" title="Finder">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="#3B82F6"><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <div class="mac-dock-item running" id="mac-dock-safari" title="Safari">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="#60A5FA"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="#FFF"/></svg>
+          </div>
+          <div class="mac-dock-item" id="mac-dock-app" style="display: none;" title="D3 HTML to Video">
+            <div style="width: 34px; height: 34px; background: #14171E; border-radius: 8px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.15);">
+              <svg width="20" height="14" viewBox="0 0 240 170" fill="none"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Step Explainer Banner (Identical position & size for both OS) -->
+      <div class="step-explainer-dock" id="explainer-banner">
+        <span class="step-badge" id="step-badge">STEP 1: DOWNLOAD</span>
+        <span class="step-text" id="step-text">Click Download in your browser to get the self-contained desktop package.</span>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="site.js" defer></script>
+  <script src="tutorial-fit.js" defer></script>
+  <script>
+    (function() {
+      // Elements
+      const stageWindows = document.getElementById('stage-windows');
+      const stageMac = document.getElementById('stage-mac');
+      const tabWin = document.getElementById('tab-os-windows');
+      const tabMac = document.getElementById('tab-os-mac');
+      const pillsContainer = document.getElementById('step-pills-bar');
+      const stepBadge = document.getElementById('step-badge');
+      const stepText = document.getElementById('step-text');
+      const cursor = document.getElementById('tut-cursor');
+      const dragGhost = document.getElementById('tut-drag-ghost');
+      const viewport = document.getElementById('motion-viewport');
+
+      const btnTogglePlay = document.getElementById('btn-toggle-play');
+      const playIcon = document.getElementById('play-icon');
+      const playText = document.getElementById('play-text');
+      const btnRestart = document.getElementById('btn-restart');
+      const tutThemeToggle = document.getElementById('tut-theme-toggle');
+
+      let currentOs = 'windows';
+      let currentStep = 1;
+      let isPlaying = true;
+      let activeTimeline = null;
+      let animLoop = null;
+
+      const stepsDef = {
+        windows: [
+          { num: '01', title: 'Download (.exe)', badge: 'STEP 1: DOWNLOAD', text: 'Download HTML-to-Video-Setup.exe directly in Microsoft Edge.' },
+          { num: '02', title: 'One-Click Setup', badge: 'STEP 2: ONE-CLICK SETUP', text: 'Run the setup wizard to extract bundled Chromium & FFmpeg locally.' },
+          { num: '03', title: 'SmartScreen (Run Anyway)', badge: 'STEP 3: SMARTSCREEN', text: 'Click More info → Run anyway to launch the air-gapped app.' },
+          { num: '04', title: 'Drag & Drop HTML', badge: 'STEP 4: DRAG & DROP', text: 'Drag your animated .html or .zip file into the studio dropzone.' },
+          { num: '05', title: 'Render 60 FPS', badge: 'STEP 5: 60 FPS RENDER', text: 'Local Chromium captures every frame smoothly into broadcast MP4.' }
+        ],
+        mac: [
+          { num: '01', title: 'Download (.dmg)', badge: 'STEP 1: DOWNLOAD', text: 'Download HTML-to-Video-Setup.dmg directly in Safari.' },
+          { num: '02', title: 'Drag to Applications', badge: 'STEP 2: APPLICATIONS', text: 'Drag D3 HTML to Video into your macOS Applications folder.' },
+          { num: '03', title: 'Right-Click → Open', badge: 'STEP 3: FIRST LAUNCH', text: 'First launch: Right-click D3 Motion in Applications and click Open. If blocked, go to System Settings > Privacy & Security > Open Anyway.' },
+          { num: '04', title: 'Drag & Drop HTML', badge: 'STEP 4: DRAG & DROP', text: 'Drag your animated .html or .zip file into the studio dropzone.' },
+          { num: '05', title: 'Render 60 FPS', badge: 'STEP 5: 60 FPS RENDER', text: 'GPU-accelerated local capture exports broadcast MP4 without dropped frames.' }
+        ]
+      };
+
+      function renderPills() {
+        pillsContainer.innerHTML = '';
+        const list = stepsDef[currentOs];
+        list.forEach((st, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'step-pill' + (idx + 1 === currentStep ? ' active' : '');
+          btn.innerHTML = '<span class="num">' + st.num + '</span><span>' + st.title + '</span>';
+          btn.addEventListener('click', () => {
+            goToStep(idx + 1);
+          });
+          pillsContainer.appendChild(btn);
+        });
+      }
+
+      function updateExplainer() {
+        const item = stepsDef[currentOs][currentStep - 1];
+        if (item) {
+          stepBadge.textContent = item.badge;
+          stepText.textContent = item.text;
+        }
+      }
+
+      function setOS(os) {
+        currentOs = os;
+        if (os === 'windows') {
+          stageWindows.classList.add('active');
+          stageMac.classList.remove('active');
+          tabWin.classList.add('active');
+          tabWin.setAttribute('aria-selected', 'true');
+          tabMac.classList.remove('active');
+          tabMac.setAttribute('aria-selected', 'false');
+        } else {
+          stageMac.classList.add('active');
+          stageWindows.classList.remove('active');
+          tabMac.classList.add('active');
+          tabMac.setAttribute('aria-selected', 'true');
+          tabWin.classList.remove('active');
+          tabWin.setAttribute('aria-selected', 'false');
+        }
+        renderPills();
+        goToStep(1);
+      }
+
+      tabWin.addEventListener('click', () => setOS('windows'));
+      tabMac.addEventListener('click', () => setOS('mac'));
+
+      // Cursor movement helper
+      function moveCursor(x, y, duration = 400) {
+        return new Promise(resolve => {
+          cursor.style.transition = 'top ' + duration + 'ms cubic-bezier(0.22, 1, 0.36, 1), left ' + duration + 'ms cubic-bezier(0.22, 1, 0.36, 1)';
+          cursor.style.left = x + 'px';
+          cursor.style.top = y + 'px';
+          setTimeout(resolve, duration);
+        });
+      }
+
+      function clickCursor() {
+        return new Promise(resolve => {
+          cursor.classList.add('clicking');
+          setTimeout(() => {
+            cursor.classList.remove('clicking');
+            resolve();
+          }, 180);
+        });
+      }
+
+      function getCenter(el) {
+        const vpRect = viewport.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        const sc = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fit')) || 1;
+        return {
+          x: ((elRect.left - vpRect.left) + elRect.width / 2) / sc,
+          y: ((elRect.top - vpRect.top) + elRect.height / 2) / sc
+        };
+      }
+
+      // Canvas Motion Engine
+      function startCanvasMotion(canvasId) {
+        const cvs = document.getElementById(canvasId);
+        if (!cvs) return;
+        const ctx = cvs.getContext('2d');
+        let tick = 0;
+        if (animLoop) cancelAnimationFrame(animLoop);
+
+        function draw() {
+          ctx.clearRect(0, 0, cvs.width, cvs.height);
+          ctx.save();
+          ctx.translate(cvs.width / 2, cvs.height / 2);
+
+          for (let i = 0; i < 20; i++) {
+            const angle = (i / 20) * Math.PI * 2 + tick * 0.03;
+            const dist = 60 + Math.sin(tick * 0.04 + i) * 14;
+            const px = Math.cos(angle) * dist;
+            const py = Math.sin(angle) * dist;
+            ctx.fillStyle = i % 2 === 0 ? '#3B82F6' : '#93C5FD';
+            ctx.beginPath();
+            ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          ctx.fillStyle = '#FFFFFF';
+          ctx.font = '700 14px "Space Grotesk", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('D3 MOTION', 0, -4);
+          ctx.font = '600 8.5px "JetBrains Mono", monospace';
+          ctx.fillStyle = '#60A5FA';
+          ctx.fillText('60 FPS BROADCAST MP4', 0, 12);
+
+          ctx.restore();
+          tick++;
+          animLoop = requestAnimationFrame(draw);
+        }
+        draw();
+      }
+
+      // Step Runner
+      async function runStep(step) {
+        currentStep = step;
+        renderPills();
+        updateExplainer();
+        if (activeTimeline) clearTimeout(activeTimeline);
+
+        if (currentOs === 'windows') {
+          await runWindowsStep(step);
+        } else {
+          await runMacStep(step);
+        }
+      }
+
+      function goToStep(s) {
+        currentStep = s;
+        runStep(s);
+      }
+
+      // Windows Steps Flow
+      async function runWindowsStep(step) {
+        // Reset Win elements
+        const browser = document.getElementById('win-browser');
+        const flyout = document.getElementById('win-edge-flyout');
+        const installer = document.getElementById('win-installer');
+        const smartscreen = document.getElementById('win-smartscreen');
+        const realApp = document.getElementById('win-real-app');
+        const toast = document.getElementById('win-toast');
+        const deskAppIcon = document.getElementById('win-desk-app-shortcut');
+        const tbApp = document.getElementById('win-tb-app');
+
+        browser.classList.remove('visible');
+        flyout.style.display = 'none';
+        installer.classList.remove('visible');
+        smartscreen.classList.remove('visible');
+        realApp.classList.remove('visible');
+        toast.style.display = 'none';
+        dragGhost.style.display = 'none';
+
+        if (step === 1) {
+          browser.classList.add('visible');
+          await moveCursor(200, 200, 300);
+          const dlBtn = document.getElementById('win-btn-download');
+          const pos = getCenter(dlBtn);
+          await moveCursor(pos.x, pos.y, 600);
+          await clickCursor();
+          flyout.style.display = 'flex';
+          const openBtn = document.getElementById('win-btn-open-file');
+          const openPos = getCenter(openBtn);
+          await moveCursor(openPos.x, openPos.y, 500);
+          await clickCursor();
+          scheduleNext(2);
+        } else if (step === 2) {
+          installer.classList.add('visible');
+          const instBtn = document.getElementById('win-btn-install');
+          const pos = getCenter(instBtn);
+          await moveCursor(pos.x, pos.y, 500);
+          await clickCursor();
+          const prog = document.getElementById('win-setup-prog');
+          const status = document.getElementById('win-setup-status');
+          prog.style.width = '100%';
+          status.textContent = 'Completed! Chromium & FFmpeg extracted.';
+          deskAppIcon.style.display = 'flex';
+          tbApp.style.display = 'inline-flex';
+          scheduleNext(3);
+        } else if (step === 3) {
+          smartscreen.classList.add('visible');
+          const moreLink = document.getElementById('win-link-moreinfo');
+          const morePos = getCenter(moreLink);
+          await moveCursor(morePos.x, morePos.y, 500);
+          await clickCursor();
+          document.getElementById('win-smart-more').style.display = 'block';
+          const runBtn = document.getElementById('win-btn-runanyway');
+          runBtn.style.display = 'inline-flex';
+          const runPos = getCenter(runBtn);
+          await moveCursor(runPos.x, runPos.y, 500);
+          await clickCursor();
+          scheduleNext(4);
+        } else if (step === 4) {
+          realApp.classList.add('visible');
+          const sample = document.getElementById('win-desk-sample-html');
+          const sPos = getCenter(sample);
+          await moveCursor(sPos.x, sPos.y, 500);
+          await clickCursor();
+          dragGhost.style.display = 'inline-flex';
+          dragGhost.style.left = sPos.x + 10 + 'px';
+          dragGhost.style.top = sPos.y + 10 + 'px';
+          const dz = document.getElementById('win-app-dropzone');
+          const dzPos = getCenter(dz);
+          await moveCursor(dzPos.x, dzPos.y, 700);
+          dragGhost.style.display = 'none';
+          dz.classList.add('pulse');
+          setTimeout(() => dz.classList.remove('pulse'), 500);
+          dz.style.display = 'none';
+          document.getElementById('win-app-loaded').style.display = 'flex';
+          document.getElementById('win-btn-start-render').removeAttribute('disabled');
+          startCanvasMotion('win-canvas-preview');
+          scheduleNext(5);
+        } else if (step === 5) {
+          realApp.classList.add('visible');
+          document.getElementById('win-app-dropzone').style.display = 'none';
+          document.getElementById('win-app-loaded').style.display = 'flex';
+          document.getElementById('win-btn-start-render').removeAttribute('disabled');
+          startCanvasMotion('win-canvas-preview');
+          const rBtn = document.getElementById('win-btn-start-render');
+          const rPos = getCenter(rBtn);
+          await moveCursor(rPos.x, rPos.y, 500);
+          await clickCursor();
+          const teleStatus = document.getElementById('win-tele-status');
+          const teleBar = document.getElementById('win-tele-bar');
+          teleStatus.textContent = 'Encoding 60 FPS MP4...';
+          teleBar.style.width = '100%';
+          setTimeout(() => {
+            teleStatus.textContent = 'Export completed! (Videos/ScalpX.mp4)';
+            toast.style.display = 'flex';
+          }, 1200);
+        }
+      }
+
+      // Mac Steps Flow
+      async function runMacStep(step) {
+        const browser = document.getElementById('mac-browser');
+        const finder = document.getElementById('mac-dmg-finder');
+        const gatekeeper = document.getElementById('mac-gatekeeper');
+        const realApp = document.getElementById('mac-real-app');
+        const toast = document.getElementById('mac-toast');
+        const dockApp = document.getElementById('mac-dock-app');
+
+        browser.classList.remove('visible');
+        finder.classList.remove('visible');
+        gatekeeper.classList.remove('visible');
+        realApp.classList.remove('visible');
+        toast.style.display = 'none';
+        dragGhost.style.display = 'none';
+
+        if (step === 1) {
+          browser.classList.add('visible');
+          await moveCursor(200, 200, 300);
+          const dlBtn = document.getElementById('mac-btn-download');
+          const pos = getCenter(dlBtn);
+          await moveCursor(pos.x, pos.y, 600);
+          await clickCursor();
+          scheduleNext(2);
+        } else if (step === 2) {
+          finder.classList.add('visible');
+          const appItem = document.getElementById('mac-dmg-app-item');
+          const appPos = getCenter(appItem);
+          await moveCursor(appPos.x, appPos.y, 500);
+          await clickCursor();
+          const folder = document.getElementById('mac-dmg-apps-folder');
+          const fPos = getCenter(folder);
+          await moveCursor(fPos.x, fPos.y, 700);
+          await clickCursor();
+          dockApp.style.display = 'grid';
+          scheduleNext(3);
+        } else if (step === 3) {
+          gatekeeper.classList.add('visible');
+          const openBtn = document.getElementById('mac-btn-open-anyway');
+          const pos = getCenter(openBtn);
+          await moveCursor(pos.x, pos.y, 500);
+          await clickCursor();
+          scheduleNext(4);
+        } else if (step === 4) {
+          realApp.classList.add('visible');
+          const sample = document.getElementById('mac-desk-sample-html');
+          const sPos = getCenter(sample);
+          await moveCursor(sPos.x, sPos.y, 500);
+          await clickCursor();
+          dragGhost.style.display = 'inline-flex';
+          dragGhost.style.left = sPos.x - 30 + 'px';
+          dragGhost.style.top = sPos.y + 10 + 'px';
+          const dz = document.getElementById('mac-app-dropzone');
+          const dzPos = getCenter(dz);
+          await moveCursor(dzPos.x, dzPos.y, 700);
+          dragGhost.style.display = 'none';
+          dz.classList.add('pulse');
+          setTimeout(() => dz.classList.remove('pulse'), 500);
+          dz.style.display = 'none';
+          document.getElementById('mac-app-loaded').style.display = 'flex';
+          document.getElementById('mac-btn-start-render').removeAttribute('disabled');
+          startCanvasMotion('mac-canvas-preview');
+          scheduleNext(5);
+        } else if (step === 5) {
+          realApp.classList.add('visible');
+          document.getElementById('mac-app-dropzone').style.display = 'none';
+          document.getElementById('mac-app-loaded').style.display = 'flex';
+          document.getElementById('mac-btn-start-render').removeAttribute('disabled');
+          startCanvasMotion('mac-canvas-preview');
+          const rBtn = document.getElementById('mac-btn-start-render');
+          const rPos = getCenter(rBtn);
+          await moveCursor(rPos.x, rPos.y, 500);
+          await clickCursor();
+          const teleStatus = document.getElementById('mac-tele-status');
+          const teleBar = document.getElementById('mac-tele-bar');
+          teleStatus.textContent = 'Capturing 60 FPS frames...';
+          teleBar.style.width = '100%';
+          setTimeout(() => {
+            teleStatus.textContent = 'Render finished! (Movies/ScalpX.mp4)';
+            toast.style.display = 'flex';
+          }, 1200);
+        }
+      }
+
+      function scheduleNext(next) {
+        if (!isPlaying) return;
+        activeTimeline = setTimeout(() => {
+          goToStep(next);
+        }, 2600);
+      }
+
+      btnTogglePlay.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        playIcon.textContent = isPlaying ? '❚❚' : '▶';
+        playText.textContent = isPlaying ? 'Pause' : 'Resume';
+        if (isPlaying) {
+          runStep(currentStep);
+        } else if (activeTimeline) {
+          clearTimeout(activeTimeline);
+        }
+      });
+
+      btnRestart.addEventListener('click', () => {
+        goToStep(1);
+      });
+
+      // Synchronize theme toggle with site.js
+      if (tutThemeToggle) {
+        tutThemeToggle.addEventListener('click', () => {
+          const current = document.documentElement.getAttribute('data-theme') || 'dark';
+          const next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          try { localStorage.setItem('theme', next); } catch(e) {}
+        });
+      }
+
+      // Initial Start
+      renderPills();
+      updateExplainer();
+      runStep(1);
+    })();
+  </script>
+</body>
+</html>

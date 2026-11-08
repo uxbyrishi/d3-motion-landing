@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#4164E8" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#4164E8" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="borderGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="rgba(255,255,255,0.25)"/>
+        <stop offset="100%" stop-color="rgba(65,100,232,0.5)"/>
+      </linearGradient>
+    </defs>
+    <!-- Background rounded squircle matching brand assets hub app icon -->
+    <rect x="20" y="20" width="472" height="472" rx="108" fill="#12141C" stroke="url(#borderGrad)" stroke-width="12"/>
+    <rect x="20" y="20" width="472" height="472" rx="108" fill="url(#glow)"/>
+    
+    <!-- D3 Logo Mark Centered: Staggered 28 deg slant parallelograms -->
+    <g transform="translate(86, 128) scale(1.42)">
+      <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/>
+      <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+    </g>
+  </svg>

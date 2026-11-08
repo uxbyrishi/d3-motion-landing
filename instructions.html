@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>Documentation &amp; User Manual — D3 HTML to Video</title>
+  <meta name="description" content="Official user guide, Windows & macOS installation instructions, supported formats, and motion export best practices for D3 HTML to Video.">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        var theme = (saved === 'dark' || saved === 'light') 
+          ? saved 
+          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch(e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="ambient-glow-top"></div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand-link" aria-label="D3 HTML to Video home">
+        <div class="brand-icon-box"><svg width="24" height="17" viewBox="0 0 240 170" fill="none" aria-hidden="true"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg></div>
+        <div><span class="brand-title">D3</span><span class="brand-tag">MANUAL</span></div>
+      </a>
+
+      <ul class="nav-links" id="site-nav">
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#demo">Live demo</a></li>
+        <li class="nav-dropdown">
+          <button type="button" class="nav-dropdown-btn" aria-haspopup="true">
+            <span>Tutorials</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="tutorial-windows.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color: var(--signal-bright);"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg><span>Windows 11</span></a></li>
+            <li><a href="tutorial-mac.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color: var(--signal-bright);"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 1.01-2.87-.96.04-2.14.65-2.8 1.42-.58.67-.99 1.72-.94 2.76 1.08.08 2.12-.56 2.73-1.31z"/></svg><span>macOS</span></a></li>
+          </ul>
+        </li>
+        <li><a href="instructions.html">Docs</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Switch theme" title="Switch theme">
+          <span class="theme-icon-sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span><span class="theme-icon-moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+        </button>
+        <a href="index.html#pricing" class="btn btn-primary">Get D3 — $29</a>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main class="container doc-shell">
+    <div class="doc-content">
+      <div class="doc-header">
+        <span class="section-tag">OFFICIAL USER MANUAL</span>
+        <h1 class="doc-title">Getting Started &amp; Technical Guide</h1>
+        <div class="doc-updated">Cross-Platform Edition • Windows 10/11 &amp; macOS</div>
+      </div>
+
+      <div class="doc-body">
+        
+        <h2>1. Overview &amp; Architecture</h2>
+        <p>
+          <strong>D3 HTML to Video</strong> is a high-performance, local-first cross-platform desktop application engineered to convert interactive web animations (HTML5, CSS keyframes, JavaScript, SVG, Canvas 2D, and Three.js/WebGL) into broadcast-quality <strong>MP4 (H.264 / yuv420p)</strong> video files without requiring cloud subscriptions or per-minute credit burns.
+        </p>
+
+        <div class="doc-box">
+          <strong style="color: var(--signal); display: block; margin-bottom: 4px;">Zero Dependencies Architecture:</strong>
+          D3 embeds its own sandboxed Chromium browser and static FFmpeg binary for your platform. You <strong>do not</strong> need to install Node.js, Python, Git, Playwright, or FFmpeg on your operating system.
+        </div>
+
+        <h2>2. Installation &amp; Setup</h2>
+        
+        <h3>A. Windows 10 &amp; 11 Installation</h3>
+        <ol>
+          <li>Download <code>D3-Motion-Setup.exe</code>.</li>
+          <li>Double-click the installer. Follow the on-screen steps to install the application and create desktop/start menu shortcuts.</li>
+          <li>Launch <strong>D3 Motion</strong> from your desktop or start menu.</li>
+        </ol>
+
+        <h3 id="mac-instructions" style="color: var(--bone); border-top: 1px solid var(--border-subtle); padding-top: 24px; margin-top: 28px;">
+          B. macOS Installation &amp; First-Time Launch Guide
+        </h3>
+        <p>
+          D3 Motion supports both Apple Silicon (M1/M2/M3/M4) and Intel Macs:
+        </p>
+        <ul>
+          <li><strong>Apple Silicon (M-Series):</strong> Download <code>D3-Motion-Mac-arm64.dmg</code></li>
+          <li><strong>Intel (x64):</strong> Download <code>D3-Motion-Mac-x64.dmg</code></li>
+        </ul>
+
+        <div class="doc-box" style="background: rgba(59, 98, 246, 0.08); border-color: rgba(59, 98, 246, 0.35);">
+          <strong style="color: var(--signal-bright); font-size: 15px; display: block; margin-bottom: 8px;">
+            ⚠️ How to Open D3 Motion on macOS (Gatekeeper Instructions)
+          </strong>
+          <p style="margin-bottom: 12px; font-size: 13.5px; line-height: 1.6;">
+            Because D3 Motion is an independent professional desktop utility distributed directly to creators outside the Mac App Store, macOS Gatekeeper may show a notice on first launch: <em>"D3 Motion cannot be opened because it is from an unidentified developer."</em>
+          </p>
+          <strong style="color: var(--bone); display: block; margin-bottom: 6px;">The Standard Way to Open (First Launch Only):</strong>
+          <ol style="margin-bottom: 14px; padding-left: 20px; font-size: 13.5px;">
+            <li>Drag <strong>D3 Motion.app</strong> into your <strong>/Applications</strong> folder.</li>
+            <li>In Finder, open <strong>Applications</strong>.</li>
+            <li><strong>Right-click</strong> (or hold the <strong>Control</strong> key and click) on <strong>D3 Motion</strong>.</li>
+            <li>Select <strong>Open</strong> from the context menu.</li>
+            <li>A confirmation dialog will appear with an <strong>"Open"</strong> button. Click <strong>Open</strong>.</li>
+          </ol>
+          <p style="font-size: 13px; color: var(--steel); margin-bottom: 0;">
+            ✓ Once opened this way, macOS permanently saves your approval. You can launch D3 Motion by simply double-clicking or from Spotlight in the future!
+          </p>
+        </div>
+
+        <div class="doc-box" style="background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.3);">
+          <strong style="color: #F87171; font-size: 15px; display: block; margin-bottom: 8px;">
+            ❓ What If You Missed That and macOS Blocked the App?
+          </strong>
+          <p style="margin-bottom: 12px; font-size: 13.5px; line-height: 1.6;">
+            If you double-clicked the app directly and macOS showed a warning dialog with only <em>"Cancel"</em> or <em>"Move to Trash"</em>, do not worry! You can easily approve it using either of the following two quick solutions:
+          </p>
+
+          <strong style="color: var(--bone); display: block; margin-bottom: 4px;">Solution 1: System Settings (Recommended)</strong>
+          <ol style="margin-bottom: 14px; padding-left: 20px; font-size: 13.5px;">
+            <li>Open the <strong>Apple Menu ()</strong> in the top-left corner and choose <strong>System Settings</strong> (or <em>System Preferences</em>).</li>
+            <li>Click <strong>Privacy &amp; Security</strong> in the left sidebar.</li>
+            <li>Scroll down to the <strong>Security</strong> section.</li>
+            <li>You will see a note: <em>"D3 Motion was blocked from use because it is not from an identified developer."</em></li>
+            <li>Click the <strong>Open Anyway</strong> button.</li>
+            <li>Enter your Mac password or use Touch ID, then click <strong>Open</strong> when prompted.</li>
+          </ol>
+
+          <strong style="color: var(--bone); display: block; margin-bottom: 4px;">Solution 2: One-Line Terminal Command (Instant Fix)</strong>
+          <p style="margin-bottom: 8px; font-size: 13.5px;">
+            If Gatekeeper quarantine prevents launching, open the macOS <strong>Terminal</strong> app (press <kbd>Cmd</kbd> + <kbd>Space</kbd>, type <code>Terminal</code>, press Enter) and run:
+          </p>
+          <pre style="margin-top: 6px; margin-bottom: 6px; padding: 12px; background: rgba(0,0,0,0.5);"><code>xattr -d com.apple.quarantine "/Applications/D3 Motion.app"</code></pre>
+          <p style="font-size: 12.5px; color: var(--steel); margin-top: 6px;">
+            Press Return, and D3 Motion will open immediately without any security warnings!
+          </p>
+        </div>
+
+        <h2>3. Quick Start (Drag · Drop · Download)</h2>
+        <ol>
+          <li>
+            <strong>Launch App:</strong> Open <em>D3 Motion</em> from your Applications or Desktop.
+          </li>
+          <li>
+            <strong>Import Project:</strong> Drag and drop your <code>.html</code> file (or a <code>.zip</code> archive containing your project files) directly into the dashed dropzone. You can also click <em>Choose HTML / ZIP</em> to select a file via the native file picker.
+          </li>
+          <li>
+            <strong>Configure Settings:</strong> Select your desired output resolution, frame rate (24, 30, or 60 FPS), duration in seconds, zoom/pan, background color, and render quality.
+          </li>
+          <li>
+            <strong>Preview &amp; Render:</strong> Check the live preview stage to verify rendering behavior, then click <strong>Render MP4</strong>.
+          </li>
+          <li>
+            <strong>Save Export:</strong> When rendering concludes, click <em>Save MP4</em> to choose a destination or <em>Show file</em> to reveal the output video in your system file manager.
+          </li>
+        </ol>
+
+        <h2 id="supported-formats">4. Supported Project Formats</h2>
+        
+        <h3>A. Single Standalone HTML File (.html / .htm)</h3>
+        <p>
+          Ideal for self-contained animations with inline CSS, embedded SVG, or JavaScript libraries loaded from reliable CDNs or embedded as inline scripts.
+        </p>
+
+        <h3>B. ZIP Project Archives (.zip)</h3>
+        <p>
+          For projects structured across multiple files and subdirectories. Your ZIP archive should include an entry HTML file (e.g., <code>index.html</code>) at the root level, alongside relative directories for assets:
+        </p>
+        <pre><code>my-animation.zip/
+├── index.html       (Entry file)
+├── style.css        (Stylesheets)
+├── script.js       (Animation logic)
+├── assets/         (Images, audio, video)
+└── fonts/          (Custom web fonts)</code></pre>
+
+        <h2 id="presets">5. Output Settings &amp; Resolutions</h2>
+        <table class="comparison-table" style="margin-bottom: 24px;">
+          <thead>
+            <tr>
+              <th>PRESET LABEL</th>
+              <th>DIMENSIONS</th>
+              <th>ASPECT RATIO</th>
+              <th>RECOMMENDED USE CASE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Landscape · 1080p</strong></td>
+              <td>1920 × 1080</td>
+              <td>16:9</td>
+              <td>Standard YouTube, website hero videos, client presentations</td>
+            </tr>
+            <tr>
+              <td><strong>Landscape · 1440p</strong></td>
+              <td>2560 × 1440</td>
+              <td>16:9</td>
+              <td>High-definition crisp motion graphics, monitors</td>
+            </tr>
+            <tr>
+              <td><strong>Landscape · 4K UHD</strong></td>
+              <td>3840 × 2160</td>
+              <td>16:9</td>
+              <td>Broadcast television, ultra-high resolution master archives</td>
+            </tr>
+            <tr>
+              <td><strong>Portrait · 1080p</strong></td>
+              <td>1080 × 1920</td>
+              <td>9:16</td>
+              <td>TikTok, Instagram Reels, YouTube Shorts</td>
+            </tr>
+            <tr>
+              <td><strong>Square · 1080p</strong></td>
+              <td>1080 × 1080</td>
+              <td>1:1</td>
+              <td>Instagram feed, LinkedIn square motion carousels</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>6. Best Practices for Flawless Motion Exports</h2>
+        
+        <h3>Font Synchronization</h3>
+        <p>
+          D3 automatically waits for <code>document.fonts.ready</code> before beginning recording. However, if using custom web fonts loaded from external Google Fonts or Typekit, bundling the font files (<code>.woff2</code> or <code>.ttf</code>) locally inside your ZIP archive ensures 100% offline consistency without network latency.
+        </p>
+
+        <h3>Canvas &amp; Three.js Loop Timing</h3>
+        <p>
+          For deterministic animations, tie your render loop to elapsed time or frame counts rather than real-world clock intervals where possible. For example:
+        </p>
+        <pre><code>// Recommended: Compute angle from requestAnimationFrame timestamp
+function render(timestamp) {
+  const elapsed = timestamp * 0.001; // in seconds
+  cube.rotation.y = elapsed * 1.5;
+  renderer.render(scene, camera);
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);</code></pre>
+
+        <h2 id="troubleshooting">7. Troubleshooting &amp; FAQs</h2>
+        
+        <h3>Why is my preview blank?</h3>
+        <p>
+          Ensure your ZIP contains an <code>index.html</code> (or <code>index.htm</code>) file at the root or within the main directory. If your HTML uses absolute paths (e.g., <code>/styles.css</code> instead of <code>./styles.css</code>), switch to relative paths so the local server can resolve them properly.
+        </p>
+
+        <h3>Where are my rendered videos stored?</h3>
+        <p>
+          Rendered videos are automatically saved to your system's default user media folder (<code>Videos\D3 Motion\</code> on Windows or <code>~/Movies/D3 Motion/</code> on macOS). You can immediately access or copy them using the <em>Save MP4</em> or <em>Show file</em> buttons on the success screen.
+        </p>
+
+        <h3>Is my data uploaded to any remote server?</h3>
+        <p>
+          No. All rendering, browser execution, frame capture, and FFmpeg encoding happen entirely on your computer's CPU and GPU. Your projects and videos never leave your local machine.
+        </p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-mini">
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="instructions.html">Documentation</a></li>
+        <li><a href="tutorial-windows.html">Windows tutorial</a></li>
+        <li><a href="tutorial-mac.html">macOS tutorial</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="license.html">License Agreement</a></li>
+      </ul>
+      <div class="footer-bottom" style="border:0;padding-top:0;"><span>© 2026 D3 Motion Engine. All rights reserved.</span></div>
+    </div>
+  </footer>
+
+  <script src="site.js" defer></script>
+</body>
+</html>

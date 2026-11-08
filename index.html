@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>D3 HTML to Video — Drag. Drop. Download. | Local HTML to MP4 Converter</title>
+  <meta name="description" content="Tired of AI video platforms burning credits just to convert HTML to video? D3 converts HTML, CSS, and Canvas animations directly to broadcast-grade 4K 60FPS MP4 locally on your computer. One-time payment, lifetime free forever.">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        var theme = (saved === 'dark' || saved === 'light') 
+          ? saved 
+          : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch(e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="ambient-glow-top"></div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand-link" aria-label="D3 HTML to Video home">
+        <div class="brand-icon-box"><svg width="24" height="17" viewBox="0 0 240 170" fill="none" aria-hidden="true"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg></div>
+        <div><span class="brand-title">D3</span><span class="brand-tag">HTML TO VIDEO</span></div>
+      </a>
+
+      <ul class="nav-links" id="site-nav">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#demo">Live demo</a></li>
+        <li class="nav-dropdown">
+          <button type="button" class="nav-dropdown-btn" aria-haspopup="true">
+            <span>Tutorials</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="tutorial.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--signal-bright);"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Interactive Tutorial (Win &amp; Mac)</span></a></li>
+            <li><a href="tutorial-windows.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color: var(--signal-bright);"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg><span>Windows 11 Tutorial</span></a></li>
+            <li><a href="tutorial-mac.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color: var(--signal-bright);"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 1.01-2.87-.96.04-2.14.65-2.8 1.42-.58.67-.99 1.72-.94 2.76 1.08.08 2.12-.56 2.73-1.31z"/></svg><span>macOS Tutorial</span></a></li>
+          </ul>
+        </li>
+        <li><a href="instructions.html">Docs</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Switch theme" title="Switch theme">
+          <span class="theme-icon-sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span><span class="theme-icon-moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+        </button>
+        <a href="#pricing" class="btn btn-primary">Get D3 — $29</a>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      
+      <div class="announcement-bar">
+        <span class="pulse-dot"></span>
+        <span>Tired of AI platforms burning your credits? <strong>Stop paying $30/month.</strong></span>
+      </div>
+
+      <h1 class="hero-title">
+        Stop Burning AI Credits Just to Turn <span class="highlight">HTML into Video.</span>
+      </h1>
+
+      <p class="hero-subtitle">Turn HTML, CSS keyframes, Three.js, SVG and Canvas animations into crisp 4K 60 FPS MP4 on your own computer. No credits, no uploads, no render queue. <strong>Drag. Drop. Download.</strong></p>
+
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn btn-primary btn-lg">
+          <span>Buy Once, Free Forever — $29</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="tutorial-windows.html" class="btn btn-outline btn-lg">
+          <span>▶ Watch the setup tutorial</span>
+        </a>
+      </div>
+
+      <div class="hero-badges">
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 100% Local &amp; Private</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Unlimited Exports</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> No Monthly Subscriptions</span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Windows 10/11 &amp; macOS Ready</span>
+      </div>
+
+      <!-- Interactive Real App Live Demo -->
+      <div id="demo" class="real-app-demo">
+        <div class="window-header">
+          <div class="traffic-dots">
+            <i class="red"></i>
+            <i class="amber"></i>
+            <i class="green"></i>
+          </div>
+          <div class="window-title">HTML to Video • Local Motion Engine (Interactive Sandbox)</div>
+          <div class="app-status-badge">
+            <span class="status-dot-green"></span>
+            <span>Runs locally · Private by design</span>
+          </div>
+        </div>
+
+        <div class="demo-real-body">
+          <!-- Left Column: Source & Output Settings -->
+          <div class="demo-real-sidebar">
+            <!-- 01 · SOURCE CARD -->
+            <div class="real-card">
+              <div class="real-card-head">
+                <div>
+                  <div class="step-label">01 · SOURCE</div>
+                  <div class="step-title">Your project</div>
+                </div>
+                <!-- Mode Switch Tabs -->
+                <div class="source-mode-tabs">
+                  <button type="button" class="source-tab-btn active" id="demo-tab-single">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>Single File</span>
+                  </button>
+                  <button type="button" class="source-tab-btn" id="demo-tab-batch">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    <span>Batch Queue</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Empty Dropzone State -->
+              <div id="demo-dropzone" class="demo-dropzone-box" title="Click to test loading a sample HTML project">
+                <div class="drop-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <strong>Drop your HTML file here</strong>
+                <p>Or drop multiple files for batch export</p>
+                <div class="drop-actions">
+                  <button type="button" class="btn-drop-action" id="demo-choose-file">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                    <span>Choose File</span>
+                  </button>
+                  <button type="button" class="btn-drop-action" id="demo-batch-folder">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    <span>Batch Folder</span>
+                  </button>
+                </div>
+                <div class="file-badges">
+                  <span>.HTML</span><span>.HTM</span><span>.ZIP</span><span>FOLDER</span>
+                </div>
+              </div>
+
+              <!-- Loaded Project Card (Interactive Toggle) -->
+              <div id="demo-loaded-card" class="demo-loaded-card" style="display: none;">
+                <div class="loaded-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="loaded-meta">
+                  <strong>ScalpX_Hero_Animation.html</strong>
+                  <span>Desktop/ScalpX · 56 KB</span>
+                  <div class="loaded-badge">
+                    <span class="status-dot-green"></span>
+                    <span>Project loaded &amp; ready</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-change-project" id="demo-btn-change" title="Remove & load another file">✕</button>
+              </div>
+
+              <div class="privacy-note">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Your files stay on this computer. Nothing is uploaded.</span>
+              </div>
+            </div>
+
+            <!-- 02 · OUTPUT SETTINGS CARD -->
+            <div class="real-card">
+              <div class="real-card-head">
+                <div>
+                  <div class="step-label">02 · OUTPUT</div>
+                  <div class="step-title">Export settings</div>
+                </div>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--steel)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </div>
+
+              <!-- Resolution Dropdown -->
+              <div class="form-group">
+                <label class="form-label">Resolution</label>
+                <div class="custom-select-wrap">
+                  <select id="demo-resolution" class="real-select">
+                    <option value="1920x1080">Landscape — 1080p — 1920 × 1080</option>
+                    <option value="3840x2160">Landscape — 4K UHD — 3840 × 2160</option>
+                    <option value="1080x1920">Vertical — 9:16 Shorts / Reels — 1080 × 1920</option>
+                    <option value="1080x1080">Square — 1:1 Feed — 1080 × 1080</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Duration Input & Chips -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label class="form-label">Duration (seconds)</label>
+                  <span class="sub-label">Suggestions</span>
+                </div>
+                <div class="duration-input-box">
+                  <input type="number" id="demo-duration" value="10" min="1" max="600" class="real-num-input">
+                  <span class="dur-clock-icon">⏱</span>
+                </div>
+                <div class="dur-chips-row">
+                  <button type="button" class="dur-chip" data-dur="5">5s</button>
+                  <button type="button" class="dur-chip active" data-dur="10">10s</button>
+                  <button type="button" class="dur-chip" data-dur="15">15s</button>
+                  <button type="button" class="dur-chip" data-dur="20">20s</button>
+                  <button type="button" class="dur-chip" data-dur="30">30s</button>
+                  <button type="button" class="dur-chip" data-dur="60">60s</button>
+                </div>
+              </div>
+
+              <!-- Frame Rate & Quality Row -->
+              <div class="form-row-grid">
+                <div>
+                  <label class="form-label">Frame rate</label>
+                  <div class="segmented" id="demo-fps-group">
+                    <button type="button" data-fps="24">24 <small>fps</small></button>
+                    <button type="button" class="active" data-fps="30">30 <small>fps</small></button>
+                    <button type="button" data-fps="60">60 <small>fps</small></button>
+                  </div>
+                </div>
+                <div>
+                  <label class="form-label">Render quality</label>
+                  <div class="custom-select-wrap">
+                    <select id="demo-quality" class="real-select">
+                      <option value="Standard">Standard</option>
+                      <option value="High" selected>High (Crisp)</option>
+                      <option value="Ultra">Ultra (Studio)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Advanced Controls Accordion -->
+              <div class="advanced-wrap">
+                <button type="button" id="demo-advanced-btn" class="advanced-toggle-btn">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+                    <span>Advanced Controls</span>
+                  </div>
+                  <span class="sub-hint">Crop, Canvas, Delay, Scrollbars</span>
+                  <span id="demo-adv-chevron" style="transition: transform 0.2s ease;">▾</span>
+                </button>
+                <div id="demo-advanced-content" class="advanced-content" style="display: none;">
+                  <div class="adv-item">
+                    <label class="adv-label">Zoom &amp; Viewport Scale: <strong id="demo-zoom-val">100%</strong></label>
+                    <input type="range" id="demo-zoom-slider" min="50" max="300" value="100" class="real-range">
+                  </div>
+                  <div class="adv-item" style="margin-top: 10px;">
+                    <label class="adv-label">Canvas Background</label>
+                    <div class="color-chips-row">
+                      <span class="bg-color-dot active" data-color="#000000" style="background: #000000;" title="Black"></span>
+                      <span class="bg-color-dot" data-color="#0B0C10" style="background: #0B0C10;" title="Dark Slate"></span>
+                      <span class="bg-color-dot" data-color="#FFFFFF" style="background: #FFFFFF; border: 1px solid #ccc;" title="White"></span>
+                      <span class="bg-color-dot" data-color="transparent" style="background: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0px;" title="Transparent"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Output Format Card -->
+              <div class="format-card">
+                <div class="format-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+                </div>
+                <div style="flex: 1;">
+                  <strong>MP4 video · H.264</strong>
+                  <span>Silent video · yuv420p · web optimized</span>
+                </div>
+                <span class="badge-format">.MP4</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Live Interactive Preview Viewport & Render Box -->
+          <div class="demo-real-main">
+            <!-- 03 · LIVE PREVIEW STAGE -->
+            <div class="real-card stage-card">
+              <div class="real-card-head">
+                <div>
+                  <div class="step-label">03 · LIVE PREVIEW</div>
+                  <div class="step-title">Preview</div>
+                </div>
+                <button type="button" id="demo-refresh-btn" class="btn-icon-refresh" title="Restart animation">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                </button>
+              </div>
+
+              <!-- Viewport Canvas Container -->
+              <div class="stage-viewport-shell">
+                <div class="stage-screen-box" id="demo-stage-screen">
+                  <canvas id="demo-real-canvas" width="600" height="340"></canvas>
+                  
+                  <!-- Empty stage hint if no file -->
+                  <div id="demo-stage-empty-overlay" class="stage-empty-overlay" style="display: none;">
+                    <div class="stage-empty-icon">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <strong>Your preview lives here</strong>
+                    <p>Import an HTML project or batch folder to see it in action.</p>
+                  </div>
+                </div>
+
+                <div class="stage-meta-bar">
+                  <div class="stage-status-indicator">
+                    <span class="status-dot-green" id="demo-status-dot"></span>
+                    <span id="demo-status-text">Ready to render</span>
+                  </div>
+                  <div class="stage-res-pill" id="demo-res-pill">
+                    1920 × 1080 · 30 FPS
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RENDER & PROGRESS CARD -->
+            <div class="real-card render-action-card">
+              <!-- Idle State -->
+              <div id="demo-render-idle-view" class="render-idle-view">
+                <div class="render-head-info">
+                  <div class="render-cam-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                  </div>
+                  <div>
+                    <strong>Ready when you are</strong>
+                    <p>Click Render to test local frame capture simulation.</p>
+                  </div>
+                </div>
+                <button type="button" id="demo-start-render-btn" class="btn btn-primary btn-render-now">
+                  <span>Render MP4 (Free Forever)</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+
+              <!-- Rendering / Progress State -->
+              <div id="demo-render-progress-view" class="render-progress-view" style="display: none;">
+                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                  <strong id="demo-prog-label" style="color: var(--bone);">Recording frames (30 FPS)...</strong>
+                  <span id="demo-prog-percentage" style="font-family: var(--font-mono); font-weight: 700; color: var(--signal-bright);">0%</span>
+                </div>
+                <div class="demo-sim-track" style="margin: 8px 0 10px;">
+                  <div id="demo-prog-bar-fill" style="height: 100%; width: 0%; background: var(--signal); transition: width 0.08s linear; box-shadow: 0 0 10px var(--signal);"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--steel); font-family: var(--font-mono);">
+                  <span id="demo-prog-frames">Frame: 0 / 300</span>
+                  <span id="demo-prog-speed">2.4x Real-time GPU</span>
+                </div>
+              </div>
+
+              <!-- Finished State -->
+              <div id="demo-render-done-view" class="render-done-view" style="display: none; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="render-cam-icon done-check">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div>
+                    <strong style="color: var(--bone); font-size: 13px;">Export complete!</strong>
+                    <p style="font-size: 11px; color: var(--steel);">ScalpX_Hero_Animation.mp4 (14.2 MB) · Saved locally</p>
+                  </div>
+                </div>
+                <button type="button" id="demo-render-again-btn" class="btn btn-secondary" style="font-size: 12px; padding: 7px 14px;">
+                  <span>Render Again</span>
+                </button>
+              </div>
+
+              <div class="render-tip-note">
+                <span class="tip-dot">●</span>
+                <span>Best results with self-contained HTML or a ZIP that includes its CSS, JavaScript, fonts, and images.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works: The 3-Step Moto -->
+  <section id="how-it-works" class="section section--alt">
+    <div class="container">
+      <span class="section-tag">SIMPLICITY BY DESIGN</span>
+      <h2 class="section-title">Drag. Drop. Download. That's D3.</h2>
+      <p class="section-desc">
+        No complicated command line flags, no headless scripting, and no convoluted dashboards. Rendering your web creations into video takes less than 3 clicks.
+      </p>
+
+      <div class="grid-3">
+        <!-- Step 1 -->
+        <div class="card">
+          <div class="step-num">01</div>
+          <h3 class="card-title">DRAG</h3>
+          <p class="card-desc">
+            Drag your animated <code>.html</code> file or an entire <code>.zip</code> package containing CSS, JS, SVGs, or Canvas scripts directly into the dropzone. D3 loads and pre-warms all local assets automatically.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card">
+          <div class="step-num">02</div>
+          <h3 class="card-title">CONFIGURE</h3>
+          <p class="card-desc">
+            Select standard presets (1080p, 4K, 9:16 Vertical for TikTok/Reels/Shorts, or Custom dimensions). Pick your frame rate (24, 30, or 60 FPS) and render quality. Inspect your animation live in the real-time viewport.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card">
+          <div class="step-num">03</div>
+          <h3 class="card-title">DOWNLOAD</h3>
+          <p class="card-desc">
+            Hit <strong>Render MP4</strong>. The bundled headless Chromium captures every frame without stutter, and FFmpeg encodes an ultra-clean H.264 broadcast MP4 directly to your local Videos folder.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section id="features" class="section">
+    <div class="container">
+      <span class="section-tag">POWERFUL LOCAL ARCHITECTURE</span>
+      <h2 class="section-title">Engineered for Developers, Motion Designers, and Agencies</h2>
+      <p class="section-desc">
+        Everything you need to turn interactive web code into production-ready social clips, portfolio reels, product mockups, and client deliverables.
+      </p>
+
+      <div class="grid-3">
+        <!-- Feature 1 -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="card-title">Full Web Stack Support</h3>
+          <p class="card-desc">
+            Works with standard CSS Keyframes, GSAP, Anime.js, Three.js, WebGL, SVG animations, Canvas 2D, and Lottie-web. If Chrome can render it, D3 can record it.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="card-title">Frame-Accurate Zero-Drop Sync</h3>
+          <p class="card-desc">
+            Unlike screen recorders that lag when your computer stutters, D3 decodes fonts and images before recording begins, guaranteeing 100% silky 60 FPS output.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <h3 class="card-title">Zero Setup / Out-of-the-Box</h3>
+          <p class="card-desc">
+            The installer comes with bundled Chromium and FFmpeg. You do not need to install Node.js, run terminal commands, or download playwright browsers manually.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <h3 class="card-title">Vertical (9:16) &amp; Social Presets</h3>
+          <p class="card-desc">
+            Instantly render for TikTok, Instagram Reels, YouTube Shorts, Twitter, and LinkedIn with built-in 9:16, 1:1, 4:3, and 16:9 4K aspect ratios.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="card-title">100% Air-Gapped Privacy</h3>
+          <p class="card-desc">
+            Keep client animations, NDA-protected graphics, and proprietary frontend code strictly on your machine. Nothing is ever tracked, stored, or sent to the cloud.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+          </div>
+          <h3 class="card-title">Start Delay Buffer</h3>
+          <p class="card-desc">
+            Need 500ms or 2 seconds for your JavaScript initialization, audio loaders, or WebGL shaders to warm up? Set an exact millisecond delay before capture starts.
+          </p>
+        </div>
+
+        <!-- Feature 7: Zero Ugly Scrollbars -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </div>
+          <h3 class="card-title">Auto-Hide Scrollbars</h3>
+          <p class="card-desc">
+            Never ruin a product video with ugly browser scrollbars. D3 automatically suppresses horizontal and vertical scrollbars, even if responsive layouts overflow by 1 pixel.
+          </p>
+        </div>
+
+        <!-- Feature 8: Smart Target Auto-Fit & Crop -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <h3 class="card-title">Smart Element Auto-Fit &amp; Crop</h3>
+          <p class="card-desc">
+            Target any container (like <code>.phone</code>, <code>#banner</code>, or <code>canvas</code>). D3 automatically computes the exact zoom factor and centers it edge-to-edge without quality loss.
+          </p>
+        </div>
+
+        <!-- Feature 9: Transparent & Custom Backgrounds -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"/></svg>
+          </div>
+          <h3 class="card-title">Custom &amp; Transparent Canvas</h3>
+          <p class="card-desc">
+            Easily switch between Dark Void (#0B0C10), Pure White, Custom Brand Colors, or Transparent Matte without ever touching or modifying your HTML/CSS files.
+          </p>
+        </div>
+
+        <!-- Feature 10: Auto-Detect Loop Duration -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h3 class="card-title">Auto-Detect Loop Duration</h3>
+          <p class="card-desc">
+            No more guessing whether your animation is 4.5s or 12s. D3 automatically inspects CSS keyframes, transition lengths, and GSAP timelines to sync exact loop points.
+          </p>
+        </div>
+
+        <!-- Feature 11: Batch Folder Export Queue -->
+        <div class="card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <h3 class="card-title">Batch Folder Queue</h3>
+          <p class="card-desc">
+            Producing multi-size digital ad campaigns? Drop a whole directory of HTML banners or multiple files at once and render every size sequentially with a single click.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem vs Solution: The AI Credit Drain Trap -->
+  <section id="comparison" class="section section--alt">
+    <div class="container">
+      <span class="section-tag">THE PROBLEM VS THE SOLUTION</span>
+      <h2 class="section-title">Why Developers &amp; Creators Are Ditching Cloud &amp; AI Converters</h2>
+      <p class="section-desc">
+        Cloud converters charge you by the minute, require you to upload your sensitive code, and AI platforms burn $50+ in credits just to turn 5 seconds of CSS into video. D3 is here to fix that forever.
+      </p>
+
+      <div class="grid-3">
+        <!-- Card 1 -->
+        <div class="card card--bad">
+          <div class="card-icon card-icon--bad">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <h3 class="card-title">The "AI Credit" Drain</h3>
+          <p class="card-desc">
+            Modern video generation platforms force you into $20–$60 monthly tiers. Every 10 seconds of rendering eats 50–100 credits. Re-rendering a typo costs another dollar. With D3, you render infinite videos for zero credits.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card card--bad">
+          <div class="card-icon card-icon--bad">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3 class="card-title">Cloud Privacy Leaks</h3>
+          <p class="card-desc">
+            Online SaaS converters make you upload your source HTML, proprietary JavaScript, API keys, and client assets to random cloud servers. D3 runs 100% locally on your computer with complete air-gapped privacy.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card card--good">
+          <div class="card-icon card-icon--good">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 class="card-title">The D3 Way: Drag. Drop. Download.</h3>
+          <p class="card-desc">
+            Pay once ($29), own forever. Zero cloud limits, zero watermarks, zero dropped frames. Bundled with native Chromium and FFmpeg so you don't even need to install Node or configure dependencies.
+          </p>
+        </div>
+      </div>
+
+      <!-- Comparison Matrix Table -->
+      <div class="comparison-table-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>FEATURE / CAPABILITY</th>
+              <th class="col-highlight">★ D3 HTML TO VIDEO</th>
+              <th>AI VIDEO PLATFORMS</th>
+              <th>CLOUD SAAS CONVERTERS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pricing Model</strong></td>
+              <td class="col-highlight" style="color: var(--green);"><strong>$29 One-Time (Lifetime)</strong></td>
+              <td>$20–$60 / month (Credit meter)</td>
+              <td>$19–$49 / month ($228+/yr)</td>
+            </tr>
+            <tr>
+              <td><strong>Cost Per Render</strong></td>
+              <td class="col-highlight" style="color: var(--green);"><strong>$0.00 (Unlimited Forever)</strong></td>
+              <td>50–100 credits ($0.50 - $2.00)</td>
+              <td>Throttled by minute quota</td>
+            </tr>
+            <tr>
+              <td><strong>Processing Location</strong></td>
+              <td class="col-highlight"><strong>100% Local (Your Machine)</strong></td>
+              <td>Remote Cloud GPU Queue</td>
+              <td>Remote Server Upload</td>
+            </tr>
+            <tr>
+              <td><strong>Data Privacy &amp; IP Protection</strong></td>
+              <td class="col-highlight" style="color: var(--green);"><strong>Air-gapped (Zero Uploads)</strong></td>
+              <td>Source code uploaded to AI cloud</td>
+              <td>Uploaded to third-party servers</td>
+            </tr>
+            <tr>
+              <td><strong>Frame Accuracy &amp; Quality</strong></td>
+              <td class="col-highlight"><strong>Up to 4K UHD @ 60 FPS</strong></td>
+              <td>AI hallucinations / compression</td>
+              <td>Often capped at 720p or 30 FPS</td>
+            </tr>
+            <tr>
+              <td><strong>Offline Capabilities</strong></td>
+              <td class="col-highlight" style="color: var(--green);"><strong>Works 100% Offline</strong></td>
+              <td>Requires fast internet &amp; auth</td>
+              <td>Requires constant cloud connection</td>
+            </tr>
+            <tr>
+              <td><strong>Dependencies Required</strong></td>
+              <td class="col-highlight"><strong>Zero (Chromium &amp; FFmpeg bundled)</strong></td>
+              <td>Web app / Browser only</td>
+              <td>Web upload limits</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="section">
+    <div class="container">
+      <span class="section-tag" style="text-align: center;">SIMPLE, FAIR PRICING</span>
+      <h2 class="section-title" style="text-align: center;">Buy Once. Lifetime Free Forever.</h2>
+      <p class="section-desc" style="text-align: center; margin: 0 auto 50px;">
+        No monthly recurring charges. No credit meter. No subscriptions. Pay once and use D3 for the rest of your life.
+      </p>
+
+      <div class="pricing-wrap">
+        <span class="pricing-badge">LIFETIME ACCESS • LAUNCH SPECIAL</span>
+
+        <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--bone);">
+          D3 Motion Pro License
+        </h3>
+        <p style="color: var(--steel); font-size: 14px; margin-top: 6px;">
+          For designers, developers, freelancers, and video creators.
+        </p>
+
+        <div class="price-val">
+          <span class="price-currency">$</span>
+          <span class="price-amount">29</span>
+          <span class="price-period">one-time payment</span>
+          <span class="price-strike">$49</span>
+        </div>
+
+        <p style="color: var(--green); font-size: 13px; font-weight: 600;">
+          ✓ Save $300+/year compared to cloud SaaS &amp; AI subscriptions
+        </p>
+
+        <ul class="pricing-features">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Unlimited MP4 video renders</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Up to 4K UHD resolution</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 24, 30, and 60 FPS modes</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Local offline processing</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Bundled Chromium &amp; FFmpeg</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Commercial usage rights</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> All future updates included</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Instant Digital Delivery (All Sales Final)</li>
+        </ul>
+
+        <!-- TODO: replace href with your Stripe / Lemon Squeezy checkout URL -->
+        <a href="#pricing" id="buy-btn" class="btn btn-primary btn-lg" style="width: 100%; font-size: 16px;">
+          <span>Get Instant Lifetime Access — $29</span>
+        </a>
+
+        <div style="margin-top: 18px; font-size: 12px; color: var(--steel); display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Guaranteed secure payment • Instant license key &amp; software delivery</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="section section--alt">
+    <div class="container">
+      <span class="section-tag" style="text-align: center;">FREQUENTLY ASKED QUESTIONS</span>
+      <h2 class="section-title" style="text-align: center;">Got Questions? We've Got Answers.</h2>
+      <p class="section-desc" style="text-align: center; margin: 0 auto 46px;">
+        Everything you need to know about D3 HTML to Video, local rendering, and license terms.
+      </p>
+
+      <div class="faq-list">
+        <!-- FAQ 1 -->
+        <details class="faq-item" open><summary class="faq-q">
+            <span>Do I really not need to install Node.js, Python, or Chromium?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Yes! D3 is distributed as completely self-contained desktop applications (NSIS installer for Windows, DMG for macOS). It embeds its own private Chromium browser and static FFmpeg binary. You simply install the app and start converting. No terminal commands, no package managers, and zero external dependencies required.
+          </div></details>
+
+        <!-- FAQ 2 -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>How does this save money compared to AI video tools?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            AI video generation services charge between $20 and $60 every month and burn through credits on every single generation or re-render. If you have an HTML, CSS, SVG, or Three.js animation that you built, you don't need generative AI to capture it—you need a deterministic, high-frame-rate local renderer. D3 gives you unlimited exports forever for a one-time $29 fee.
+          </div></details>
+
+        <!-- FAQ 3 -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>Can I render complex projects with CSS, JS, and images?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Absolutely! You can drag in a standalone <code>.html</code> file or a <code>.zip</code> archive containing all your subfolders (CSS, JS, fonts, images, audio, etc.). D3 sets up a lightweight local server on your computer, loads the files with proper relative asset resolution, and waits for all assets and fonts to decode before recording.
+          </div></details>
+
+        <!-- FAQ 4 -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>Does it work on Windows and macOS?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Yes! D3 Motion is 100% native cross-platform. It supports 64-bit Windows 10 &amp; 11 (.exe installer) as well as macOS Apple Silicon (M1/M2/M3/M4) and macOS Intel (.dmg). Hardware acceleration leverages your local GPU on both operating systems for fluid, stutter-free 60 FPS rendering.
+          </div></details>
+
+        <!-- FAQ: Mac Installation & Gatekeeper -->
+        <details class="faq-item" open><summary class="faq-q">
+            <span>How do I open D3 Motion on macOS? (Gatekeeper Instructions)</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            <p style="margin-bottom: 12px; line-height: 1.6;">
+              Because D3 Motion is an independent professional utility distributed directly outside the Mac App Store, macOS Gatekeeper may show a security notice on first launch: <em>"D3 Motion cannot be opened because it is from an unidentified developer."</em>
+            </p>
+            <div style="background: rgba(59, 98, 246, 0.08); border-left: 3px solid var(--signal-bright); padding: 14px 16px; border-radius: 6px; margin-bottom: 14px;">
+              <strong style="color: var(--signal-bright); font-size: 14px; display: block; margin-bottom: 6px;">The Standard Way to Open (First Launch Only):</strong>
+              <ol style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6;">
+                <li>Drag <strong>D3 Motion.app</strong> into your <strong>/Applications</strong> folder.</li>
+                <li>In Applications, <strong>Right-click</strong> (or hold <kbd style="background:var(--panel);padding:1px 5px;border-radius:4px;border:1px solid var(--border-medium);font-family:var(--font-mono);font-size:11px;">Control</kbd> and click) on <strong>D3 Motion</strong>.</li>
+                <li>Click <strong>Open</strong> in the context menu.</li>
+                <li>When the macOS confirmation box appears, click the <strong>Open</strong> button.</li>
+              </ol>
+              <div style="margin-top: 8px; font-size: 12px; color: var(--steel);">
+                ✓ You only have to do this once. macOS permanently remembers your approval, and you can double-click to launch it anytime afterward!
+              </div>
+            </div>
+
+            <div style="background: rgba(239, 68, 68, 0.08); border-left: 3px solid #EF4444; padding: 14px 16px; border-radius: 6px;">
+              <strong style="color: #F87171; font-size: 14px; display: block; margin-bottom: 6px;">Missed that and got blocked with only "Cancel" or "Move to Trash"?</strong>
+              <div style="font-size: 13.5px; line-height: 1.5; color: var(--bone);">
+                <strong>Option 1 (System Settings):</strong> Open <strong>Apple Menu  &gt; System Settings &gt; Privacy &amp; Security</strong>. Scroll down to the <em>Security</em> section where you will see: <em>"D3 Motion was blocked from use..."</em>. Click the <strong>Open Anyway</strong> button, enter your Mac password, and click <strong>Open</strong>.<br><br>
+                <strong>Option 2 (Instant One-Line Terminal Command):</strong> Open Terminal (<kbd style="background:var(--panel);padding:1px 5px;border-radius:4px;border:1px solid var(--border-medium);font-family:var(--font-mono);font-size:11px;">Cmd + Space</kbd>, type <code>Terminal</code>, press Enter) and paste:<br>
+                <code style="display:inline-block;background:rgba(0,0,0,0.5);padding:6px 10px;border-radius:6px;margin:6px 0;color:var(--signal-bright);font-size:12px;border:1px solid rgba(255,255,255,0.1);">xattr -d com.apple.quarantine "/Applications/D3 Motion.app"</code><br>
+                Press Return, and the application will open immediately without any security prompts!
+              </div>
+            </div>
+          </div></details>
+
+        <!-- FAQ 5 -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>Can I use the rendered videos commercially?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            100% yes. You hold full commercial rights to all videos rendered with D3. You can use them in client projects, YouTube channels, advertisements, software demos, and paid video assets with zero royalties or attribution required.
+          </div></details>
+
+        <!-- FAQ 6: Digital Product Refund Policy -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>What is the refund policy?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Because D3 Motion is an instantly delivered digital software product providing immediate lifetime access to full offline software, native executables, and offline rendering engines, <strong>all sales are final and strictly non-refundable</strong>. Once your digital license and software download are issued, no returns, exchanges, or refunds can be processed. We encourage all creators to test our live interactive motion simulator and review the technical manual before purchasing to ensure D3 meets your needs.
+          </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="section" style="padding: 70px 0;">
+    <div class="container">
+      <div class="cta-banner-box">
+        <h2 style="font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 4vw, 48px); margin-bottom: 16px; color: var(--bone);">
+          Ready to Turn Your Web Animations into Video?
+        </h2>
+        <p style="color: var(--steel); font-size: 16px; max-width: 620px; margin: 0 auto 32px;">
+          Join thousands of developers, motion designers, and creators who stopped paying monthly subscription fees and credit drains.
+        </p>
+        <a href="#pricing" class="btn btn-primary btn-lg" style="font-size: 16px;">
+          <span>Get D3 HTML to Video Lifetime License — $29</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-col">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <div class="brand-icon-box" style="width: 32px; height: 32px;">
+              <svg width="20" height="14" viewBox="0 0 240 170" fill="none">
+                <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/>
+                <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+              </svg>
+            </div>
+            <strong style="font-family: var(--font-display); font-size: 17px; color: var(--bone);">D3 HTML to Video</strong>
+          </div>
+          <p style="color: var(--steel); font-size: 13px; line-height: 1.6; max-width: 320px;">
+            The fast, privacy-first local utility to convert HTML, CSS, JavaScript, and Canvas animations into broadcast-ready MP4 video. Drag. Drop. Download.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#features">Feature Set</a></li>
+            <li><a href="#demo">Motion Simulator</a></li>
+            <li><a href="#pricing">Lifetime Pricing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="instructions.html">User Guide &amp; Setup</a></li>
+            <li><a href="instructions.html#supported-formats">Supported Formats</a></li>
+            <li><a href="instructions.html#troubleshooting">Troubleshooting</a></li>
+            <li><a href="instructions.html#presets">Export Presets</a></li>
+            <li><a href="tutorial-windows.html">Windows tutorial</a></li>
+            <li><a href="tutorial-mac.html">macOS tutorial</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="license.html">License Agreement</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 D3 Motion Engine. All rights reserved. Built for motion, not meetings.</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--green);">● 100% OFFLINE LOCAL UTILITY</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="site.js" defer></script>
+
+  <!-- Real App Interactive Demo Controller -->
+  <script>
+    (function() {
+      // Elements
+      const dropzone = document.getElementById('demo-dropzone');
+      const loadedCard = document.getElementById('demo-loaded-card');
+      const btnChange = document.getElementById('demo-btn-change');
+      const chooseFileBtn = document.getElementById('demo-choose-file');
+      const batchFolderBtn = document.getElementById('demo-batch-folder');
+      const tabSingle = document.getElementById('demo-tab-single');
+      const tabBatch = document.getElementById('demo-tab-batch');
+
+      const selectRes = document.getElementById('demo-resolution');
+      const inputDur = document.getElementById('demo-duration');
+      const durChips = document.querySelectorAll('.dur-chip');
+      const fpsGroup = document.getElementById('demo-fps-group');
+      const fpsBtns = fpsGroup ? fpsGroup.querySelectorAll('button') : [];
+      const advBtn = document.getElementById('demo-advanced-btn');
+      const advContent = document.getElementById('demo-advanced-content');
+      const advChevron = document.getElementById('demo-adv-chevron');
+      const zoomSlider = document.getElementById('demo-zoom-slider');
+      const zoomVal = document.getElementById('demo-zoom-val');
+      const colorDots = document.querySelectorAll('.bg-color-dot');
+
+      const resPill = document.getElementById('demo-res-pill');
+      const statusText = document.getElementById('demo-status-text');
+      const statusDot = document.getElementById('demo-status-dot');
+      const stageScreen = document.getElementById('demo-stage-screen');
+      const refreshBtn = document.getElementById('demo-refresh-btn');
+
+      const renderIdleView = document.getElementById('demo-render-idle-view');
+      const renderProgView = document.getElementById('demo-render-progress-view');
+      const renderDoneView = document.getElementById('demo-render-done-view');
+      const btnStartRender = document.getElementById('demo-start-render-btn');
+      const btnRenderAgain = document.getElementById('demo-render-again-btn');
+      const progBar = document.getElementById('demo-prog-bar-fill');
+      const progPct = document.getElementById('demo-prog-percentage');
+      const progFrames = document.getElementById('demo-prog-frames');
+      const progLabel = document.getElementById('demo-prog-label');
+
+      let currentFps = 30;
+      let currentRes = '1920 × 1080';
+      let currentBg = '#06070A';
+      let currentZoom = 1;
+
+      function updateResPill() {
+        if (resPill) {
+          resPill.textContent = currentRes + ' · ' + currentFps + ' FPS';
+        }
+      }
+
+      // 1. Single / Batch mode toggle
+      if (tabSingle && tabBatch) {
+        tabSingle.addEventListener('click', () => {
+          tabSingle.classList.add('active');
+          tabBatch.classList.remove('active');
+        });
+        tabBatch.addEventListener('click', () => {
+          tabBatch.classList.add('active');
+          tabSingle.classList.remove('active');
+        });
+      }
+
+      // 2. Load Sample Project
+      function loadProject() {
+        if (dropzone) dropzone.style.display = 'none';
+        if (loadedCard) loadedCard.style.display = 'flex';
+        if (statusText) statusText.textContent = 'Project loaded & ready';
+      }
+
+      function resetProject() {
+        if (dropzone) dropzone.style.display = 'block';
+        if (loadedCard) loadedCard.style.display = 'none';
+        if (statusText) statusText.textContent = 'Waiting for project';
+      }
+
+      if (dropzone) dropzone.addEventListener('click', loadProject);
+      if (chooseFileBtn) chooseFileBtn.addEventListener('click', (e) => { e.stopPropagation(); loadProject(); });
+      if (batchFolderBtn) batchFolderBtn.addEventListener('click', (e) => { e.stopPropagation(); loadProject(); });
+      if (btnChange) btnChange.addEventListener('click', resetProject);
+
+      // 3. Resolution Selector
+      if (selectRes) {
+        selectRes.addEventListener('change', () => {
+          const val = selectRes.value;
+          if (val === '1920x1080') {
+            currentRes = '1920 × 1080';
+            stageScreen.style.setProperty('--ar', 16/9);
+          } else if (val === '3840x2160') {
+            currentRes = '3840 × 2160';
+            stageScreen.style.setProperty('--ar', 16/9);
+          } else if (val === '1080x1920') {
+            currentRes = '1080 × 1920';
+            stageScreen.style.setProperty('--ar', 9/16);
+          } else if (val === '1080x1080') {
+            currentRes = '1080 × 1080';
+            stageScreen.style.setProperty('--ar', 1/1);
+          }
+          updateResPill();
+        });
+      }
+
+      // 4. Duration Quick Chips
+      durChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          durChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          if (inputDur) inputDur.value = chip.dataset.dur;
+        });
+      });
+
+      if (inputDur) {
+        inputDur.addEventListener('input', () => {
+          durChips.forEach(c => c.classList.toggle('active', c.dataset.dur === inputDur.value));
+        });
+      }
+
+      // 5. FPS Segmented Control
+      fpsBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          fpsBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFps = parseInt(btn.dataset.fps);
+          updateResPill();
+        });
+      });
+
+      // 6. Advanced Controls Accordion
+      if (advBtn && advContent) {
+        advBtn.addEventListener('click', () => {
+          const isClosed = advContent.style.display === 'none';
+          advContent.style.display = isClosed ? 'block' : 'none';
+          if (advChevron) {
+            advChevron.style.transform = isClosed ? 'rotate(180deg)' : 'rotate(0deg)';
+          }
+        });
+      }
+
+      // 7. Zoom Slider
+      if (zoomSlider && zoomVal) {
+        zoomSlider.addEventListener('input', () => {
+          currentZoom = zoomSlider.value / 100;
+          zoomVal.textContent = zoomSlider.value + '%';
+        });
+      }
+
+      // 8. Background Color Chips
+      colorDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          colorDots.forEach(d => d.classList.remove('active'));
+          dot.classList.add('active');
+          currentBg = dot.dataset.color;
+          if (stageScreen) {
+            stageScreen.style.background = currentBg === 'transparent' 
+              ? 'linear-gradient(45deg, #222 25%, transparent 25%), linear-gradient(-45deg, #222 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #222 75%), linear-gradient(-45deg, transparent 75%, #222 75%)' 
+              : currentBg;
+            stageScreen.style.backgroundSize = '12px 12px';
+          }
+        });
+      });
+
+      // 9. Canvas Motion Animation Engine
+      const canvas = document.getElementById('demo-real-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let tick = 0;
+        let isSimRendering = false;
+
+        function renderFrame() {
+          ctx.save();
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          // Scaled drawing based on currentZoom
+          ctx.translate(canvas.width / 2, canvas.height / 2);
+          ctx.scale(currentZoom, currentZoom);
+
+          // Kinetic orbital ring
+          for (let i = 0; i < 28; i++) {
+            const angle = (i / 28) * Math.PI * 2 + tick * 0.02;
+            const dist = 85 + Math.sin(tick * 0.03 + i) * 18;
+            const px = Math.cos(angle) * dist;
+            const py = Math.sin(angle) * dist;
+            const alpha = 0.3 + 0.7 * Math.sin(tick * 0.04 + i);
+
+            ctx.fillStyle = i % 2 === 0 ? `rgba(59, 130, 246, ${alpha})` : `rgba(147, 197, 253, ${alpha})`;
+            ctx.beginPath();
+            ctx.arc(px, py, 4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          // Center Logo & Title
+          ctx.fillStyle = currentBg === '#FFFFFF' ? '#0F172A' : '#FFFFFF';
+          ctx.font = '800 20px "Space Grotesk", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('D3 MOTION', 0, -6);
+
+          ctx.font = '600 10.5px "JetBrains Mono", monospace';
+          ctx.fillStyle = currentBg === '#FFFFFF' ? '#2563EB' : '#60A5FA';
+          ctx.fillText('60 FPS BROADCAST MP4', 0, 16);
+
+          ctx.restore();
+          tick++;
+          requestAnimationFrame(renderFrame);
+        }
+
+        renderFrame();
+
+        if (refreshBtn) {
+          refreshBtn.addEventListener('click', () => {
+            tick = 0;
+          });
+        }
+
+        // 10. Render Simulation
+        if (btnStartRender) {
+          btnStartRender.addEventListener('click', () => {
+            isSimRendering = true;
+            renderIdleView.style.display = 'none';
+            renderProgView.style.display = 'block';
+            renderDoneView.style.display = 'none';
+            if (statusText) statusText.textContent = 'Rendering 60 FPS...';
+            if (statusDot) statusDot.style.background = 'var(--signal)';
+
+            let pct = 0;
+            const totalFrames = (parseInt(inputDur ? inputDur.value : 10) || 10) * currentFps;
+            if (progLabel) progLabel.textContent = `Recording frames (${currentFps} FPS)...`;
+
+            const interval = setInterval(() => {
+              pct += 2.5;
+              if (pct > 100) pct = 100;
+              if (progBar) progBar.style.width = pct + '%';
+              if (progPct) progPct.textContent = Math.round(pct) + '%';
+              if (progFrames) progFrames.textContent = `Frame: ${Math.round((pct/100) * totalFrames)} / ${totalFrames}`;
+
+              if (pct >= 100) {
+                clearInterval(interval);
+                isSimRendering = false;
+                renderProgView.style.display = 'none';
+                renderDoneView.style.display = 'flex';
+                if (statusText) statusText.textContent = 'Export complete!';
+                if (statusDot) statusDot.style.background = '#16A34A';
+              }
+            }, 50);
+          });
+        }
+
+        if (btnRenderAgain) {
+          btnRenderAgain.addEventListener('click', () => {
+            renderDoneView.style.display = 'none';
+            renderIdleView.style.display = 'flex';
+            if (progBar) progBar.style.width = '0%';
+            if (progPct) progPct.textContent = '0%';
+            if (statusText) statusText.textContent = 'Ready to render';
+          });
+        }
+      }
+
+      // Pre-load project state by default so demo looks lively immediately
+      loadProject();
+      updateResPill();
+    })();
+  </script>
+</body>
+</html>

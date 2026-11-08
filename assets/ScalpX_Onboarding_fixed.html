@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ScalpX – Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--blue:#1a7bff;--text:#f4f7fc;--muted:#8a94a6;--line:rgba(255,255,255,.08);--green:#22e07a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{height:100%;background:#232b3d;font-family:Inter,-apple-system,"SF Pro Display",system-ui,sans-serif;color:var(--text);display:flex;align-items:center;justify-content:center;padding:16px;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.phone{position:relative;width:393px;max-width:100%;height:852px;max-height:100%;background:radial-gradient(120% 55% at 30% 0,#101b33 0,transparent 60%),#080c15;border-radius:46px;border:1px solid #2c3650;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+@media(max-width:430px){body{padding:0}.phone{border-radius:0;border:0;height:100%}}
+.status{display:flex;justify-content:space-between;align-items:center;padding:22px 32px 0;font-size:15px;font-weight:600}
+.status div{display:flex;gap:6px;align-items:center}.status svg{fill:#fff;height:12px}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:26px 28px 0}
+.bar.off{display:none}
+.bar .nav-back{display:none;width:38px;height:38px;border-radius:12px;background:#0d1524;border:1px solid var(--line);place-items:center;flex:none}
+.bar .nav-back svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bar.has-back .nav-back{display:grid}
+.bar.has-back .logo{margin-left:2px}
+.logo{display:flex;align-items:center;gap:10px;font-size:28px;font-weight:600;letter-spacing:-.5px;cursor:pointer}
+.logo b{color:var(--blue);font-weight:600}
+.logo svg{width:40px;height:35px}
+.skip{font-size:16px;color:#d5dbe6}
+.viewport{flex:1;overflow:hidden;min-height:0}
+.track{display:flex;height:100%;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.slide{flex:0 0 100%;width:100%;display:flex;flex-direction:column;position:relative;min-height:0}
+.visual{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;position:relative}
+.copy{padding:0 28px}
+h1{font-size:34px;line-height:1.14;font-weight:500;letter-spacing:-.6px}
+h1 em{font-style:normal;color:var(--blue)}
+.copy p{margin-top:14px;font-size:16px;line-height:1.5;font-weight:300;color:var(--muted);max-width:315px}
+.dots{display:flex;gap:6px;padding:26px 28px 24px}
+.dots i{width:24px;height:4px;border-radius:4px;background:#363f52;transition:.3s;cursor:pointer}
+.dots i.on{background:var(--blue);box-shadow:0 0 8px rgba(26,123,255,.6)}
+.cta{margin:0 24px 28px;width:calc(100% - 48px);height:58px;border-radius:20px;background:linear-gradient(180deg,#f1f5fc,#dfe7f4);display:flex;align-items:center;justify-content:space-between;padding:0 6px 0 24px;color:#0d1626;font-size:17px;font-weight:500;transition:transform .15s}
+.cta:active{transform:scale(.985)}
+.go{width:46px;height:46px;border-radius:14px;background:linear-gradient(180deg,#2a8bff,#0c5ee8);display:grid;place-items:center;box-shadow:0 4px 14px rgba(26,123,255,.45)}
+.go svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* slide 1 */
+.traces{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.bot{width:250px;height:230px;position:relative;filter:drop-shadow(0 0 22px rgba(90,150,255,.3))}
+/* slide 2 */
+.tilt{width:326px;transform:rotate(-5deg) skewY(-2deg);filter:drop-shadow(0 0 22px rgba(26,123,255,.28))}
+.frame{padding:1.5px;background:linear-gradient(135deg,#3b8cff,#1a4fb8 50%,#2f7bff);clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+.panel{padding:14px 16px;background:linear-gradient(180deg,#0b1424,#08101d);clip-path:polygon(17px 0,100% 0,100% calc(100% - 17px),calc(100% - 17px) 100%,0 100%,0 17px)}
+.row{display:flex;align-items:center;justify-content:space-between}
+.hd{padding:2px 0 12px 12px;border-bottom:1px solid var(--line);font-size:15px;font-weight:500}
+.hd>span,.pair>span{display:flex;align-items:center;gap:8px}
+.pill{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--green);background:rgba(34,224,122,.12);padding:3px 10px;border-radius:99px}
+.pill i{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.pair{padding-top:12px;font-size:16px;font-weight:500}
+.coin{width:24px;height:24px;border-radius:50%;background:#f7931a;display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff}
+.up{color:var(--green);font-size:15px;font-weight:600}
+.chart{position:relative;height:100px;margin:10px 0 6px}
+.chart svg{width:100%;height:100%;overflow:visible}
+.tip{position:absolute;top:2px;transform:translateX(-50%);background:#0b1220;border:1px solid rgba(255,255,255,.75);border-radius:10px;padding:4px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.tip:after{content:"";position:absolute;left:50%;bottom:-5px;width:8px;height:8px;background:#0b1220;border:solid rgba(255,255,255,.75);border-width:0 1px 1px 0;transform:translateX(-50%) rotate(45deg)}
+.mx{display:flex;align-items:center;gap:14px;padding-top:12px;border-top:1px solid var(--line)}
+.mx small{display:block;font-size:12px;color:var(--muted)}
+.mx strong{font-size:20px;font-weight:600}
+.sep{width:1px;height:36px;background:var(--line)}
+.mx .bars{margin-left:auto;align-self:flex-end}
+.bars{display:flex;align-items:flex-end;gap:3px}
+.bars i{width:5px;border-radius:1.5px;background:var(--blue)}
+/* slide 3 */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 24px;width:100%}
+.tile{position:relative;height:146px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.01));padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+.tile.hl{border-color:#2b7bff;background:linear-gradient(160deg,#123a7a,#0a1c40 70%);box-shadow:0 0 24px rgba(26,123,255,.25)}
+.tile svg.ic{width:28px;height:28px;stroke:#c9d4e8;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.tile.hl svg.ic{stroke:#8ec0ff}
+.tile span{font-size:15px;line-height:1.3}
+.tile .bars{position:absolute;right:14px;bottom:14px}
+.tog{position:absolute;right:14px;bottom:18px;width:40px;height:24px;border-radius:99px;background:var(--blue)}
+.tog:after{content:"";position:absolute;right:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff}
+/* slide 4 */
+.auth{overflow-y:auto;scrollbar-width:none;padding:0 24px 16px}
+.auth::-webkit-scrollbar{display:none}
+.abar{display:flex;align-items:center;justify-content:space-between;padding:8px 0 14px}
+.back{width:42px;height:42px;border-radius:14px;background:#0d1524;border:1px solid var(--line);display:grid;place-items:center}
+.back svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.logo.sm{font-size:20px;cursor:default}
+.login{font-size:14px;font-weight:500;color:var(--blue)}
+.auth h1{font-size:28px;padding-top:6px}
+.auth .sub{margin:10px 0 18px;font-size:15px;line-height:1.45;font-weight:300;color:var(--muted)}
+.soc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.soc button,.f{height:50px;border-radius:14px;background:#0d1524;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:500}
+.soc svg{width:18px;height:18px}
+.or{display:flex;align-items:center;gap:12px;margin:16px 0;font-size:13px;color:var(--muted)}
+.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+form{display:flex;flex-direction:column;gap:12px}
+.f{justify-content:flex-start;padding:0 14px;font-weight:400}
+.f:focus-within{border-color:#2b7bff;box-shadow:0 0 0 3px rgba(26,123,255,.2)}
+.f svg{width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.f input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--text);font:inherit;font-size:15px}
+.f input::placeholder{color:#5f6a7e}
+.terms{display:flex;gap:10px;font-size:13px;line-height:1.4;color:var(--muted);align-items:flex-start}
+.terms input{accent-color:var(--blue);margin-top:2px}
+.auth .cta{margin:8px 0 0;width:100%}
+.foot{text-align:center;font-size:14px;color:var(--muted);margin-top:16px}
+.foot button{color:var(--text);font-weight:500;margin-left:4px}
+.toast{position:absolute;top:60px;left:50%;transform:translate(-50%,-12px);opacity:0;pointer-events:none;transition:.3s;background:#0d1627;border:1px solid rgba(26,123,255,.5);padding:9px 16px;border-radius:99px;font-size:13px;z-index:5;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+/* screen-by-screen reveal */
+.slide .visual,.slide .copy,.slide .dots,.slide>.cta,.slide.auth>.abar,
+.slide.auth>h1,.slide.auth>.sub,.slide.auth>.soc,.slide.auth>.or,
+.slide.auth>form,.slide.auth>.foot{opacity:0;transform:translateY(18px)}
+.slide.reveal .visual{animation:screenRise .72s cubic-bezier(.2,.85,.25,1) .06s both}
+.slide.reveal .copy{animation:screenRise .62s cubic-bezier(.2,.85,.25,1) .2s both}
+.slide.reveal .dots{animation:screenRise .5s ease .34s both}
+.slide.reveal>.cta{animation:screenRise .58s cubic-bezier(.2,.85,.25,1) .4s both}
+.slide.auth.reveal>.abar{animation:screenRise .5s ease .04s both}
+.slide.auth.reveal>h1{animation:screenRise .55s ease .12s both}
+.slide.auth.reveal>.sub{animation:screenRise .55s ease .2s both}
+.slide.auth.reveal>.soc{animation:screenRise .55s ease .28s both}
+.slide.auth.reveal>.or{animation:screenRise .5s ease .34s both}
+.slide.auth.reveal>form{animation:screenRise .6s ease .4s both}
+.slide.auth.reveal>.foot{animation:screenRise .5s ease .5s both}
+@keyframes screenRise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+/* interactions */
+.fl{animation:flo 5s ease-in-out infinite}
+@keyframes flo{50%{transform:translateY(-7px)}}
+.bot{cursor:pointer}
+.bot.pop{animation:botIn .8s cubic-bezier(.2,1.5,.4,1) .12s backwards}
+.bot.joy{animation:joy .6s ease}
+@keyframes botIn{from{opacity:0;transform:scale(.55) translateY(24px)}}
+@keyframes joy{30%{transform:scale(1.08) rotate(-3deg)}60%{transform:scale(.97)}}
+.look{transition:transform .35s cubic-bezier(.2,.8,.3,1)}
+.eye{transform-box:fill-box;transform-origin:center;transition:transform .2s;animation:blink 4.6s infinite}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+.look.happy .eye{animation:none;transform:scaleY(.4)}
+.dot{transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.25);opacity:.8}}
+.tilt{transition:transform .25s ease-out}
+.tilt.enter{animation:tiltIn .8s cubic-bezier(.2,.9,.3,1) backwards}
+@keyframes tiltIn{from{opacity:0;transform:perspective(800px) rotateX(20deg) rotateY(-28deg) rotate(-14deg) scale(.88)}}
+.chart{touch-action:none;cursor:crosshair}
+.tip{transition:left .08s linear}
+.cta{position:relative;overflow:hidden}
+.go,.go svg{transition:transform .2s}
+.cta:hover .go svg{transform:translateX(3px)}
+.cta:active .go{transform:scale(.9)}
+.rip{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(26,123,255,.5),rgba(26,123,255,0) 70%);transform:scale(0);animation:rip .7s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(1);opacity:0}}
+.cta.fire{animation:squish .45s ease}
+.cta.fire .go{animation:ring .6s ease-out}
+.cta.fire .go svg{animation:shoot .5s ease-in-out}
+@keyframes squish{40%{transform:scale(.97)}}
+@keyframes ring{to{box-shadow:0 0 0 8px rgba(26,123,255,0),0 4px 14px rgba(26,123,255,.45)}}
+@keyframes shoot{45%{transform:translateX(28px);opacity:0}46%{transform:translateX(-28px);opacity:0}100%{transform:none;opacity:1}}
+.tile{cursor:pointer;transition:transform .2s,border-color .3s,background .3s,box-shadow .3s}
+.tile:active{transform:scale(.96)}
+.tile:before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(130px circle at var(--mx,50%) var(--my,50%),rgba(80,150,255,.22),transparent 70%);opacity:0;transition:opacity .25s;pointer-events:none}
+.tile:hover:before,.tile:active:before{opacity:1}
+.tile svg.ic{transition:transform .3s,stroke .3s}
+.tile.hl svg.ic{transform:scale(1.12)}
+.tile .bars i{transform-origin:bottom}
+.grid.run .tile{animation:up .5s cubic-bezier(.2,.9,.3,1) backwards;animation-delay:calc(var(--i)*70ms)}
+@keyframes up{from{opacity:0;transform:translateY(16px) scale(.95)}}
+@keyframes grow{from{transform:scaleY(0)}}
+.tog{transition:background .25s}
+.tog:after{transition:transform .25s}
+.tog.off{background:#3a4458}
+.tog.off:after{transform:translateX(-16px)}
+.copy p{transition:opacity .15s}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.slide .visual,.slide .copy,.slide .dots,.slide>.cta,.slide.auth>.abar,.slide.auth>h1,.slide.auth>.sub,.slide.auth>.soc,.slide.auth>.or,.slide.auth>form,.slide.auth>.foot{opacity:1;transform:none}}
+
+/* === FIGMA MULTIPLAYER CURSOR & DEMO STYLES === */
+.figma-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+.cursor-pointer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  transition: transform 0.08s cubic-bezier(0.2, 0, 0, 1);
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.45));
+}
+.cursor-pointer.clicking {
+  transform: scale(0.82) !important;
+}
+.cursor-svg {
+  display: block;
+  overflow: visible;
+}
+.cursor-badge {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  background: #0d99ff;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  padding: 3px 8px;
+  border-radius: 3px 9px 9px 9px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+  white-space: nowrap;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.25s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+.cursor-badge.typing {
+  background: #8b5cf6;
+}
+.cursor-badge.success {
+  background: #10b981;
+}
+.figma-click-ripple {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2.2px solid #0d99ff;
+  background: rgba(13, 153, 255, 0.28);
+  transform: translate(-50%, -50%) scale(0.15);
+  animation: figmaRipple .5s cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
+  pointer-events: none;
+}
+@keyframes figmaRipple {
+  0% { transform: translate(-50%, -50%) scale(0.15); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.75); opacity: 0; }
+}
+
+@media (min-height: 900px) and (min-width: 900px) {
+  .phone {
+    transform: scale(1.18);
+  }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="bot" viewBox="0 0 34 30"><rect x="1.5" y="5" width="28" height="21" rx="8" fill="none" stroke="#fff" stroke-width="2.5"/><circle cx="11.5" cy="15.5" r="2.2" fill="#fff"/><circle cx="19.5" cy="15.5" r="2.2" fill="#fff"/><circle cx="28" cy="5" r="3.6" fill="#1a7bff"/></symbol>
+<symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</defs></svg>
+
+<main class="phone">
+  <div class="status"><span>9:41</span>
+    <div>
+      <svg viewBox="0 0 17 12" width="17"><rect y="8" width="3" height="4" rx=".8"/><rect x="4.7" y="5.5" width="3" height="6.5" rx=".8"/><rect x="9.3" y="3" width="3" height="9" rx=".8"/><rect x="14" width="3" height="12" rx=".8"/></svg>
+      <svg viewBox="0 0 16 12" width="16"><path d="M8 11.5 5.8 9.2a3.2 3.2 0 0 1 4.4 0zM3.6 6.9a6.3 6.3 0 0 1 8.8 0L11.3 8a4.7 4.7 0 0 0-6.6 0zM1.4 4.6a9.4 9.4 0 0 1 13.2 0l-1.1 1.1a7.8 7.8 0 0 0-11 0z"/></svg>
+      <svg viewBox="0 0 26 12" width="26"><rect x=".5" y=".5" width="22" height="11" rx="3.5" fill="none" stroke="#fff" opacity=".5"/><rect x="2" y="2" width="19" height="8" rx="2"/><rect x="24" y="4" width="1.6" height="4" rx=".8" opacity=".5"/></svg>
+    </div>
+  </div>
+  <div class="bar" id="bar">
+    <div class="logo" onclick="go(0)"><svg><use href="#bot"/></svg><span>Scalp<b>X</b></span></div>
+    <button class="skip" onclick="go(3)">Skip</button>
+  </div>
+
+  <div class="viewport" id="vp"><div class="track" id="track">
+
+    <section class="slide">
+      <div class="visual">
+        <svg class="traces" viewBox="0 0 393 600" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#1d5fe0" stroke-width="1" opacity=".55"><path d="M300 10 255 135Q248 152 228 158L110 192Q64 208 46 262L18 400"/><path d="M393 330 312 396Q300 406 285 410L60 470"/><path d="M393 560 340 600"/></svg>
+        <div class="fl"><svg class="bot" id="bot-character" viewBox="0 0 250 230"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#8fb8ff"/></linearGradient></defs>
+          <g transform="rotate(-12 125 125)"><rect x="36" y="62" width="172" height="118" rx="44" fill="#070b14" stroke="url(#bg)" stroke-width="8"/><g class="look" id="look"><rect class="eye" x="84" y="112" width="34" height="17" rx="8.5" fill="#fff"/><rect class="eye" x="132" y="112" width="34" height="17" rx="8.5" fill="#fff"/></g></g>
+          <circle class="dot" cx="204" cy="56" r="14" fill="#1a7bff"/></svg></div>
+      </div>
+      <div class="copy"><h1>Smarter Trading<br>with <em>AI Bots.</em></h1><p>Automate your trading, spot opportunities, and trade smarter — 24/7.</p></div>
+      <div class="dots"></div>
+      <button class="cta" onclick="fire(this,1,event)">Get Started<span class="go"><svg><use href="#arrow"/></svg></span></button>
+    </section>
+
+    <section class="slide">
+      <div class="visual"><div class="tilt"><div class="frame"><div class="panel">
+        <div class="row hd"><span><svg width="22" height="19"><use href="#bot"/></svg>Trading Bot</span>
+          <span><span class="pill"><i></i>Active</span><svg width="4" height="16" viewBox="0 0 4 16" fill="#cbd3e1"><circle cx="2" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/></svg></span></div>
+        <div class="row pair"><span><i class="coin">₿</i>BTC/USDT<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aab4c5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span><span class="up">+3.28%</span></div>
+        <div class="chart"><svg id="c" viewBox="0 0 300 100" preserveAspectRatio="none"></svg><div class="tip" id="tip">$68,420</div></div>
+        <div class="mx"><div><small>Today P&amp;L</small><strong id="pnl" style="color:var(--green)">+$428.60</strong></div><i class="sep"></i><div><small>Win Rate</small><strong>82%</strong></div>
+          <div class="bars"><i style="height:6px"></i><i style="height:12px"></i><i style="height:18px"></i><i style="height:26px"></i></div></div>
+      </div></div></div></div>
+      <div class="copy" style="margin-top:0"><h1>Automate.<br>Analyze. Trade.</h1><p>Set your strategy, let AI handle the trades, and stay in control with real-time insights.</p></div>
+      <div class="dots"></div>
+      <button class="cta" onclick="fire(this,2,event)">Continue<span class="go"><svg><use href="#arrow"/></svg></span></button>
+    </section>
+
+    <section class="slide">
+      <div class="visual"><div class="grid">
+        <div class="tile hl"><svg class="ic" viewBox="0 0 24 24"><path d="M2 12h4l3-7 5 14 3-7h5"/></svg><span>AI Trading<br>Bots</span>
+          <div class="bars" style="gap:4px"><i style="width:8px;height:6px"></i><i style="width:8px;height:14px"></i><i style="width:8px;height:22px"></i><i style="width:8px;height:38px"></i></div></div>
+        <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7zM2 12l10 5 10-5M2 17l10 5 10-5"/></svg><span>Real-time<br>Signals</span>
+          <div class="bars"><i style="width:3px;height:4px;background:#3a4458"></i><i style="width:3px;height:7px;background:#3a4458"></i><i style="width:3px;height:10px;background:#46526a"></i><i style="width:3px;height:16px;background:#46526a"></i><i style="width:3px;height:12px;background:#56637d"></i><i style="width:3px;height:22px;background:#56637d"></i><i style="width:3px;height:18px;background:#66748f"></i><i style="width:3px;height:30px;background:#66748f"></i></div></div>
+        <div class="tile"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="1.2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg><span>Strategy<br>Automation</span><i class="tog"></i></div>
+        <div class="tile"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><span>Risk<br>Management</span>
+          <div class="bars" style="gap:3px"><i style="width:10px;height:14px;background:#3a4458"></i><i style="width:10px;height:26px;background:#d8e2f5;opacity:.85"></i></div></div>
+      </div></div>
+      <div class="copy"><h1>Everything You<br>Need to Trade.</h1><p id="p3">Powerful AI tools, real-time data, and smart risk controls — all in one place.</p></div>
+      <div class="dots"></div>
+      <button class="cta" onclick="fire(this,3,event)">Create Account<span class="go"><svg><use href="#arrow"/></svg></span></button>
+    </section>
+
+    <section class="slide auth">
+      <div class="abar"><button class="back" aria-label="Back" onclick="go(2)"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <div class="logo sm"><svg style="width:28px;height:24px"><use href="#bot"/></svg><span>Scalp<b>X</b></span></div>
+        <button class="login" onclick="toast('Opening log in…')">Log in</button></div>
+      <h1>Create your account</h1>
+      <p class="sub">Join thousands of traders automating their strategies with AI.</p>
+      <div class="soc">
+        <button type="button" onclick="toast('Continue with Google')"><svg viewBox="0 0 24 24"><path d="M23.7 12.3c0-.7-.1-1.4-.2-2.1H12v4.5h6.6a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.3-2.1 3.6-5.2 3.6-9.1z" fill="#4285F4"/><path d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.8-2.1-6.7-4.9H1.2v3.1C3.3 21.4 7.3 24 12 24z" fill="#34A853"/><path d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.2a12 12 0 0 0 0 10.8z" fill="#FBBC05"/><path d="M12 4.8c1.8 0 3.4.6 4.6 1.8l3.4-3.4C18 1.2 15.2 0 12 0 7.3 0 3.3 2.6 1.2 6.6l4.1 3.1C6.2 6.9 8.900 4.800 12 4.800z" fill="#EA4335"/></svg>Google</button>
+        <button type="button" onclick="toast('Continue with Apple')"><svg viewBox="0 0 170 170" fill="#fff"><path d="M150.4 130.3c-2.5 5.7-5.4 10.900-8.700 15.700-4.600 6.500-8.300 11-11.200 13.600-4.500 4.100-9.300 6.200-14.400 6.300-3.700 0-8.100-1-13.300-3.200-5.200-2.100-10-3.200-14.300-3.200-4.600 0-9.500 1.100-14.800 3.200-5.300 2.100-9.500 3.200-12.700 3.400-4.400.1-9.200-1.900-14.400-6.100-3.700-3.100-7.800-8-12.200-14.800-6.700-9.900-12-21.300-15.900-34.300-3.900-13-5.900-25.300-5.900-36.800 0-15.400 3.800-28.100 11.500-38 7.700-9.900 17.500-15 29.500-15.200 4.500 0 9.900 1.300 16.200 3.800 6.300 2.500 10.400 3.800 12.200 3.900 1.500 0 5.800-1.400 12.800-4.200 7-2.800 12.900-3.900 17.600-3.500 14.200 1.100 25 6.400 32.300 15.800-12.700 7.700-18.900 18.100-18.600 31.100.3 10.300 4.200 18.800 11.700 25.600 7.500 6.800 16.300 10.600 26.500 11.600-2.300 6.800-5.100 14.200-8.400 21.900zM119.200 33.600c0-7.900 2.800-15.400 8.500-22.500 5.600-7.100 12.600-11.200 20.900-12.100.3 1.100.4 2.300.4 3.500 0 7.900-3 15.400-9 22.700-6 7.300-13 11.400-21.200 12.300-.3-1.300-.4-2.300-.4-3.900z"/></svg>Apple</button>
+      </div>
+      <div class="or">or use email</div>
+      <form onsubmit="event.preventDefault();toast('Account created. Welcome to ScalpX.')">
+        <label class="f"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.600-6 8-6s8 2 8 6"/></svg><input type="text" placeholder="Full name" autocomplete="name" required></label>
+        <label class="f"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg><input type="email" placeholder="Email address" autocomplete="email" required></label>
+        <label class="f"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="3"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><input type="password" placeholder="Password" autocomplete="new-password" minlength="8" required></label>
+        <label class="terms"><input type="checkbox" checked>I agree to the Terms of Service, Privacy Policy and Automated Risk Disclosure.</label>
+        <button class="cta" type="submit">Create Account<span class="go"><svg><use href="#arrow"/></svg></span></button>
+      </form>
+      <p class="foot">Already have an account?<button onclick="toast('Opening log in…')">Log in</button></p>
+    </section>
+
+  </div></div>
+  <div class="toast" id="toast"></div>
+
+  <!-- Figma Multiplayer Cursor Overlay -->
+  <div id="figma-cursor" class="figma-cursor">
+    <div class="cursor-pointer" id="cursor-pointer">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" class="cursor-svg">
+        <path d="M0 0L0 19L5 14.5L8.5 22L12 20.5L8.5 13L15 13L0 0Z" fill="#ffffff" stroke="#111827" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <div class="cursor-badge" id="cursor-badge">
+        <span class="cursor-badge-name" id="cursor-badge-name">Alex</span>
+      </div>
+    </div>
+    <div id="cursor-ripples"></div>
+  </div>
+</main>
+
+<script>
+(function(){
+  var step=0,track=document.getElementById('track'),bar=document.getElementById('bar'),tt=document.getElementById('toast');
+  document.querySelectorAll('.dots').forEach(function(d){for(var i=0;i<3;i++){(function(i){var e=document.createElement('i');e.onclick=function(){go(i)};d.appendChild(e)})(i)}});
+  window.go=function(n){
+    if(n<0||n>3)return;step=n;
+    track.style.transform='translateX('+(-n*100)+'%)';
+    bar.classList.toggle('off',n===3);
+    bar.classList.toggle('has-back',n>0&&n<3);
+    document.querySelectorAll('.slide').forEach(function(s,i){
+      s.classList.remove('reveal');
+      if(i===n){void s.offsetWidth;s.classList.add('reveal');}
+    });
+    if(window.onSlide)onSlide(n);
+    document.querySelectorAll('.dots').forEach(function(d){[].forEach.call(d.children,function(e,i){e.classList.toggle('on',i===n)})});
+  };
+  var tm;window.toast=function(m){tt.textContent=m;tt.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){tt.classList.remove('on')},2600)};
+  // candlesticks
+  var h='',n=32,tipX=0,CX=[],CY=[];
+  [25,50,75].forEach(function(y){h+='<line x1="0" x2="300" y1="'+y+'" y2="'+y+'" stroke="#1a2740" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>'});
+  for(var i=0;i<n;i++){
+    var x=6+i*9.1,t=78-i*1.55,w=Math.sin(i*1.9)*5,o=t+w,c=t-w*.9-2,_p=(CX.push(x),CY.push(c)),
+        hi=Math.min(o,c)-3-(i%3),lo=Math.max(o,c)+3+(i%4),col=c<o?'#1a7bff':'#fff';
+    h+='<line x1="'+x+'" x2="'+x+'" y1="'+hi+'" y2="'+lo+'" stroke="'+col+'" stroke-width="1" vector-effect="non-scaling-stroke"/><rect x="'+(x-2.2)+'" y="'+Math.min(o,c)+'" width="4.4" height="'+Math.max(Math.abs(o-c),2)+'" rx=".8" fill="'+col+'"/>';
+    if(i===18){tipX=x;h+='<circle id="dt" cx="'+x+'" cy="'+(Math.min(o,c)-4)+'" r="2.4" fill="#1a7bff" stroke="#fff" stroke-width="1"/>'}
+  }
+  document.getElementById('c').innerHTML=h+'<line id="xh" x1="0" x2="0" y1="0" y2="100" stroke="#38bdf8" stroke-dasharray="3 3" stroke-width="1" vector-effect="non-scaling-stroke" opacity="0"/>';
+  document.getElementById('tip').style.left=(tipX/300*100)+'%';
+  var cur=0;
+  function replay(el,c){el.classList.remove('pop','joy','enter');void el.getBoundingClientRect();el.classList.add(c)}
+  function rnd(a,b){return a+Math.random()*(b-a)}
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+  // slide 1: bot eyes
+  var botEl=document.getElementById('bot-character')||document.querySelector('.slide .bot'),look=document.getElementById('look'),lastMove=0;
+  function lookAt(x,y){look.style.transform='translate('+x+'px,'+y+'px)'}
+  window.addEventListener('pointermove',function(e){if(cur!==0)return;var r=botEl.getBoundingClientRect();lookAt(clamp((e.clientX-r.left-r.width/2)/r.width*24,-9,9),clamp((e.clientY-r.top-r.height/2)/r.height*18,-6,6));lastMove=Date.now()});
+  setInterval(function(){if(cur===0&&Date.now()-lastMove>2500)lookAt(rnd(-8,8),rnd(-4,4))},1900);
+  botEl.addEventListener('click',function(){replay(botEl,'joy');look.classList.add('happy');setTimeout(function(){look.classList.remove('happy')},900)});
+  // slide 2: tilt + chart
+  var tilt=document.querySelector('.tilt'),v2=tilt.parentElement;
+  v2.addEventListener('pointermove',function(e){var r=v2.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;tilt.style.transform='perspective(800px) rotateX('+(-py*14)+'deg) rotateY('+(px*18)+'deg) rotate(-5deg) skewY(-2deg)'});
+  v2.addEventListener('pointerleave',function(){tilt.style.transform=''});
+  var chart=document.querySelector('.chart'),tipEl=document.getElementById('tip'),dt=document.getElementById('dt'),xh=document.getElementById('xh'),pct=document.querySelector('.pair .up'),base=CY[18];
+  function sel(i){var p=Math.round(68420+(base-CY[i])*45);tipEl.textContent='$'+p.toLocaleString('en-US');tipEl.style.left=clamp(CX[i]/3,13,87)+'%';dt.setAttribute('cx',CX[i]);dt.setAttribute('cy',CY[i]-4);xh.setAttribute('x1',CX[i]);xh.setAttribute('x2',CX[i]);pct.textContent=(p>=66248?'+':'')+((p/66248-1)*100).toFixed(2)+'%';pct.style.color=p>=66248?'':'#ff5d73'}
+  function scrub(e){var r=chart.getBoundingClientRect();sel(clamp(Math.round(((e.clientX-r.left)/r.width*300-6)/9.1),0,n-1));xh.setAttribute('opacity','.6')}
+  chart.addEventListener('pointerdown',scrub);chart.addEventListener('pointermove',scrub);
+  chart.addEventListener('pointerleave',function(e){xh.setAttribute('opacity','0');if(e.pointerType==='mouse')sel(18)});
+  var pnl=document.getElementById('pnl'),pv=428.6;
+  setInterval(function(){if(cur!==1)return;pv+=rnd(-.9,2.5);pnl.textContent='+$'+pv.toFixed(2);pnl.animate([{opacity:.55},{opacity:1}],{duration:450})},1800);
+  // slide 3: tiles
+  var tiles=[].slice.call(document.querySelectorAll('.tile')),p3=document.getElementById('p3'),
+    desc=['Autonomous bots scalp the market for you around the clock.','Live setups from the market, sent the moment they appear.','Switch strategies on or off with one tap. No emotions involved.','Stops and limits that protect your balance on every trade.'];
+  function grow(el){[].forEach.call(el.querySelectorAll('.bars i'),function(b,k){b.style.animation='none';void b.offsetWidth;b.style.animation='grow .6s cubic-bezier(.2,1.2,.4,1) '+(k*45)+'ms backwards'})}
+  tiles.forEach(function(t,i){
+    t.addEventListener('pointermove',function(e){var r=t.getBoundingClientRect();t.style.setProperty('--mx',(e.clientX-r.left)+'px');t.style.setProperty('--my',(e.clientY-r.top)+'px')});
+    t.addEventListener('click',function(){
+      tiles.forEach(function(x){x.classList.remove('hl')});t.classList.add('hl');
+      var txt=desc[i];
+      if(i===2){var off=t.querySelector('.tog').classList.toggle('off');if(off)txt='Strategies are paused. Tap again to turn them back on.'}
+      p3.style.opacity=0;setTimeout(function(){p3.textContent=txt;p3.style.opacity=1},150);
+      grow(t)})
+  });
+  window.onSlide=function(k){
+    cur=k;
+    if(k===0)replay(botEl,'pop');
+    if(k===1)replay(tilt,'enter');
+    if(k===2){var g=document.querySelector('.grid');g.classList.remove('run');void g.offsetWidth;g.classList.add('run');tiles.forEach(function(t,i){t.style.setProperty('--i',i);grow(t)})}
+  };
+  // CTA click effect
+  window.fire=function(btn,to,ev){
+    if(btn.classList.contains('fire'))return;
+    var r=btn.getBoundingClientRect(),d=Math.max(r.width,r.height)*2.2,cx=ev&&ev.clientX?ev.clientX-r.left:r.width/2,cy=ev&&ev.clientY?ev.clientY-r.top:r.height/2,s=document.createElement('span');
+    s.className='rip';s.style.cssText='width:'+d+'px;height:'+d+'px;left:'+(cx-d/2)+'px;top:'+(cy-d/2)+'px';
+    btn.appendChild(s);btn.classList.add('fire');
+    setTimeout(function(){go(to)},420);
+    setTimeout(function(){s.remove();btn.classList.remove('fire')},900)
+  };
+  // swipe + keys
+  var vp=document.getElementById('vp'),sx=0;
+  vp.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
+  vp.addEventListener('touchend',function(e){if(/INPUT|TEXTAREA/.test(e.target.tagName)||e.target.closest('.chart'))return;var d=sx-e.changedTouches[0].clientX;if(d>45)go(step+1);else if(d<-45)go(step-1)},{passive:true});
+  window.addEventListener('keydown',function(e){if(/INPUT|TEXTAREA/.test(e.target.tagName))return;if(e.key==='ArrowRight')go(step+1);if(e.key==='ArrowLeft')go(step-1)});
+  go(0);
+
+  // Expose internals for Figma Demo Simulation
+  window._demoState = {
+    phone: document.querySelector('.phone'),
+    lookAt: lookAt,
+    sel: sel,
+    replay: replay,
+    botEl: botEl,
+    look: look,
+    tilt: tilt,
+    chart: chart,
+    tiles: tiles,
+    xh: xh,
+    grow: grow,
+    getCur: function() { return cur; }
+  };
+})();
+
+// ==========================================
+// FIGMA MULTIPLAYER CURSOR DEMO ENGINE
+// ==========================================
+(function() {
+  var phone = document.querySelector('.phone');
+  var cursor = document.getElementById('figma-cursor');
+  var cursorPointer = document.getElementById('cursor-pointer');
+  var cursorBadge = document.getElementById('cursor-badge');
+  var cursorBadgeName = document.getElementById('cursor-badge-name');
+  var cursorRipples = document.getElementById('cursor-ripples');
+  var btnToggle = document.getElementById('demo-toggle-btn');
+  var btnToggleIcon = document.getElementById('demo-btn-icon');
+  var btnToggleText = document.getElementById('demo-btn-text');
+  var btnReplay = document.getElementById('demo-replay-btn');
+  var progressFill = document.getElementById('demo-progress');
+  var progressWrap = document.getElementById('demo-progress-wrap');
+  var timerText = document.getElementById('demo-time');
+
+  var TOTAL_DURATION = 19800; // ~19.8 seconds total
+  var demoTime = 0;
+  var isPlaying = false;
+  var lastRafTime = 0;
+  var executedActions = {};
+  var lastX = 310, lastY = 25;
+
+  function getElPos(selectorOrEl, offsetX, offsetY) {
+    if (typeof offsetX === 'undefined') offsetX = 0.5;
+    if (typeof offsetY === 'undefined') offsetY = 0.5;
+    var el = typeof selectorOrEl === 'string' ? document.querySelector(selectorOrEl) : selectorOrEl;
+    if (!el || !phone) return { x: 196, y: 400 };
+    var pRect = phone.getBoundingClientRect();
+    var r = el.getBoundingClientRect();
+    var scale = pRect.width / phone.offsetWidth || 1;
+    return {
+      x: ((r.left - pRect.left) + r.width * offsetX) / scale,
+      y: ((r.top - pRect.top) + r.height * offsetY) / scale
+    };
+  }
+
+  function triggerClickRipple(x, y) {
+    if (!cursorRipples) return;
+    var r = document.createElement('div');
+    r.className = 'figma-click-ripple';
+    r.style.left = x + 'px';
+    r.style.top = y + 'px';
+    cursorRipples.appendChild(r);
+    setTimeout(function() { r.remove(); }, 500);
+  }
+
+  function setCursorClicking(isClicking) {
+    if (!cursorPointer) return;
+    if (isClicking) cursorPointer.classList.add('clicking');
+    else cursorPointer.classList.remove('clicking');
+  }
+
+  function setCursorBadge(text, className) {
+    if (!cursorBadge || !cursorBadgeName) return;
+    cursorBadgeName.textContent = text;
+    cursorBadge.className = 'cursor-badge' + (className ? ' ' + className : '');
+  }
+
+  function typeText(input, fullStr, ratio) {
+    if (!input) return;
+    var count = Math.min(fullStr.length, Math.floor(ratio * (fullStr.length + 1)));
+    var val = fullStr.substring(0, count);
+    if (input.value !== val) {
+      input.value = val;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  }
+
+  function easeInOutCubic(x) {
+    return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+  }
+  function easeOutQuad(x) {
+    return 1 - (1 - x) * (1 - x);
+  }
+  function clamp(v, min, max) {
+    return Math.max(min, Math.min(max, v));
+  }
+
+  // Motion Segments Table
+  var segments = [
+    { start: 0, end: 400, from: function(){ return {x:310, y:25}; }, to: function(){ return {x:310, y:25}; } },
+    { start: 400, end: 1100, from: function(){ return {x:310, y:25}; }, to: function(){ var b=getElPos('#bot-character'); return {x:b.x+35, y:b.y-25}; }, arc: -18 },
+    { start: 1100, end: 1400, from: function(){ var b=getElPos('#bot-character'); return {x:b.x+35, y:b.y-25}; }, to: function(){ var b=getElPos('#bot-character'); return {x:b.x-45, y:b.y-12}; }, arc: -12 },
+    { start: 1400, end: 1750, from: function(){ var b=getElPos('#bot-character'); return {x:b.x-45, y:b.y-12}; }, to: function(){ var b=getElPos('#bot-character'); return {x:b.x+40, y:b.y+18}; }, arc: 15 },
+    { start: 1750, end: 2100, from: function(){ var b=getElPos('#bot-character'); return {x:b.x+40, y:b.y+18}; }, to: function(){ var b=getElPos('#bot-character'); return {x:b.x+65, y:b.y-48}; }, arc: -10 },
+    { start: 2100, end: 2350, from: function(){ var b=getElPos('#bot-character'); return {x:b.x+65, y:b.y-48}; }, to: function(){ var b=getElPos('#bot-character'); return {x:b.x, y:b.y}; } },
+    { start: 2350, end: 2650, from: function(){ var b=getElPos('#bot-character'); return {x:b.x, y:b.y}; }, to: function(){ var b=getElPos('#bot-character'); return {x:b.x, y:b.y}; } },
+    { start: 2650, end: 3500, from: function(){ var b=getElPos('#bot-character'); return {x:b.x, y:b.y}; }, to: function(){ return getElPos('.slide:nth-child(1) .cta .go', 0.5, 0.5); }, arc: 25 },
+    { start: 3500, end: 3900, from: function(){ return getElPos('.slide:nth-child(1) .cta .go', 0.5, 0.5); }, to: function(){ return getElPos('.slide:nth-child(1) .cta .go', 0.5, 0.5); } },
+    { start: 3900, end: 4500, from: function(){ return getElPos('.slide:nth-child(1) .cta .go', 0.5, 0.5); }, to: function(){ var c=getElPos('.tilt'); return {x:c.x-45, y:c.y-30}; }, arc: -20 },
+    { start: 4500, end: 5400, from: function(){ var c=getElPos('.tilt'); return {x:c.x-45, y:c.y-30}; }, to: function(){ var c=getElPos('.tilt'); return {x:c.x+55, y:c.y+20}; }, arc: -14 },
+    { start: 5400, end: 5900, from: function(){ var c=getElPos('.tilt'); return {x:c.x+55, y:c.y+20}; }, to: function(){ var ch=getElPos('.chart'); return {x:ch.x-105, y:ch.y}; } },
+    { start: 5900, end: 7200, from: function(){ var ch=getElPos('.chart'); return {x:ch.x-105, y:ch.y}; }, to: function(){ var ch=getElPos('.chart'); return {x:ch.x+95, y:ch.y-8}; } },
+    { start: 7200, end: 7650, from: function(){ var ch=getElPos('.chart'); return {x:ch.x+95, y:ch.y-8}; }, to: function(){ var ch=getElPos('.chart'); return {x:ch.x+10, y:ch.y-6}; } },
+    { start: 7650, end: 8050, from: function(){ var ch=getElPos('.chart'); return {x:ch.x+10, y:ch.y-6}; }, to: function(){ return getElPos('#pnl', 0.5, 0.5); } },
+    { start: 8050, end: 8600, from: function(){ return getElPos('#pnl', 0.5, 0.5); }, to: function(){ return getElPos('.slide:nth-child(2) .cta .go', 0.5, 0.5); }, arc: 20 },
+    { start: 8600, end: 8950, from: function(){ return getElPos('.slide:nth-child(2) .cta .go', 0.5, 0.5); }, to: function(){ return getElPos('.slide:nth-child(2) .cta .go', 0.5, 0.5); } },
+    { start: 8950, end: 9500, from: function(){ return getElPos('.slide:nth-child(2) .cta .go', 0.5, 0.5); }, to: function(){ return getElPos('.tile:nth-child(2)', 0.5, 0.5); }, arc: -20 },
+    { start: 9500, end: 10400, from: function(){ return getElPos('.tile:nth-child(2)', 0.5, 0.5); }, to: function(){ return getElPos('.tile:nth-child(2)', 0.5, 0.5); } },
+    { start: 10400, end: 11100, from: function(){ return getElPos('.tile:nth-child(2)', 0.5, 0.5); }, to: function(){ return getElPos('.tile:nth-child(3) .tog', 0.5, 0.5); }, arc: -14 },
+    { start: 11100, end: 11500, from: function(){ return getElPos('.tile:nth-child(3) .tog', 0.5, 0.5); }, to: function(){ return getElPos('.tile:nth-child(3) .tog', 0.5, 0.5); } },
+    { start: 11500, end: 12100, from: function(){ return getElPos('.tile:nth-child(3) .tog', 0.5, 0.5); }, to: function(){ return getElPos('.tile:nth-child(1)', 0.5, 0.5); } },
+    { start: 12100, end: 12400, from: function(){ return getElPos('.tile:nth-child(1)', 0.5, 0.5); }, to: function(){ return getElPos('.tile:nth-child(1)', 0.5, 0.5); } },
+    { start: 12400, end: 13000, from: function(){ return getElPos('.tile:nth-child(1)', 0.5, 0.5); }, to: function(){ return getElPos('.slide:nth-child(3) .cta .go', 0.5, 0.5); }, arc: 22 },
+    { start: 13000, end: 13400, from: function(){ return getElPos('.slide:nth-child(3) .cta .go', 0.5, 0.5); }, to: function(){ return getElPos('.slide:nth-child(3) .cta .go', 0.5, 0.5); } },
+    { start: 13400, end: 13950, from: function(){ return getElPos('.slide:nth-child(3) .cta .go', 0.5, 0.5); }, to: function(){ return getElPos('input[placeholder="Full name"]', 0.2, 0.5); }, arc: -20 },
+    { start: 13950, end: 14150, from: function(){ return getElPos('input[placeholder="Full name"]', 0.2, 0.5); }, to: function(){ return getElPos('input[placeholder="Full name"]', 0.2, 0.5); } },
+    { start: 14150, end: 15000, from: function(){ return getElPos('input[placeholder="Full name"]', 0.2, 0.5); }, to: function(){ return getElPos('input[placeholder="Full name"]', 0.55, 0.5); } },
+    { start: 15000, end: 15450, from: function(){ return getElPos('input[placeholder="Full name"]', 0.55, 0.5); }, to: function(){ return getElPos('input[placeholder="Email address"]', 0.2, 0.5); } },
+    { start: 15450, end: 15650, from: function(){ return getElPos('input[placeholder="Email address"]', 0.2, 0.5); }, to: function(){ return getElPos('input[placeholder="Email address"]', 0.2, 0.5); } },
+    { start: 15650, end: 16700, from: function(){ return getElPos('input[placeholder="Email address"]', 0.2, 0.5); }, to: function(){ return getElPos('input[placeholder="Email address"]', 0.65, 0.5); } },
+    { start: 16700, end: 17150, from: function(){ return getElPos('input[placeholder="Email address"]', 0.65, 0.5); }, to: function(){ return getElPos('input[placeholder="Password"]', 0.2, 0.5); } },
+    { start: 17150, end: 17350, from: function(){ return getElPos('input[placeholder="Password"]', 0.2, 0.5); }, to: function(){ return getElPos('input[placeholder="Password"]', 0.2, 0.5); } },
+    { start: 17350, end: 18050, from: function(){ return getElPos('input[placeholder="Password"]', 0.2, 0.5); }, to: function(){ return getElPos('input[placeholder="Password"]', 0.5, 0.5); } },
+    { start: 18050, end: 18550, from: function(){ return getElPos('input[placeholder="Password"]', 0.5, 0.5); }, to: function(){ return getElPos('.auth .cta', 0.5, 0.5); }, arc: 16 },
+    { start: 18550, end: 18900, from: function(){ return getElPos('.auth .cta', 0.5, 0.5); }, to: function(){ return getElPos('.auth .cta', 0.5, 0.5); } },
+    { start: 18900, end: 19300, from: function(){ return getElPos('.auth .cta', 0.5, 0.5); }, to: function(){ return getElPos('.auth .login', 0.5, 0.5); }, arc: -18 },
+    { start: 19300, end: 19600, from: function(){ return getElPos('.auth .login', 0.5, 0.5); }, to: function(){ return getElPos('.auth .login', 0.5, 0.5); } },
+    { start: 19600, end: 20000, from: function(){ return getElPos('.auth .login', 0.5, 0.5); }, to: function(){ var l=getElPos('.auth .login', 0.5, 0.5); return {x:l.x-30, y:l.y+35}; } }
+  ];
+
+  // Specific Action Milestones
+  var actions = [
+    {
+      id: 'slide0_init', t: 0, fn: function() {
+        go(0);
+        setCursorBadge('Alex', '');
+        document.querySelectorAll('.auth input').forEach(function(i){ i.value = ''; i.blur(); });
+        var tt = document.getElementById('toast');
+        if (tt) tt.classList.remove('on');
+        if (window._demoState && window._demoState.tiles) {
+          window._demoState.tiles.forEach(function(x, idx) {
+            x.classList.toggle('hl', idx === 0);
+          });
+          var p3 = document.getElementById('p3');
+          if (p3) p3.textContent = 'Powerful AI tools, real-time data, and smart risk controls — all in one place.';
+          var tog = document.querySelector('.tog');
+          if (tog) tog.classList.remove('off');
+        }
+      }
+    },
+    {
+      id: 'bot_click', t: 2400, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        setCursorClicking(true);
+        if (window._demoState) {
+          window._demoState.replay(window._demoState.botEl, 'joy');
+          window._demoState.look.classList.add('happy');
+        }
+        setTimeout(function() {
+          setCursorClicking(false);
+          if (window._demoState) window._demoState.look.classList.remove('happy');
+        }, 600);
+      }
+    },
+    {
+      id: 'cta0_click', t: 3700, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        setCursorClicking(true);
+        var cta = document.querySelector('.slide:nth-child(1) .cta');
+        if (cta && window.fire) window.fire(cta, 1);
+        setTimeout(function(){ setCursorClicking(false); }, 300);
+      }
+    },
+    {
+      id: 'cta1_click', t: 8750, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        setCursorClicking(true);
+        var cta = document.querySelector('.slide:nth-child(2) .cta');
+        if (cta && window.fire) window.fire(cta, 2);
+        setTimeout(function(){ setCursorClicking(false); }, 300);
+      }
+    },
+    {
+      id: 'tile1_click', t: 10150, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        setCursorClicking(true);
+        if (window._demoState && window._demoState.tiles[1]) {
+          window._demoState.tiles[1].click();
+        }
+        setTimeout(function(){ setCursorClicking(false); }, 250);
+      }
+    },
+    {
+      id: 'tile2_click', t: 11250, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        setCursorClicking(true);
+        if (window._demoState && window._demoState.tiles[2]) {
+          window._demoState.tiles[2].click();
+        }
+        setTimeout(function(){ setCursorClicking(false); }, 250);
+      }
+    },
+    {
+      id: 'tile0_click', t: 12250, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        setCursorClicking(true);
+        if (window._demoState && window._demoState.tiles[0]) {
+          window._demoState.tiles[0].click();
+        }
+        setTimeout(function(){ setCursorClicking(false); }, 250);
+      }
+    },
+    {
+      id: 'cta2_click', t: 13150, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        setCursorClicking(true);
+        var cta = document.querySelector('.slide:nth-child(3) .cta');
+        if (cta && window.fire) window.fire(cta, 3);
+        setTimeout(function(){ setCursorClicking(false); }, 300);
+      }
+    },
+    {
+      id: 'name_focus', t: 14000, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        var inp = document.querySelector('input[placeholder="Full name"]');
+        if (inp) inp.focus();
+        setCursorBadge('Alex • Typing...', 'typing');
+      }
+    },
+    {
+      id: 'email_focus', t: 15500, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        var inp = document.querySelector('input[placeholder="Email address"]');
+        if (inp) inp.focus();
+      }
+    },
+    {
+      id: 'pass_focus', t: 17200, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        var inp = document.querySelector('input[placeholder="Password"]');
+        if (inp) inp.focus();
+      }
+    },
+    {
+      id: 'submit_auth', t: 18650, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        setCursorClicking(true);
+        document.querySelectorAll('.auth input').forEach(function(i){ i.blur(); });
+        var form = document.querySelector('.auth form');
+        if (form) form.dispatchEvent(new Event('submit', { cancelable: true }));
+        if (window.toast) window.toast('Account created. Welcome to ScalpX.');
+        setCursorBadge('Alex', '');
+        setTimeout(function(){ setCursorClicking(false); }, 300);
+      }
+    },
+    {
+      id: 'login_click', t: 19400, fn: function() {
+        triggerClickRipple(lastX, lastY);
+        setCursorClicking(true);
+        if (window.toast) window.toast('Opening log in…');
+        setCursorBadge('Alex • Logged in! 🎉', 'success');
+        setTimeout(function(){ setCursorClicking(false); }, 300);
+      }
+    }
+  ];
+
+  function getCursorPosAtTime(t) {
+    for (var i = 0; i < segments.length; i++) {
+      var s = segments[i];
+      if (t >= s.start && t <= s.end) {
+        var p = (t - s.start) / Math.max(1, s.end - s.start);
+        var eased = easeInOutCubic(p);
+        var from = s.from();
+        var to = s.to();
+        var x = from.x + (to.x - from.x) * eased;
+        var y = from.y + (to.y - from.y) * eased;
+        if (s.arc) {
+          var normalArc = Math.sin(p * Math.PI) * s.arc;
+          var dx = to.x - from.x, dy = to.y - from.y;
+          var len = Math.sqrt(dx * dx + dy * dy) || 1;
+          x += (-dy / len) * normalArc;
+          y += (dx / len) * normalArc;
+        }
+        return { x: x, y: y };
+      }
+    }
+    return segments[segments.length - 1].to();
+  }
+
+  function updateFrame(now) {
+    if (!isPlaying) return;
+    var delta = lastRafTime ? (now - lastRafTime) : 16;
+    lastRafTime = now;
+    demoTime += delta;
+
+    if (demoTime > TOTAL_DURATION) {
+      demoTime = TOTAL_DURATION;
+      pauseDemo();
+      if (btnToggleText) btnToggleText.textContent = 'Replay';
+      if (btnToggleIcon) btnToggleIcon.innerHTML = '<path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>';
+      return;
+    }
+
+    // Process Milestones
+    for (var i = 0; i < actions.length; i++) {
+      var act = actions[i];
+      if (demoTime >= act.t && !executedActions[act.id]) {
+        executedActions[act.id] = true;
+        act.fn();
+      }
+    }
+
+    // Dynamic typing input streams
+    var nameInp = document.querySelector('input[placeholder="Full name"]');
+    var emailInp = document.querySelector('input[placeholder="Email address"]');
+    var passInp = document.querySelector('input[placeholder="Password"]');
+    if (demoTime >= 14150 && demoTime <= 15000) {
+      typeText(nameInp, 'Alex Vance', (demoTime - 14150) / 850);
+    }
+    if (demoTime >= 15650 && demoTime <= 16700) {
+      typeText(emailInp, 'alex.vance@scalpx.ai', (demoTime - 15650) / 1050);
+    }
+    if (demoTime >= 17350 && demoTime <= 18050) {
+      typeText(passInp, 'ScalpX_2026!', (demoTime - 17350) / 700);
+    }
+
+    // Compute cursor coords
+    var pos = getCursorPosAtTime(demoTime);
+    var curX = pos.x, curY = pos.y;
+    var vx = curX - lastX;
+    var tiltDeg = clamp(vx * 0.9, -15, 15);
+    lastX = curX;
+    lastY = curY;
+
+    if (cursor) {
+      cursor.style.transform = 'translate3d(' + curX + 'px, ' + curY + 'px, 0)';
+    }
+    if (cursorPointer) {
+      cursorPointer.style.transform = 'rotate(' + tiltDeg + 'deg)';
+    }
+
+    // Slide 0: Eye tracking
+    if (demoTime >= 600 && demoTime <= 2400 && window._demoState) {
+      var botCenter = getElPos('#bot-character', 0.5, 0.5);
+      var ex = clamp((curX - botCenter.x) / 11, -9, 9);
+      var ey = clamp((curY - botCenter.y) / 11, -6, 6);
+      window._demoState.lookAt(ex, ey);
+    }
+
+    // Slide 1: 3D card tilt tracking
+    if (demoTime >= 4400 && demoTime <= 5600 && window._demoState) {
+      var tiltCenter = getElPos('.tilt', 0.5, 0.5);
+      var px = clamp((curX - tiltCenter.x) / 140, -1, 1);
+      var py = clamp((curY - tiltCenter.y) / 90, -1, 1);
+      window._demoState.tilt.style.transform = 'perspective(800px) rotateX(' + (-py * 16) + 'deg) rotateY(' + (px * 18) + 'deg) rotate(-5deg) skewY(-2deg)';
+    }
+
+    // Slide 1: Chart candlestick scrub
+    if (demoTime >= 5700 && demoTime <= 7600 && window._demoState) {
+      var ch = document.querySelector('.chart');
+      if (ch) {
+        var chPos = getElPos(ch, 0, 0);
+        var relX = clamp((curX - chPos.x) / ch.offsetWidth, 0, 1);
+        var idx = clamp(Math.round((relX * 300 - 6) / 9.1), 0, 31);
+        window._demoState.sel(idx);
+        window._demoState.xh.setAttribute('opacity', '.6');
+      }
+    } else if (demoTime > 7600 && demoTime < 8000 && window._demoState) {
+      window._demoState.xh.setAttribute('opacity', '0');
+    }
+
+    // Slide 2: Feature tiles radial lighting
+    if (demoTime >= 9100 && demoTime <= 12600 && window._demoState) {
+      window._demoState.tiles.forEach(function(t) {
+        var tp = getElPos(t, 0, 0);
+        var tx = curX - tp.x;
+        var ty = curY - tp.y;
+        if (tx >= -20 && tx <= t.offsetWidth + 20 && ty >= -20 && ty <= t.offsetHeight + 20) {
+          t.style.setProperty('--mx', tx + 'px');
+          t.style.setProperty('--my', ty + 'px');
+        }
+      });
+    }
+
+    // Update Progress bar & Timer display
+    var pct = (demoTime / TOTAL_DURATION) * 100;
+    if (progressFill) progressFill.style.width = pct + '%';
+    if (timerText) {
+      var sec = Math.floor(demoTime / 1000);
+      var totalSec = Math.floor(TOTAL_DURATION / 1000);
+      timerText.textContent = '0:' + (sec < 10 ? '0' : '') + sec + ' / 0:' + totalSec;
+    }
+
+    requestAnimationFrame(updateFrame);
+  }
+
+  function startDemo() {
+    isPlaying = true;
+    lastRafTime = performance.now();
+    if (btnToggleText) btnToggleText.textContent = 'Pause';
+    if (btnToggleIcon) btnToggleIcon.innerHTML = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
+    requestAnimationFrame(updateFrame);
+  }
+
+  function pauseDemo() {
+    isPlaying = false;
+    if (btnToggleText) btnToggleText.textContent = 'Resume';
+    if (btnToggleIcon) btnToggleIcon.innerHTML = '<path d="M5 3l14 9-14 9V3z"/>';
+  }
+
+  function resetAndReplay() {
+    demoTime = 0;
+    executedActions = {};
+    lastX = 310;
+    lastY = 25;
+    if (window._demoState && window._demoState.tilt) {
+      window._demoState.tilt.style.transform = '';
+    }
+    if (window._demoState && window._demoState.xh) {
+      window._demoState.xh.setAttribute('opacity', '0');
+    }
+    startDemo();
+  }
+
+  // Event Listeners
+  if (btnToggle) {
+    btnToggle.addEventListener('click', function() {
+      if (demoTime >= TOTAL_DURATION) {
+        resetAndReplay();
+      } else if (isPlaying) {
+        pauseDemo();
+      } else {
+        startDemo();
+      }
+    });
+  }
+
+  if (btnReplay) {
+    btnReplay.addEventListener('click', function() {
+      resetAndReplay();
+    });
+  }
+
+  if (progressWrap) {
+    progressWrap.addEventListener('click', function(e) {
+      var rect = progressWrap.getBoundingClientRect();
+      var r = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+      demoTime = r * TOTAL_DURATION;
+      executedActions = {};
+      for (var i = 0; i < actions.length; i++) {
+        if (actions[i].t <= demoTime) {
+          executedActions[actions[i].id] = true;
+        }
+      }
+      if (demoTime < 3800) go(0);
+      else if (demoTime < 8700) go(1);
+      else if (demoTime < 13200) go(2);
+      else go(3);
+
+      if (!isPlaying) {
+        var pos = getCursorPosAtTime(demoTime);
+        if (cursor) cursor.style.transform = 'translate3d(' + pos.x + 'px, ' + pos.y + 'px, 0)';
+        if (progressFill) progressFill.style.width = (r * 100) + '%';
+      }
+    });
+  }
+
+  // Auto-start demo after 700ms grace period on load
+  setTimeout(function() {
+    startDemo();
+  }, 700);
+
+})();
+</script>
+</body>
+</html>
