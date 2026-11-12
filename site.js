@@ -15,6 +15,15 @@
     }
   }
 
+  // Vercel Web Analytics Initialization
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  if (!document.querySelector('script[src*="/_vercel/insights/script.js"]')) {
+    var vaScript = document.createElement('script');
+    vaScript.defer = true;
+    vaScript.src = '/_vercel/insights/script.js';
+    document.head.appendChild(vaScript);
+  }
+
   // Default to dark theme unless user explicitly chose otherwise in localStorage
   apply(stored() || 'dark');
 

@@ -1,0 +1,9 @@
+{
+  "name": "d3motion-landing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "D3motion Official Website & Blog",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
