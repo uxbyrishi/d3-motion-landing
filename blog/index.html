@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>D3motion Blog — Motion Systems, AI Workflows &amp; Video Engineering</title>
+  <meta name="title" content="D3motion Blog — Motion Systems, AI Workflows &amp; Video Engineering">
+  <meta name="description" content="Explore deep dives into generative UI motion systems, time-driven HTML animations, and zero-credit desktop video rendering from the D3motion engineering team and community.">
+  <meta name="keywords" content="D3motion Blog, UI Motion Design, HTML to MP4, Gemini 3.8 Flash, Bento UI, Motion Systems, Generative Animation">
+  <meta name="author" content="D3motion">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://d3motion.pro/blog">
+  <link rel="icon" type="image/png" href="../assets/icon.png">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://d3motion.pro/blog">
+  <meta property="og:site_name" content="D3motion Blog">
+  <meta property="og:title" content="D3motion Blog — Motion Systems, AI Workflows &amp; Video Engineering">
+  <meta property="og:description" content="Technical tutorials and guides on building broadcast-quality UI animations without cloud credit burn.">
+  <meta property="og:image" content="https://d3motion.pro/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="D3motion Blog — Motion Systems &amp; AI Workflows">
+  <meta name="twitter:description" content="Technical guides on building broadcast-quality UI animations without cloud credit burn.">
+  <meta name="twitter:image" content="https://d3motion.pro/assets/og-image.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Reading Progress Bar -->
+  <div id="readingProgress" class="reading-progress-bar" aria-hidden="true"></div>
+
+  <!-- Header Navigation -->
+  <header class="site-nav">
+    <div class="site-nav-container">
+      <a href="/" class="brand-group" aria-label="D3motion Home">
+        <div class="brand-icon-box">
+          <svg width="24" height="17" viewBox="0 0 240 170" fill="none" aria-hidden="true">
+            <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/>
+            <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+          </svg>
+        </div>
+        <div class="brand-title">D3motion <span class="brand-badge">Blog</span></div>
+      </a>
+
+      <div class="nav-actions">
+        <a href="/" class="nav-portal-link"><span>App Studio</span></a>
+        <a href="/tutorial" class="nav-portal-link"><span>Tutorials</span></a>
+        <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer" class="nav-skill-link" title="Official Bento Skill">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <span>bento-ui-motion-skill ↗</span>
+        </a>
+
+        <!-- Dual Theme Toggle Button -->
+        <button type="button" class="btn-theme-toggle" id="themeToggleBtn" aria-label="Toggle Light and Dark Theme" title="Toggle Theme">
+          <svg class="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Blog Hub Header -->
+    <header class="blog-hub-header">
+      <div class="blog-hub-eyebrow">
+        <span>Engineering &bull; Tutorials &bull; Design Systems</span>
+      </div>
+      <h1 class="blog-hub-title">D3motion Insights</h1>
+      <p class="blog-hub-subtitle">
+        Deep dives into generative motion code, spring physics math, AI-assisted interface design, and zero-credit video workflows.
+      </p>
+
+      <!-- Category Filter Chips -->
+      <nav class="blog-filter-bar" aria-label="Blog categories">
+        <button type="button" class="filter-chip active">All Articles</button>
+        <button type="button" class="filter-chip">Tutorials</button>
+        <button type="button" class="filter-chip">AI Workflows</button>
+        <button type="button" class="filter-chip">Motion Systems</button>
+        <button type="button" class="filter-chip">Case Studies</button>
+      </nav>
+    </header>
+
+    <!-- Featured Post Hero Card (Links to Gemini Bento Motion Article) -->
+    <a href="/blog/gemini-bento-motion-grid" class="featured-post-card">
+      <div class="featured-media-box">
+        <img src="../assets/bento-preview-poster.jpg" alt="Bento UI Motion Grid 120fps Preview Poster" loading="lazy">
+        <div class="featured-badge-overlay">★ Featured Guide</div>
+      </div>
+      <div class="featured-content-box">
+        <div>
+          <div class="featured-top-meta">
+            <span>Tutorial &bull; AI Motion Engineering</span>
+          </div>
+          <h2 class="featured-title">
+            You Don't Need Fable 5.2: How to Build 60fps Bento Motion Grids with Gemini 3.8 Flash &amp; D3motion
+          </h2>
+          <p class="featured-excerpt">
+            A zero-credit-waste, browser-native pipeline for designing high-density bento motion graphics. Generate time-driven spring physics with Gemini 3.8 Flash (Medium) and render broadcast-ready MP4s directly in D3motion.
+          </p>
+        </div>
+
+        <div class="author-lockup">
+          <img src="../assets/heyyashd.jpg" alt="Yash (@heyyashd)" class="author-photo">
+          <div>
+            <div class="author-meta-name">Yash (@heyyashd)</div>
+            <div class="author-meta-sub">Nov 12, 2026 &bull; 5 min read</div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <!-- CMS Articles Grid for Future Posts -->
+    <section>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);">
+        <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;">Latest Publications</h3>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">4 Articles</span>
+      </div>
+
+      <div class="blog-grid">
+
+        <!-- Card 1: Bento UI Motion (Linked) -->
+        <a href="/blog/gemini-bento-motion-grid" class="blog-card">
+          <div class="blog-card-media">
+            <img src="../assets/bento-preview-poster.jpg" alt="Bento UI Motion Grid preview" loading="lazy">
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">AI Workflows</span>
+              <h4 class="blog-card-title">You Don't Need Fable 5.2: 60fps Bento Motion with Gemini 3.8 Flash</h4>
+              <p class="blog-card-desc">Generate mathematical UI motion grids without timeline keyframing or Playwright credit consumption.</p>
+            </div>
+            <div class="blog-card-footer">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <img src="../assets/heyyashd.jpg" alt="Yash" style="width:20px; height:20px; border-radius:50%; object-fit:cover;">
+                <span>Yash</span>
+              </div>
+              <span>5 min read</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2: Spring Physics -->
+        <div class="blog-card" style="opacity: 0.95;">
+          <div class="blog-card-media" style="background: linear-gradient(135deg, #12141C 0%, #1D2336 100%); display:grid; place-items:center;">
+            <div style="text-align:center;">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--signal-primary)" stroke-width="2">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">Motion Math</span>
+              <h4 class="blog-card-title">Mathematical Easing in D3motion: Why Damped Springs Beat CSS Transitions</h4>
+              <p class="blog-card-desc">How from-rest damped harmonic oscillators (zeta 0.55) prevent frame-1 stutter and continuous cycle-wrap jumps.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion Core Team</span>
+              <span>6 min read</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Zero-Credit Architecture -->
+        <div class="blog-card" style="opacity: 0.95;">
+          <div class="blog-card-media" style="background: linear-gradient(135deg, #0B0D13 0%, #162035 100%); display:grid; place-items:center;">
+            <div style="text-align:center;">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">Engineering</span>
+              <h4 class="blog-card-title">Zero-Credit Video Pipelines: Replacing Headless Playwright with Direct GPU Rendering</h4>
+              <p class="blog-card-desc">Bypassing cloud chromium instances to render 4K 120fps video files locally on your machine with zero credit spend.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion Core Team</span>
+              <span>8 min read</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Newsletter CTA Box -->
+    <section class="cta-box" style="margin-top: 80px;">
+      <h3>Subscribe to D3motion Insights</h3>
+      <p>
+        Get upcoming tutorials, production-tested animation skills, and mathematical easing formulas delivered to your inbox.
+      </p>
+      <div class="cta-actions-group">
+        <a href="https://d3motion.pro" class="btn-primary-action">
+          Get D3motion Studio ↗
+        </a>
+        <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-secondary-action">
+          Download Free Skills (.zip) ↗
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="brand-group">
+          <div class="brand-icon-box" style="width: 32px; height: 32px;">
+            <svg width="20" height="14" viewBox="0 0 240 170" fill="none">
+              <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/>
+              <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+            </svg>
+          </div>
+          <span style="font-family: var(--font-display); font-weight: 700;">D3motion Design System</span>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 D3motion. Visit <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer">d3motion.pro</a> &bull; Skill at <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer">bento-ui-motion-skill.vercel.app</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Theme Toggle Script -->
+  <script>
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const savedTheme = localStorage.getItem('d3motion_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('d3motion_theme', newTheme);
+    });
+
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / docHeight) * 100;
+      document.getElementById('readingProgress').style.width = scrolled + '%';
+    });
+  </script>
+</body>
+</html>

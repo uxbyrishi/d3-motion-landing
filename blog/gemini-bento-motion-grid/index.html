@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags (SEO) -->
+  <title>You Don't Need Fable 5.2: How to Build 60fps Bento Motion Grids with Gemini 3.8 Flash & D3motion</title>
+  <meta name="title" content="You Don't Need Fable 5.2: How to Build 60fps Bento Motion Grids with Gemini 3.8 Flash & D3motion">
+  <meta name="description" content="Discover how to generate silky 60fps/120fps Bento UI motion graphics using Gemini 3.8 Flash (Medium output) and D3motion. Bypass Fable 5.2 and eliminate credit-heavy Playwright rendering.">
+  <meta name="keywords" content="Gemini 3.8 Flash, D3motion, d3motion.pro, Bento UI motion grid, UI animation, Fable 5.2 alternative, HTML motion graphics, Playwright video rendering, AI motion design, bento-ui-motion-grid skill">
+  <meta name="author" content="Yash (@heyyashd)">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="canonical" href="https://d3motion.pro/blog/gemini-bento-motion-grid">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://d3motion.pro/blog/gemini-bento-motion-grid">
+  <meta property="og:site_name" content="D3motion Insights">
+  <meta property="og:title" content="Building High-End Bento Motion Grids with Gemini 3.8 Flash & D3motion">
+  <meta property="og:description" content="Skip expensive keyframe suites and heavy Playwright setups. Create deterministic, time-driven UI animations rendered directly to 60fps MP4 with D3motion.">
+  <meta property="og:image" content="https://d3motion.pro/assets/bento-preview-poster.jpg">
+  <meta property="article:published_time" content="2026-11-12T17:48:30+05:30">
+  <meta property="article:author" content="https://x.com/heyyashd">
+  <meta property="article:section" content="Design Systems & Motion">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@heyyashd">
+  <meta name="twitter:creator" content="@heyyashd">
+  <meta name="twitter:title" content="How to Create 60fps Bento UI Animations with Gemini 3.8 Flash & D3motion">
+  <meta name="twitter:description" content="You don't need Fable 5.2 or credit-heavy Playwright captures. Discover the direct Gemini 3.8 Flash + D3motion workflow.">
+  <meta name="twitter:image" content="https://d3motion.pro/assets/bento-preview-poster.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../styles.css">
+
+  <!-- Structured Data / JSON-LD for SEO & AEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": "https://d3motion.pro/blog/gemini-bento-motion-grid#article",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://d3motion.pro/#website",
+          "name": "D3motion",
+          "url": "https://d3motion.pro"
+        },
+        "headline": "Building High-End Bento Motion Grids with Gemini 3.8 Flash & D3motion (No Fable 5.2 Required)",
+        "description": "Step-by-step technical guide for generating deterministic, time-driven Bento UI motion animations using Gemini 3.8 Flash (Medium output) and rendering directly with D3motion without Playwright.",
+        "inLanguage": "en-US",
+        "datePublished": "2026-11-12T17:48:30+05:30",
+        "author": {
+          "@type": "Person",
+          "name": "Yash",
+          "url": "https://x.com/heyyashd",
+          "jobTitle": "Product & Motion Designer"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "D3motion",
+          "url": "https://d3motion.pro",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://d3motion.pro/assets/icon.png"
+          }
+        },
+        "keywords": [
+          "Gemini 3.8 Flash",
+          "D3motion",
+          "d3motion.pro",
+          "bento-ui-motion-grid",
+          "HTML motion graphics",
+          "Fable 5.2 alternative",
+          "Playwright alternative",
+          "Spring physics"
+        ]
+      },
+      {
+        "@type": "HowTo",
+        "name": "How to Render Bento UI Motion Graphics without Playwright or Fable 5.2",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "Upload the Skill Zip File and Prompt Gemini 3.8 Flash",
+            "text": "Upload the bento-ui-motion-grid.zip file to Gemini 3.8 Flash (Medium) and enter: 'make the animation using this skill don't use playwright just provide the html animation'."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "Review the Generated Animation HTML Files",
+            "text": "Gemini automatically installs the skill and outputs two clean HTML files: index.html (preview player) and bento-clean.html (canvas for direct rendering)."
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "Render Directly in D3motion App",
+            "text": "Open D3motion, load your HTML file, select 60fps/120fps settings, and export your MP4 video with zero compute credits."
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is D3motion?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "D3motion is a specialized, hardware-accelerated desktop motion engine that renders time-driven HTML, CSS, and Canvas animations directly into broadcast-grade 60fps/120fps MP4 videos with zero cloud compute credits. Learn more at https://d3motion.pro."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need Fable 5.2 to create high-end bento animations?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. By combining Gemini 3.8 Flash with the D3motion app, you generate mathematically precise, time-driven HTML motion grids with spring physics and render them straight to MP4 without Fable 5.2 or After Effects."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where can I get the bento motion skill file?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The official skill and template files are available for download at https://bento-ui-motion-skill.vercel.app/."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why avoid Playwright for rendering animations?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Playwright requires running headless browser workers to capture 2,880 uncompressed screenshot frames and stitching them with ffmpeg. This consumes substantial local CPU and cloud credits. The D3motion app directly processes the HTML file natively."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Dynamic Reading Progress Bar -->
+  <div id="readingProgress" class="reading-progress-bar" aria-hidden="true"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="site-nav">
+    <div class="site-nav-container">
+      <a href="/" class="brand-group" aria-label="D3motion Home">
+        <div class="brand-icon-box">
+          <!-- Official D3 Logo Mark (White & Signal Blue Parallelograms) -->
+          <svg width="24" height="17" viewBox="0 0 240 170" fill="none" aria-hidden="true">
+            <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/>
+            <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+          </svg>
+        </div>
+        <div class="brand-title">D3motion <span class="brand-badge">Blog</span></div>
+      </a>
+
+      <div class="nav-actions">
+        <!-- Return to Blog Hub -->
+        <a href="/blog" class="nav-portal-link">
+          <span>&larr; All Articles</span>
+        </a>
+
+        <!-- Official Skill Link -->
+        <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer" class="nav-skill-link" title="Visit Official Skill Portal">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <span>bento-ui-motion-skill ↗</span>
+        </a>
+
+        <!-- Dual Theme Toggle (Light / Dark) -->
+        <button type="button" class="btn-theme-toggle" id="themeToggleBtn" aria-label="Toggle Light and Dark Theme" title="Toggle Theme">
+          <svg class="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="app-container" id="top">
+
+    <!-- Article Header -->
+    <header class="article-header">
+      <div class="article-header-grid">
+        <div class="eyebrow-row">
+          <span class="eyebrow-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            Tutorial &amp; Architecture
+          </span>
+          <span class="eyebrow-divider"></span>
+          <span>Motion Design &bull; AI Code Generation</span>
+        </div>
+
+        <h1 class="article-title">
+          You Don't Need Fable 5.2: How to Build 60fps Bento Motion Grids with Gemini 3.8 Flash &amp; D3motion
+        </h1>
+
+        <p class="article-subtitle">
+          A zero-credit-waste, browser-native pipeline for designing high-density bento motion graphics. Generate time-driven spring physics with Gemini 3.8 Flash (Medium) and render broadcast-ready MP4s directly in D3motion.
+        </p>
+
+        <div class="article-meta-bar">
+          <!-- Author Avatar with Photo of Yash -->
+          <a href="https://x.com/heyyashd" target="_blank" rel="noopener noreferrer" class="author-pill">
+            <img src="../../assets/heyyashd.jpg" alt="Yash (@heyyashd)" class="author-avatar-img">
+            <span>Yash (@heyyashd)</span>
+          </a>
+          <div class="meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <time datetime="2026-11-12">November 12, 2026</time>
+          </div>
+          <div class="meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>5 min read</span>
+          </div>
+          <div class="meta-item">
+            <span class="brand-badge">Gemini 3.8 Flash</span>
+          </div>
+          <div class="meta-item">
+            <span class="brand-badge" style="color: var(--color-success); background: var(--color-success-subtle); border-color: var(--color-success-glow);">No Playwright Needed</span>
+          </div>
+        </div>
+
+        <!-- Featured Skill Callout Banner -->
+        <div class="skill-hero-banner">
+          <div class="skill-banner-text">
+            <div class="skill-banner-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--signal-primary)" stroke-width="2.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span>Official Skill: bento-ui-motion-grid</span>
+            </div>
+            <p class="skill-banner-desc">
+              Grab the complete agent skill instructions, motion easing math, and 24-widget template at <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer">bento-ui-motion-skill.vercel.app</a>.
+            </p>
+          </div>
+          <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer" class="skill-banner-cta">
+            <span>Explore Skill Portal</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Two-Column Layout -->
+    <div class="article-layout">
+
+      <!-- Left Column: Core Article -->
+      <article class="article-body">
+
+        <!-- AEO Executive Summary Box -->
+        <section class="executive-summary-card" aria-labelledby="exec-summary-title">
+          <div class="exec-header">
+            <div class="exec-title" id="exec-summary-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--signal-primary)" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              <span>Executive Summary &amp; Direct Takeaways</span>
+            </div>
+            <span class="exec-badge">AEO Direct Answer</span>
+          </div>
+          <ul class="exec-list">
+            <li>
+              <span class="exec-bullet">01.</span>
+              <div><strong>Bypass Expensive Motion Suites:</strong> You do not need Fable 5.2, After Effects, or subscription keyframe tools to build modern viral bento UI motion graphics.</div>
+            </li>
+            <li>
+              <span class="exec-bullet">02.</span>
+              <div><strong>Gemini 3.8 Flash (Medium):</strong> Uploading the official <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer">bento-ui-motion-grid skill</a> zip directly into Gemini 3.8 Flash yields pure deterministic <code>draw(t)</code> mathematical animations.</div>
+            </li>
+            <li>
+              <span class="exec-bullet">03.</span>
+              <div><strong>Zero-Credit Playwright Elimination:</strong> Traditional browser-automation rendering (dumping 2,880 PNG frames via Playwright + ffmpeg) burns significant machine credits and CPU cycles.</div>
+            </li>
+            <li>
+              <span class="exec-bullet">04.</span>
+              <div><strong>Native D3motion Rendering:</strong> Feed the raw HTML file directly into the <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer">D3motion app</a> to render crisp, locked-off 60fps/120fps MP4 video in one unified step.</div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 1: Introduction -->
+        <section id="introduction">
+          <h2>The Death of Over-Engineered Motion Pipelines</h2>
+          <p>
+            For months, product designers and motion developers believed that generating high-density, multi-widget bento motion showcases required either complex timeline suites like <strong>Fable 5.2</strong> or heavy headless browser rendering loops.
+          </p>
+          <p>
+            In a traditional pipeline, creating 20 to 30 synchronized UI widgets—each with independent clock cycles, rolling odometer tabular numerals, damped spring physics, and continuous loop wraps—would take days of manual keyframing or massive compute runs.
+          </p>
+          <p>
+            By pairing <strong>Gemini 3.8 Flash</strong> with the <strong>D3motion</strong> rendering app, this entire process is reduced to a three-step workflow that costs zero animation credits and produces broadcast-quality motion graphics.
+          </p>
+        </section>
+
+        <!-- 1. FULL-WIDTH LIVE MOTION SHOWCASE (BENTO HTML CANVAS) -->
+        <section id="motion-preview">
+          <div class="d3-media-frame">
+            <div class="d3-media-chrome">
+              <div class="chrome-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+              </div>
+              <div class="chrome-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>D3motion Studio Live Player &bull; 60fps Bento UI Motion Grid</span>
+              </div>
+              <span class="chrome-specs">1440&times;1080 @ 60fps</span>
+            </div>
+
+            <!-- Full-Width Live Interactive Scaler Stage -->
+            <div class="d3-media-stage">
+              <div class="bento-iframe-scaler">
+                <iframe id="bentoLiveFrame" src="../../assets/bento-preview.html" title="Live Bento UI Motion Animation" loading="lazy"></iframe>
+              </div>
+            </div>
+
+            <!-- Native Transport Controls Bar -->
+            <div class="d3-player-controls">
+              <div class="player-transport">
+                <button type="button" class="btn-transport" id="playPauseBtn" title="Play / Pause" onclick="const f=document.getElementById('bentoLiveFrame'); f.contentWindow.postMessage('toggle', '*');">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                </button>
+                <button type="button" class="btn-transport" title="Restart Loop" onclick="const f=document.getElementById('bentoLiveFrame'); f.src=f.src;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="player-scrubber-track">
+                <div class="player-scrubber-fill"></div>
+              </div>
+              <div class="player-telemetry">
+                <span class="telemetry-item">Time: <strong>11.4s / 24.0s</strong></span>
+                <span class="telemetry-item">Widgets: <strong>24 Active</strong></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Step 1 - Upload Skill Zip & Prompt -->
+        <section id="skill-engine">
+          <h2>Step 1: Upload the Skill Zip &amp; Prompt Gemini</h2>
+          <p>
+            The workflow begins by feeding the motion design system directly to the AI. First, download the <code>bento-ui-motion-grid.zip</code> package from <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer">bento-ui-motion-skill.vercel.app</a>.
+          </p>
+          <p>
+            Next, in your AI interface, set the model selector to <strong>Gemini 3.8 Flash Medium</strong>. Attach the <code>bento-ui-motion-grid.zip</code> file directly into the conversation chat and write this exact prompt:
+          </p>
+
+          <div class="code-window">
+            <div class="code-header">
+              <span class="code-filename">Prompt Input &mdash; Gemini 3.8 Flash Medium</span>
+              <button type="button" class="code-copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-window').querySelector('code').innerText); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000);">Copy</button>
+            </div>
+            <pre class="code-content"><code>make the animation using this skill don't use playwright just provide the html animation</code></pre>
+          </div>
+
+          <p>
+            By explicitly telling the model <em>"don't use playwright just provide the html animation"</em>, Gemini bypasses heavy headless browser scripting, saves your credits, and concentrates all its reasoning tokens on generating clean, mathematical <code>draw(t)</code> animation code.
+          </p>
+
+          <!-- Full Width Screenshot 1: Gemini Upload & Prompt -->
+          <div class="d3-media-frame">
+            <div class="d3-media-chrome">
+              <div class="chrome-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+              </div>
+              <div class="chrome-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <span>Antigravity / Gemini Interface &bull; Uploading Skill Zip &amp; Prompt</span>
+              </div>
+              <span class="chrome-specs">Gemini 3.8 Flash Medium</span>
+            </div>
+
+            <div class="d3-media-stage">
+              <div class="fullwidth-image-wrapper">
+                <img src="../../assets/gemini-upload-prompt.jpg" alt="Uploading bento-ui-motion skill zip and typing prompt in Gemini 3.8 Flash" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: Step 2 - Skill Installation & HTML Files Generation -->
+        <section id="eliminating-playwright">
+          <h2>Step 2: Instant HTML Animation Generation (0 Credits Burned)</h2>
+          <p>
+            Within seconds, Gemini 3.8 Flash unpacks the skill tokens, installs the specification into your skills directory, and generates two ready-to-use HTML files:
+          </p>
+
+          <div class="table-container">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Generated File</th>
+                  <th>Description</th>
+                  <th>Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>index.html</code></td>
+                  <td>Interactive player with floating playback bar, scrubber (0&ndash;24s), play/pause, loop toggle, and auto-scaling.</td>
+                  <td>In-browser preview &amp; manual review</td>
+                </tr>
+                <tr>
+                  <td><code>bento-clean.html</code></td>
+                  <td>Pure 1024&times;768 canvas without HUD overlays or controls. Runs continuously via <code>requestAnimationFrame</code>.</td>
+                  <td class="highlight-col">D3motion &amp; direct video capture</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="bento-callout warning">
+            <div class="callout-header">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <span>Zero Playwright Credit Consumption</span>
+            </div>
+            <p>
+              Traditional headless Playwright rendering captures 2,880 screenshot frames and stitches them with FFmpeg, consuming precious GPU/CPU credits and cloud compute. With this approach, zero credits are burned on browser automation.
+            </p>
+          </div>
+
+          <!-- Full Width Screenshot 2: Gemini Skill Result Verification -->
+          <div class="d3-media-frame">
+            <div class="d3-media-chrome">
+              <div class="chrome-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+              </div>
+              <div class="chrome-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Skill Installation &amp; Generated HTML Files Ready</span>
+              </div>
+              <span class="chrome-specs">Execution Time: 5m</span>
+            </div>
+
+            <div class="d3-media-stage">
+              <div class="fullwidth-image-wrapper">
+                <img src="../../assets/gemini-skill-result.jpg" alt="Gemini 3.8 Flash result showing bento-clean.html and index.html ready" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 4: Step 3 - Direct Rendering via D3motion App -->
+        <section id="d3motion-render">
+          <h2>Step 3: Direct Rendering with D3motion App</h2>
+          <p>
+            The final step is super easy. Open the <strong>D3motion app</strong> on your computer, select the generated <code>bento-clean.html</code> file, choose your custom resolution and framerate settings, and render your high-quality MP4 video directly.
+          </p>
+
+          <div class="step-card">
+            <span class="step-badge">D3motion Workflow</span>
+            <h3>Three Clicks to High-Res Video</h3>
+            <ol style="margin-bottom: 0;">
+              <li><strong>Open D3motion:</strong> Launch the D3motion studio app (<a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer">d3motion.pro</a>).</li>
+              <li><strong>Select HTML File:</strong> Load the clean <code>bento-clean.html</code> animation file generated by Gemini.</li>
+              <li><strong>Render High-Quality MP4:</strong> Choose your export profile (1440&times;1080 @ 60fps or 120fps) and render your video in seconds.</li>
+            </ol>
+          </div>
+
+          <!-- Full-Width YouTube Video Embed for Step 3 -->
+          <div class="d3-media-frame">
+            <div class="d3-media-chrome">
+              <div class="chrome-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+              </div>
+              <div class="chrome-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23 7l-7 5 7 5V7z"></path>
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                </svg>
+                <span>D3motion App Video: Direct HTML to MP4 Rendering</span>
+              </div>
+              <a href="https://www.youtube.com/watch?v=9fyIiLR0jY8" target="_blank" rel="noopener noreferrer" class="chrome-specs" style="text-decoration:none;">
+                Watch on YouTube ↗
+              </a>
+            </div>
+
+            <!-- Full-width responsive 16:9 video container with smart local fallback -->
+            <div class="d3-media-stage">
+              <div class="video-responsive-stage" id="ytContainer">
+                <iframe id="youtubeIframe" width="560" height="315" 
+                  src="https://www.youtube-nocookie.com/embed/9fyIiLR0jY8?si=p4kfdTKMXVNWuIzv&amp;origin=https://d3motion.pro&amp;enablejsapi=1&amp;rel=0" 
+                  title="YouTube video player" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerpolicy="strict-origin-when-cross-origin" 
+                  allowfullscreen>
+                </iframe>
+                
+                <!-- Smart Poster Overlay for file:// local preview (prevents Error 153) -->
+                <a href="https://www.youtube.com/watch?v=9fyIiLR0jY8" target="_blank" rel="noopener noreferrer" id="localVideoOverlay" class="video-poster-overlay" style="background-image: url('../../assets/youtube-thumbnail.jpg'); display: none;">
+                  <div class="video-poster-backdrop"></div>
+                  <div class="video-play-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFFFFF">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                  </div>
+                  <div class="video-poster-title">D3 Motion Tutorial (HTML to MP4)</div>
+                  <div class="video-poster-badge">
+                    <span>Local Mode: Click to Watch on YouTube ↗</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 5: Technical Comparison Matrix -->
+        <section id="comparison">
+          <h2>Technical Comparison: Traditional vs. Gemini + D3motion</h2>
+          <p>
+            Here is how this modernized workflow compares against traditional motion suites and cloud headless capture setups:
+          </p>
+
+          <div class="table-container">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Feature / Dimension</th>
+                  <th>Fable 5.2 / After Effects</th>
+                  <th>Playwright + FFmpeg</th>
+                  <th class="highlight-col">Gemini 3.8 Flash + D3motion</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Creation Speed</strong></td>
+                  <td>3 &ndash; 5 days (manual keyframes)</td>
+                  <td>2 &ndash; 4 hours (scripting)</td>
+                  <td class="highlight-col">Under 3 minutes</td>
+                </tr>
+                <tr>
+                  <td><strong>Credit / Compute Cost</strong></td>
+                  <td>High software license fee</td>
+                  <td>High cloud API / CPU credit drain</td>
+                  <td class="highlight-col">Zero render credits consumed</td>
+                </tr>
+                <tr>
+                  <td><strong>Motion Precision</strong></td>
+                  <td>Visual timeline estimation</td>
+                  <td>Prone to dropped worker frames</td>
+                  <td class="highlight-col">Deterministic math spring physics</td>
+                </tr>
+                <tr>
+                  <td><strong>Loop Continuity</strong></td>
+                  <td>Manual easing alignment</td>
+                  <td>Requires custom cycle scripts</td>
+                  <td class="highlight-col">Seamless mathematical cycle wraps</td>
+                </tr>
+                <tr>
+                  <td><strong>Output Quality</strong></td>
+                  <td>ProRes / MP4</td>
+                  <td>Stitched PNG sequences</td>
+                  <td class="highlight-col">Crisp 60fps / 120fps master MP4</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Section 6: Mathematical Helpers Under the Hood -->
+        <section id="motion-math">
+          <h2>Under the Hood: The Motion Math Language</h2>
+          <p>
+            To eliminate the jerkiness typical of standard CSS cubic-beziers, the motion engine relies on three core mathematical helpers implemented directly in vanilla JavaScript:
+          </p>
+
+          <div class="code-window">
+            <div class="code-header">
+              <span class="code-filename">motion-helpers.js &mdash; Damped Spring &amp; Odometer Physics</span>
+              <button type="button" class="code-copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-window').querySelector('code').innerText); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000);">Copy</button>
+            </div>
+            <pre class="code-content"><code>// 1. Damped Spring From Rest (zeta = 0.55, ~12% overshoot, zero start jerk)
+function spring(p) {
+  p = Math.max(0, Math.min(1, p));
+  const z = 0.55, w = 9.2;
+  const decay = Math.exp(-z * w * p);
+  const osc = Math.cos(w * Math.sqrt(1 - z * z) * p);
+  return 1 - decay * osc;
+}
+
+// 2. Continuous State Wraps (Prevents wrapping snaps)
+function st(t, P, o) {
+  const rel = (t - o) % P;
+  const l = rel < 0 ? rel + P : rel;
+  return { k: Math.floor((t - o) / P), l, pre: t < o };
+}
+
+// 3. Tabular Odometer Digit Rolling
+function roll(from, to, progress) {
+  const p = spring(progress);
+  return `&lt;span class="tnum" style="transform: translateY(${(to - from) * (1 - p)}px)"&gt;${to}&lt;/span&gt;`;
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- Section 7: FAQ (AEO Schema Optimized) -->
+        <section id="faq" class="faq-section">
+          <h2>Frequently Asked Questions</h2>
+
+          <!-- What is D3motion with d3motion.pro link -->
+          <div class="faq-item active">
+            <button class="faq-question" type="button">
+              <span>What is D3motion?</span>
+              <span class="faq-chevron">&#9656;</span>
+            </button>
+            <div class="faq-answer">
+              D3motion is a specialized, hardware-accelerated desktop motion engine that directly converts time-driven HTML, CSS, and Canvas animations into broadcast-grade 60fps/120fps MP4 videos without running headless browser capture scripts or consuming cloud API credits. Visit the official homepage at <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer"><strong>d3motion.pro ↗</strong></a>.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Why should I switch from Fable 5.2 to Gemini + D3motion?</span>
+              <span class="faq-chevron">&#9656;</span>
+            </button>
+            <div class="faq-answer">
+              Fable 5.2 and traditional software require extensive manual keyframing and subscription overhead. Gemini 3.8 Flash generates complete, multi-card spring-physics motion systems in seconds via code, and D3motion renders them directly without complex timeline manipulation.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Where can I find the official skill documentation and templates?</span>
+              <span class="faq-chevron">&#9656;</span>
+            </button>
+            <div class="faq-answer">
+              You can access the live documentation, interactive preview, and download the full <code>bento-ui-motion-grid.zip</code> bundle at <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer">https://bento-ui-motion-skill.vercel.app/</a>.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Why avoid Playwright for rendering animations?</span>
+              <span class="faq-chevron">&#9656;</span>
+            </button>
+            <div class="faq-answer">
+              Playwright requires headless Chromium instances to take thousands of consecutive screenshots, which exhausts memory, triggers CPU throttling, and consumes heavy cloud API credits. D3motion renders directly from the HTML source natively.
+            </div>
+          </div>
+        </section>
+
+        <!-- Author Biography Card with Yash's Photo -->
+        <section class="author-bio-card">
+          <img src="../../assets/heyyashd.jpg" alt="Yash (@heyyashd)" class="author-bio-avatar-img">
+          <div class="author-bio-info">
+            <h4>Yash (@heyyashd)</h4>
+            <div class="author-bio-role">Product &amp; Motion Designer &bull; D3motion Advocate</div>
+            <p class="author-bio-desc">
+              Pioneering generative motion systems, AI-accelerated interface design, and high-performance frontend micro-interactions. Sharing cutting-edge design workflows with the community.
+            </p>
+          </div>
+        </section>
+
+        <!-- Call to Action Box -->
+        <section class="cta-box">
+          <h3>Build Next-Generation Motion Systems</h3>
+          <p>
+            Get our production-tested D3motion component templates, spring physics equations, and Gemini prompt skills.
+          </p>
+          <div class="cta-actions-group">
+            <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer" class="btn-primary-action">
+              Explore D3motion.pro ↗
+            </a>
+            <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-secondary-action">
+              Get the Free Bento Skill (.zip) ↗
+            </a>
+          </div>
+        </section>
+
+      </article>
+
+      <!-- Right Column: Sticky Sidebar -->
+      <aside class="article-sidebar" aria-label="Article Sidebar">
+        
+        <!-- Table of Contents Widget -->
+        <div class="sidebar-widget">
+          <div class="widget-title">Table of Contents</div>
+          <nav>
+            <ul class="toc-list">
+              <li><a href="#introduction" class="toc-link">Introduction &amp; Overview</a></li>
+              <li><a href="#motion-preview" class="toc-link">Live Studio Motion Player</a></li>
+              <li><a href="#skill-engine" class="toc-link">Step 1: Upload Skill &amp; Prompt</a></li>
+              <li><a href="#eliminating-playwright" class="toc-link">Step 2: Instant HTML Generation</a></li>
+              <li><a href="#d3motion-render" class="toc-link">Step 3: D3motion Direct Render</a></li>
+              <li><a href="#comparison" class="toc-link">Workflow Comparison Matrix</a></li>
+              <li><a href="#motion-math" class="toc-link">Spring Physics &amp; Math</a></li>
+              <li><a href="#faq" class="toc-link">AEO Frequently Asked Questions</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Technical Specifications Widget -->
+        <div class="sidebar-widget">
+          <div class="widget-title">Project Specifications</div>
+          <ul class="spec-list">
+            <li class="spec-item">
+              <span class="spec-label">D3motion Portal</span>
+              <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer" style="font-weight:600; font-size:11px;">d3motion.pro ↗</a>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">Official Skill</span>
+              <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer" style="font-weight:600; font-size:11px;">bento-motion ↗</a>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">AI Model</span>
+              <span class="spec-val">Gemini 3.8 Flash</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">Output Mode</span>
+              <span class="spec-val">Medium Thinking</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">Render Engine</span>
+              <span class="spec-val">D3motion App</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">Playwright Used</span>
+              <span class="spec-val" style="color: var(--color-success);">None (0 Credits)</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">Master Framerate</span>
+              <span class="spec-val">60fps / 120fps</span>
+            </li>
+            <li class="spec-item">
+              <span class="spec-label">Stage Size</span>
+              <span class="spec-val">1024 &times; 768 px</span>
+            </li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="brand-group">
+          <div class="brand-icon-box" style="width: 32px; height: 32px;">
+            <svg width="20" height="14" viewBox="0 0 240 170" fill="none">
+              <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/>
+              <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+            </svg>
+          </div>
+          <span style="font-family: var(--font-display); font-weight: 700;">D3motion Design System</span>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 D3motion. Visit <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer">d3motion.pro</a> &bull; Skill at <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer">bento-ui-motion-skill.vercel.app</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript: Theme Toggle, Responsive Iframe Scaler, TOC & FAQ -->
+  <script>
+    // 1. Dual Theme Toggle (Default: Light Theme)
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const savedTheme = localStorage.getItem('d3motion_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('d3motion_theme', newTheme);
+    });
+
+    // 2. Responsive 1024x768 Iframe Scaler
+    function scaleLiveFrame() {
+      const scaler = document.querySelector('.bento-iframe-scaler');
+      const iframe = document.getElementById('bentoLiveFrame');
+      if (scaler && iframe) {
+        const containerWidth = scaler.clientWidth;
+        const scale = containerWidth / 1024;
+        iframe.style.transform = `scale(${scale})`;
+      }
+    }
+    window.addEventListener('resize', scaleLiveFrame);
+    window.addEventListener('DOMContentLoaded', scaleLiveFrame);
+    setTimeout(scaleLiveFrame, 100);
+
+    // 3. Reading Progress Bar
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / docHeight) * 100;
+      document.getElementById('readingProgress').style.width = scrolled + '%';
+    });
+
+    // 4. Active Table of Contents Highlighting
+    const sections = document.querySelectorAll('article section[id]');
+    const tocLinks = document.querySelectorAll('.toc-link');
+
+    window.addEventListener('scroll', () => {
+      let currentSectionId = '';
+      sections.forEach(section => {
+        const top = section.offsetTop - 120;
+        if (window.scrollY >= top) {
+          currentSectionId = section.getAttribute('id');
+        }
+      });
+
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + currentSectionId) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // 5. FAQ Accordion Toggle
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const item = button.closest('.faq-item');
+        item.classList.toggle('active');
+      });
+    });
+
+    // 6. Handle YouTube Error 153 in local file:// preview
+    if (window.location.protocol === 'file:') {
+      const localOverlay = document.getElementById('localVideoOverlay');
+      if (localOverlay) {
+        localOverlay.style.display = 'flex';
+      }
+    }
+  </script>
+</body>
+</html>

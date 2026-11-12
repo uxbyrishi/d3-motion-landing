@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bento UI Motion Grid (Pure Animation Canvas)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;580;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --acc:#2F5BFF;--acc2:#6E8BFF;--tint:#EEF2FF;
+  --bg:#F7F7F5;--tray:#EEEEEA;--ink:#141416;
+  --mut:#8B8B87;--mut2:#B8B8B3;
+}
+html,body{
+  width:1024px;
+  height:768px;
+  overflow:hidden;
+  background:var(--bg);
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"cv11","ss01","tnum";
+  letter-spacing:-.01em;
+}
+#root{position:relative;width:1024px;height:768px;overflow:hidden;background:var(--bg)}
+.t{position:absolute;border-radius:22px;background:var(--tray);overflow:hidden}
+.t.w{background:#fff;box-shadow:0 1px 2px rgba(20,20,30,.05),0 8px 24px rgba(20,20,30,.05)}
+.t.d{background:#0F0F12;color:#fff}
+.in{position:absolute;inset:0}
+.c{background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(20,20,30,.06),0 4px 14px rgba(20,20,30,.05)}
+.row{display:flex;align-items:center}.sp{flex:1}
+.lbl{font-size:9px;color:var(--mut);font-weight:460}
+.h{font-size:11px;font-weight:580}
+.av{border-radius:50%;color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.rl{display:inline-flex;vertical-align:top;overflow:hidden;height:1.2em;line-height:1.2em}
+.rc{display:inline-block;height:1.2em;overflow:hidden;position:relative}
+.rc b{display:block;height:1.2em;line-height:1.2em;font-weight:inherit}
+svg{display:block}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const A='#2F5BFF';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const mix=(a,b,p)=>a+(b-a)*p;
+const expo=p=>p<=0?0:p>=1?1:(1-Math.pow(2,-10*p))/(1-Math.pow(2,-10));
+const sprRaw=p=>1-Math.exp(-6.5*p)*(Math.cos(9.86*p)+(6.5/9.86)*Math.sin(9.86*p));
+const spring=p=>p<=0?0:p>=1?1:sprRaw(p)/sprRaw(1);
+const soft=p=>{const f=q=>1-Math.exp(-7*q)*(1+7*q);return p<=0?0:p>=1?1:f(p)/f(1)};
+const io=p=>{p=clamp(p);return p<.5?16*p**5:1-Math.pow(-2*p+2,5)/2};
+const md=(k,n)=>((k%n)+n)%n;
+
+function st(t,P,o){const x=t-o;if(x<0)return {k:0,l:0,pre:1};const k=Math.floor(x/P);return {k,l:x-k*P}}
+function st2(t,P,o){const x=t-o;if(x<0)return {k:0,l:99};const k=Math.floor(x/P)+1;return {k,l:x-(k-1)*P}}
+function tw(t,P,o,vals,dur,e=spring){const {k,l}=st2(t,P,o);const a=vals[md(k-1,vals.length)],b=vals[md(k,vals.length)];return mix(a,b,e(clamp(l/dur)))}
+function hexmix(a,b,p){const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),pb=[1,3,5].map(i=>parseInt(b.substr(i,2),16));return `rgb(${pa.map((v,i)=>Math.round(mix(v,pb[i],p))).join(',')})`}
+
+function roll(f,to,l,dur=.7,stg=.045){
+  const n=Math.max(f.length,to.length);
+  f=f.padStart(n,' ');to=to.padStart(n,' ');let s='';
+  for(let i=0;i<n;i++){
+    const a=f[i],b=to[i];
+    const p=spring(clamp((l-i*stg)/dur));
+    const da=/\d/.test(a),db=/\d/.test(b);
+    if(da&&db){
+      const y=mix(+a,+b,p);
+      s+=`<span class="rc"><span style="display:block;transform:translateY(${-y*1.2}em)">${[0,1,2,3,4,5,6,7,8,9].map(d=>`<b style="height:1.2em">${d}</b>`).join('')}</span></span>`;
+    }else if(a===b){
+      s+=a===' '?'':`<span class="rc">${a}</span>`;
+    }else{
+      const pe=expo(clamp((l-i*stg)/(dur*.6)));
+      if(a===' '&&!db){s+=`<span class="rc" style="opacity:${pe}">${b}</span>`;continue}
+      const w=a===' '?pe:b===' '?1-pe:1;
+      s+=`<span class="rc" style="max-width:${w*0.7}em"><span style="display:block;transform:translateY(${-pe*1.2}em)"><b style="height:1.2em;opacity:${1-pe}">${a===' '?'&nbsp;':a}</b><b style="height:1.2em;opacity:${pe}">${b===' '?'&nbsp;':b}</b></span></span>`;
+    }
+  }
+  return `<span class="rl">${s}</span>`;
+}
+
+function rollV(t,P,o,vals,fmt,dur,stg){
+  const {k,l}=st2(t,P,o);
+  const a=vals[md(k-1,vals.length)],b=vals[md(k,vals.length)];
+  return roll(fmt(a),fmt(b),l,dur,stg);
+}
+
+const chkPath=(p,c='#fff',s=10,w=3.2)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${1-p}"/></svg>`;
+
+const ic={
+  play:(c='#000',s=10)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><path d="M7 4.5v15l12.5-7.5z"/></svg>`,
+  pause:(c='#000',s=10)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><rect x="6" y="4.5" width="4" height="15" rx="1.2"/><rect x="14" y="4.5" width="4" height="15" rx="1.2"/></svg>`,
+  prev:(c='#fff')=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="${c}"><path d="M19 5v14L8 12z"/><rect x="5" y="5" width="2.6" height="14" rx="1"/></svg>`,
+  next:(c='#fff')=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="${c}"><path d="M5 5v14l11-7z"/><rect x="16.4" y="5" width="2.6" height="14" rx="1"/></svg>`,
+  sun:(c,s=12,r=0)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" style="transform:rotate(${r}deg)"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>`,
+  moon:(c,s=12)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></svg>`,
+  file:(c='#141416')=>`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg>`,
+  heart:(f,s)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${f}" stroke="${f==='none'?'#141416':f}" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0112 7.4 4.3 4.3 0 0119.5 10c0 5.4-7.5 10-7.5 10z"/></svg>`,
+  bolt:(c)=>`<svg width="9" height="9" viewBox="0 0 24 24" fill="${c}"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>`,
+  vol:(c)=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5z" fill="${c}"/><path d="M16 9a4 4 0 010 6"/></svg>`,
+  search:(c='#9A9A95')=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>`,
+  bell:(c)=>`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg>`,
+  lock:(c)=>`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>`,
+};
+
+const AVC=['#2F5BFF','#141416','#FF7A59','#16A37F','#9B6BFF','#E84D8A','#F2B23A'];
+const PEOPLE=['Rae','Theo','Ines','Omar','Lia','Jun','Mae','Ezra','Noa'];
+const av=(n,s,extra='')=>`<div class="av" style="width:${s}px;height:${s}px;font-size:${s*.38}px;background:${AVC[PEOPLE.indexOf(n)%AVC.length]};${extra}">${n[0]}</div>`;
+
+const W={};
+
+W.music=(t)=>{
+  const tracks=[['Late Bloom','Juno Vale',['#2F5BFF','#9DB2FF','#0F1A4D'],187],['Saturn Walk','Kaito',['#FF7A59','#FFC5A8','#3A1408'],204],['Glass House','Mira Lane',['#16A37F','#A9F0DA','#04291F'],171]];
+  const P=7.5,o=4.5;const S=st(t,P,o);const k=S.pre?0:S.k+1,l=S.pre?99:S.l;const cur=tracks[md(k,3)],prv=tracks[md(k-1,3)];const p=soft(clamp(l/.8));
+  const art=(tr,op,ty)=>`<div style="position:absolute;inset:0;opacity:${op};transform:scale(${1+.06*(1-op)}) translateY(${ty}px);background:radial-gradient(120% 90% at 20% 15%,${tr[2][1]} 0%,${tr[2][0]} 45%,${tr[2][2]} 100%)"><div style="position:absolute;right:-14px;bottom:-14px;width:54px;height:54px;border-radius:50%;border:8px solid rgba(255,255,255,.18)"></div></div>`;
+  const el=(S.pre?t+o:l)+38+md(k,3)*21;const len=cur[3];const prE=k==1?(P+o+38)/prv[3]:(P+38+md(k-1,3)*21)/prv[3];const pr=mix(prE,el/len,expo(clamp(l/.6)));const fm=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+  const bars=[0,1,2,3].map(i=>{const h=.35+.65*Math.abs(Math.sin(t*(3.1+i*.7)+i*1.7)*Math.cos(t*(1.3+i*.4)));return `<i style="display:block;width:2.5px;height:${3+h*9}px;border-radius:2px;background:${A}"></i>`}).join('');
+  const ttl=(tr,op,y)=>`<div style="position:absolute;left:0;top:0;opacity:${op};transform:translateY(${y}px)"><div style="font-size:12.5px;font-weight:600">${tr[0]}</div><div style="font-size:9.5px;color:#8A8A90;margin-top:2px">${tr[1]}</div></div>`;
+  return `<div class="in" style="padding:14px">
+  <div style="position:relative;width:100%;height:112px;border-radius:13px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.35)">${art(prv,1-p,0)}${art(cur,p,0)}</div>
+  <div class="row" style="margin-top:12px"><div style="position:relative;height:28px;flex:1">${ttl(prv,1-p,-8*p)}${ttl(cur,p,8*(1-p))}</div><div class="row" style="gap:2px;align-items:flex-end;height:12px">${bars}</div></div>
+  <div style="margin-top:10px;height:3px;border-radius:2px;background:#2A2A30;position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:${pr*100}%;border-radius:2px;background:#fff"></div><div style="position:absolute;top:50%;left:${pr*100}%;width:8px;height:8px;border-radius:50%;background:#fff;transform:translate(-50%,-50%)"></div></div>
+  <div class="row" style="margin-top:5px;font-size:8px;color:#7A7A80"><span>${fm(el)}</span><span class="sp"></span><span>${fm(len)}</span></div>
+  <div class="row" style="justify-content:center;gap:22px;margin-top:6px">${ic.prev()}<div style="width:30px;height:30px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center">${ic.pause('#0F0F12',10)}</div>${ic.next()}</div></div>`;
+};
+
+W.seg=(t)=>{
+  const opts=['All','Design','Code','Ship'];const x=tw(t,2.6,1.5,[0,1,3,2],.75,spring);
+  return `<div class="in" style="padding:11px"><div style="position:relative;height:32px;background:#E3E3DE;border-radius:12px;padding:3px"><div style="position:absolute;top:3px;left:${3+x*((200-22-6)/4)}px;width:${(200-22-6)/4}px;height:26px;border-radius:9px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08),0 3px 8px rgba(0,0,0,.06)"></div><div class="row" style="position:relative;height:26px">${opts.map((o,i)=>`<div style="flex:1;text-align:center;font-size:9.5px;font-weight:${Math.abs(x-i)<.5?600:480};color:${Math.abs(x-i)<.5?'#141416':'#7E7E79'}">${o}</div>`).join('')}</div></div></div>`;
+};
+
+W.otp=(t)=>{
+  const codes=['482913','730146','195827','604358'];const P=4,o=1.6;const {k,l}=st(t,P,o);const a=codes[md(k-1,4)],b=codes[md(k,4)];const life=l<.4?expo(l/.4):1-(l-.4)/(P-.4);
+  const r=7,C=2*Math.PI*r;
+  return `<div class="in" style="padding:14px 14px"><div class="row"><div><div class="h">Verification code</div><div class="lbl" style="margin-top:2px">Sent to your phone</div></div><span class="sp"></span><svg width="18" height="18" viewBox="0 0 18 18" style="transform:rotate(-90deg)"><circle cx="9" cy="9" r="${r}" stroke="#E2E2DD" stroke-width="2.4" fill="none"/><circle cx="9" cy="9" r="${r}" stroke="${A}" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-dasharray="${C*life} ${C}"/></svg></div>
+  <div class="row" style="gap:5px;margin-top:14px">${[...b].map((d,i)=>{return `<div class="c" style="flex:1;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:560;${i==5?`box-shadow:0 0 0 1.5px ${A},0 0 0 4px rgba(47,91,255,.15)`:''}">${roll(a[i],d,l-i*.06,.7,0)}</div>`}).join('')}</div></div>`;
+};
+
+W.week=(t)=>{
+  const days=['M','T','W','T','F','S','S'];const x=tw(t,2.2,2.1,[2,4,5,1,3,6],.8,spring);
+  return `<div class="in" style="padding:12px 10px"><div class="row" style="padding:0 4px"><span class="h" style="font-size:10.5px">November</span><span class="sp"></span><span class="lbl">Week 46</span></div><div style="position:relative;margin-top:8px;height:36px"><div style="position:absolute;top:0;left:${x*(180/7)}px;width:${180/7}px;height:36px;border-radius:10px;background:${A};box-shadow:0 4px 10px rgba(47,91,255,.35)"></div><div class="row" style="position:relative;height:36px">${days.map((d,i)=>{const on=clamp(1-Math.abs(x-i));return `<div style="flex:1;text-align:center;line-height:1.25"><div style="font-size:7.5px;color:${hexmix('#9A9A95','#C8D3FF',on)}">${d}</div><div style="font-size:10.5px;font-weight:560;color:${hexmix('#141416','#FFFFFF',on)}">${9+i}</div></div>`}).join('')}</div></div></div>`;
+};
+
+W.tasks=(t)=>{
+  const T=['Wireframe the hero','Pick a type scale','Build the grid','Ship it'];const P=6,o=1.8;const {l}=st(t,P,o);const fade=1-expo(clamp((l-5.3)/.5));const done=T.filter((_,i)=>l>.5+i*1.1).length;
+  return `<div class="in" style="padding:14px"><div class="row"><span class="h">Today</span><span class="sp"></span><span class="lbl">${roll(String(Math.max(0,done-1)),String(done),l-.5-(done-1)*1.1,.6)} of 4 done</span></div>
+  <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">${T.map((tx,i)=>{const q=clamp((l-.5-i*1.1)/.5)*fade;const pp=spring(q),ch=expo(clamp((l-.62-i*1.1)/.35))*fade,sk=expo(clamp((l-.7-i*1.1)/.5))*fade;
+  return `<div class="c row" style="height:30px;padding:0 10px;gap:9px;border-radius:10px"><div style="width:15px;height:15px;border-radius:5px;position:relative;box-shadow:inset 0 0 0 1.5px ${hexmix('#D4D4CF',A,clamp(q*2))}"><div style="position:absolute;inset:0;border-radius:5px;background:${A};transform:scale(${pp})"></div><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">${chkPath(ch,'#fff',9)}</div></div><span style="position:relative;font-size:9.5px;font-weight:520;color:${hexmix('#141416','#A3A39E',sk)}">${tx}<i style="position:absolute;left:0;top:52%;height:1.2px;background:#A3A39E;width:${sk*100}%"></i></span></div>`}).join('')}</div></div>`;
+};
+
+W.clock=(t)=>{
+  const P=3.2,o=1.4;const mins=[41,42,43,44,45,46,47,48,49];const temps=[68,69,71,70,72,73];
+  return `<div class="in" style="padding:14px 14px;display:flex;flex-direction:column"><div class="row"><span class="lbl" style="font-weight:520;color:#141416">New York</span><span class="sp"></span>${ic.sun('#F2A516',13,t*24)}</div>
+  <div style="font-size:32px;font-weight:560;letter-spacing:-1.4px;margin-top:10px;line-height:1">9:${rollV(t,P,o,mins,v=>String(v),.7,.06)}</div><div class="lbl" style="margin-top:6px">Tuesday, Nov 10</div><div class="sp"></div>
+  <div class="row" style="font-size:10px;font-weight:540">${rollV(t,4.1,2,temps,v=>v+'°',.7,.05)}<span class="lbl" style="margin-left:5px">Sunny</span></div></div>`;
+};
+
+W.streak=(t)=>{
+  const P=7.2,o=1.6;const {k,l}=st(t,P,o);const lit=[0,1,2,3,4,5,6].map(i=>l-.3-i*.8);const reset=1-soft(clamp((l-6.4)/.6));const cnt=Math.min(7,lit.filter(x=>x>0).length);
+  return `<div class="in" style="padding:14px"><div class="lbl">Design streak</div><div style="font-size:20px;font-weight:600;margin-top:3px;letter-spacing:-.6px">${cnt?roll(String(12+k*7+cnt-1),String(12+k*7+cnt),lit[cnt-1],.6):String(12+k*7)} <span style="font-size:10px;font-weight:500;color:var(--mut)">days</span></div>
+  <div class="row" style="gap:4px;margin-top:12px">${lit.map((x)=>{const p=spring(clamp(x/.55))*reset;return `<div style="flex:1;height:16px;position:relative;border-radius:5px;background:#E1E1DC"><div style="position:absolute;inset:0;border-radius:5px;background:${A};transform:scale(${p});opacity:${clamp(p*1.5)}"></div></div>`}).join('')}</div></div>`;
+};
+
+W.upload=(t)=>{
+  const P=5.4,o=1.2;const {k,l}=st(t,P,o);const chunks=[[0,0],[.5,.34],[1.2,.58],[1.9,.81],[2.6,1]];let v=0;for(let i=1;i<chunks.length;i++){v=mix(chunks[i-1][1],chunks[i][1],expo(clamp((l-chunks[i][0])/.55)));if(l<chunks[i][0]+.55)break}
+  const done=expo(clamp((l-3.1)/.45));const out=1-expo(clamp((l-4.9)/.45));const ck=clamp((l-3.2)/.4);const names=['hero-v3.fig','brand-kit.zip','reel-cut.mp4'];
+  return `<div class="in" style="padding:14px;opacity:${out*(k>0?expo(clamp(l/.35)):1)}"><div style="position:relative;width:28px;height:28px"><div class="c" style="position:absolute;inset:0;border-radius:9px;display:flex;align-items:center;justify-content:center;opacity:${1-done}">${ic.file()}</div><div style="position:absolute;inset:0;border-radius:50%;background:${A};transform:scale(${spring(clamp((l-3.1)/.6))});display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(47,91,255,.35)">${chkPath(ck,'#fff',13)}</div></div>
+  <div style="margin-top:30px;font-size:10px;font-weight:560">${names[md(k,3)]}</div><div class="row lbl" style="margin-top:2px">${done>.5?'Uploaded':'Uploading'}<span class="sp"></span><span style="color:#141416;font-weight:540">${Math.round(v*100)}%</span></div>
+  <div style="height:4px;border-radius:3px;background:#DEDED9;margin-top:7px;overflow:hidden"><div style="height:100%;width:${v*100}%;border-radius:3px;background:linear-gradient(90deg,${A},#6E8BFF)"></div></div></div>`;
+};
+
+W.mode=(t,ctx)=>{
+  const d=tw(t,3,1.9,[0,1],.7,soft);const kn=tw(t,3,1.9,[0,1],.7,spring);ctx.bg=hexmix('#EEEEEA','#0F0F12',d);
+  const fg=hexmix('#141416','#FFFFFF',d);
+  return `<div class="in" style="display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="position:relative;width:16px;height:16px"><div style="position:absolute;inset:0;opacity:${1-d};transform:rotate(${d*90}deg) scale(${1-d*.5})">${ic.sun(fg,16)}</div><div style="position:absolute;inset:0;opacity:${d};transform:rotate(${(d-1)*90}deg) scale(${.5+d*.5})">${ic.moon(fg,16)}</div></div>
+  <div style="font-size:10.5px;font-weight:580;margin-top:8px;color:${fg}">${d<.5?'Light':'Dark'} mode</div>
+  <div style="margin-top:10px;width:44px;height:24px;border-radius:13px;background:${hexmix('#D9D9D3',A,d)};position:relative"><div style="position:absolute;top:3px;left:${3+kn*20}px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:scaleX(${1+.25*Math.sin(clamp(st(t,3,1.9).l/.4)*Math.PI)})"></div></div></div>`;
+};
+
+W.crew=(t)=>{
+  const P=2.5,o=2.2;const {k,l}=st(t,P,o);const e=spring(clamp(l/.75));const items=[];
+  for(let j=k-1;j<=k+4;j++){const pos=(j-k)+(1-e);if(pos<-1.01||pos>4.01)continue;const n=PEOPLE[md(j,PEOPLE.length)];const op=pos<0?clamp(1+pos):pos>3?clamp(4-pos):1;items.push(`<div style="position:absolute;left:${pos*20}px;top:0;opacity:${op};transform:scale(${.6+.4*op});z-index:${10-j+k}">${av(n,28,'box-shadow:0 0 0 2.5px #EEEEEA')}</div>`)}
+  return `<div class="in" style="padding:16px 14px;display:flex;flex-direction:column"><div class="row"><span style="width:6px;height:6px;border-radius:50%;background:#16A37F;box-shadow:0 0 0 ${2+2*Math.abs(Math.sin(t*2.2))}px rgba(22,163,127,.2)"></span><span class="lbl" style="margin-left:6px;color:#141416;font-weight:540">Live in file</span></div>
+  <div style="position:relative;height:28px;margin-top:16px;width:90px">${items.join('')}</div><div class="sp"></div>
+  <div style="font-size:18px;font-weight:600;letter-spacing:-.5px">${rollV(t,P,o,[4,5,6,5,7,6],v=>String(v),.6)}<span style="font-size:9.5px;font-weight:500;color:var(--mut);margin-left:4px">people editing</span></div></div>`;
+};
+
+W.map=(t)=>{
+  const routes=[[[14,110],[14,92],[60,92],[60,18],[124,18],[124,42],[156,42]],[[156,110],[108,110],[108,72],[46,72],[46,42],[14,42]]];const P=6.4,o=1.3;const {k,l}=st(t,P,o);const R=routes[md(k,2)];
+  const seg=[];let L=0;for(let i=1;i<R.length;i++){const d=Math.hypot(R[i][0]-R[i-1][0],R[i][1]-R[i-1][1]);seg.push(d);L+=d}
+  const at=f=>{let d=f*L;for(let i=0;i<seg.length;i++){if(d<=seg[i]||i==seg.length-1){const q=clamp(d/seg[i]);return [mix(R[i][0],R[i+1][0],q),mix(R[i][1],R[i+1][1],q)]}d-=seg[i]}};
+  const drawPath=expo(clamp(l/.9));const f=io(clamp((l-.6)/3.6));const car=at(f);const arrive=clamp((l-4.2)/.8);const fade=1-expo(clamp((l-5.8)/.5));const pts=R.map(p=>p.join(',')).join(' ');
+  const travelled=[R[0]];{let d=f*L;for(let i=0;i<seg.length;i++){if(d>seg[i]){travelled.push(R[i+1]);d-=seg[i]}else{travelled.push(car);break}}}
+  const end=R[R.length-1];const mins=f2=>Math.max(1,Math.ceil(12*(1-f2)));const eta=mins(f);const etaPrev=mins(io(clamp((l-.85)/3.6)));
+  const streets=`<g stroke="#fff" stroke-width="6.5" stroke-linecap="round"><path d="M-5 18H175M-5 42H175M-5 72H175M-5 110H175M14 -5V130M46 -5V130M60 -5V130M108 -5V130M124 -5V130M156 -5V130"/></g><g stroke="#fff" stroke-width="2.5"><path d="M-5 92H175M85 -5V130"/></g>`;
+  const pinS=.6+.4*spring(clamp(l/.6));const jump=-5*Math.sin(clamp(arrive)*Math.PI);
+  return `<div class="in" style="padding:9px;display:flex;flex-direction:column"><div style="position:relative;height:162px;border-radius:15px;overflow:hidden;background:#E9ECF2"><svg width="222" height="162" viewBox="0 0 170 124" style="position:absolute;inset:0"><path d="M115 124C125 100 158 92 170 90V124z" fill="#D6E0FF"/><rect x="66" y="48" width="36" height="20" rx="3" fill="#DCE9DC"/>${streets}
+  <g opacity="${fade*(k>0?expo(clamp(l/.35)):1)}"><polyline points="${pts}" fill="none" stroke="${A}" stroke-opacity=".22" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="${drawPath} 1"/><polyline points="${travelled.map(p=>p.join(',')).join(' ')}" fill="none" stroke="${A}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="${R[0][0]}" cy="${R[0][1]}" r="3.6" fill="#fff" stroke="${A}" stroke-width="2.2"/>
+  <g transform="translate(${end[0]},${end[1]+jump}) scale(${pinS})"><ellipse cx="0" cy="${-jump+1}" rx="${4-jump*.2}" ry="1.4" fill="rgba(0,0,0,.18)"/><path d="M0 0c-5-6.5-7.5-9.5-7.5-13a7.5 7.5 0 0115 0c0 3.5-2.5 6.5-7.5 13z" fill="#141416"/><circle cx="0" cy="-13" r="2.8" fill="#fff"/></g>
+  <circle cx="${car[0]}" cy="${car[1]}" r="${8+2.5*Math.sin(t*5)}" fill="${A}" opacity=".16"/><circle cx="${car[0]}" cy="${car[1]}" r="4.4" fill="${A}" stroke="#fff" stroke-width="1.8"/></g></svg></div>
+  <div class="row" style="flex:1;padding:0 6px;gap:9px"><div style="width:26px;height:26px;border-radius:9px;background:${A};display:flex;align-items:center;justify-content:center">${ic.play('#fff',9)}</div><div><div style="font-size:10.5px;font-weight:600">${f>=.999?'Arrived':roll(String(etaPrev),String(eta),.6,.4)+'&nbsp;min'}</div><div style="font-size:8px;color:var(--mut)">${md(k,2)?'Back to the studio':'To client meeting'}</div></div><span class="sp"></span><span style="font-size:9px;font-weight:560;color:var(--mut)">${(2.4*(1-f)+.1).toFixed(1)} mi</span></div></div>`;
+};
+
+W.chat=(t)=>{
+  const M=[[0,'hey can you send the new homepage?'],[1,'yep, uploading it now'],[0,'the hero animation is so clean'],[1,'thanks, took me a few tries'],[0,'ship it tonight?'],[1,'already live']];
+  const S=2.1,o=1.4;const H=28;let html='';const n=Math.floor((t-o)/S)+1;
+  for(let i=n-4;i<=n;i++){
+    const ai=o+i*S;const m=M[md(i,M.length)];const loc=t-ai;if(loc<0)continue;
+    let y=0;for(let j=i+1;j<=n;j++){const aj=o+j*S;y+=H*soft(clamp((t-aj)/.55))}
+    const pop=spring(clamp(loc/.6));const mine=m[1]&&m[0]===1;
+    html+=`<div style="position:absolute;${mine?'right':'left'}:0;bottom:${y}px;transform-origin:${mine?'right':'left'} bottom;transform:scale(${.7+.3*pop});opacity:${clamp(loc/.25)*clamp(1-(y-H*2.4)/H)};height:22px;padding:0 10px;display:flex;align-items:center;border-radius:11px;${mine?`border-bottom-right-radius:4px;background:${A};color:#fff`:'border-bottom-left-radius:4px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.06)'};font-size:9.5px;font-weight:500;white-space:nowrap">${m[1]}</div>`;
+  }
+  const nxt=M[md(n,M.length)];let ty='';
+  {const ai=o+n*S;const loc=t-ai;if(loc<0&&loc>-1.3&&nxt[0]===1){const p=spring(clamp((loc+1.3)/.5));ty=`<div style="position:absolute;right:0;bottom:0;transform-origin:right bottom;transform:scale(${.6+.4*p});opacity:${p*clamp(-loc/.15)};height:22px;width:42px;border-radius:11px;border-bottom-right-radius:4px;background:${A};display:flex;align-items:center;justify-content:center;gap:3px">${[0,1,2].map(d=>`<i style="width:4px;height:4px;border-radius:50%;background:#fff;opacity:${.5+.5*Math.max(0,Math.sin(t*9-d*1.1))};transform:translateY(${-2*Math.max(0,Math.sin(t*9-d*1.1))}px)"></i>`).join('')}</div>`}}
+  return `<div class="in" style="padding:12px 12px"><div class="row" style="gap:7px">${av('Ines',20)}<div><div style="font-size:10px;font-weight:580">Ines</div><div style="font-size:7.5px;color:#16A37F">online</div></div></div><div style="position:absolute;left:12px;right:12px;bottom:12px;top:42px;overflow:hidden"><div style="position:absolute;left:0;right:0;bottom:0;top:0">${html}${ty}</div></div></div>`;
+};
+
+W.kanban=(t)=>{
+  const P=2.8,o=1.7;const {k,l}=st(t,P,o);const cols=['To do','Doing','Done'];const cw=68,gap=7;const steps=[0,1,2];const a=steps[md(k-1,3)],b=steps[md(k,3)];
+  const back=b<a;const p=back?soft(clamp(l/.7)):spring(clamp(l/.85));const x=mix(a,b,p);const lift=Math.sin(clamp(l/.7)*Math.PI);
+  const fixed=[[0,['Logo pass']],[1,['Copy edits']],[2,['Moodboard','Type test']]];
+  let cards='';fixed.forEach(([c,list])=>{list.forEach((nm,i)=>{const occ=clamp(1-Math.abs(x-c));const yy=26+i*27+(occ>0?27*soft(occ):0);cards+=`<div class="c" style="position:absolute;left:${c*(cw+gap)}px;top:${yy}px;width:${cw}px;height:22px;border-radius:7px;padding:0 7px;display:flex;align-items:center;font-size:8px;font-weight:520">${nm}</div>`})});
+  const mv=`<div class="c" style="position:absolute;left:${x*(cw+gap)}px;top:${26-lift*3}px;width:${cw}px;height:22px;border-radius:7px;padding:0 7px;display:flex;align-items:center;gap:5px;font-size:8px;font-weight:600;white-space:nowrap;transform:rotate(${(b-a)*lift*2.5}deg) scale(${1+.05*lift});box-shadow:0 ${2+10*lift}px ${6+18*lift}px rgba(20,20,40,${.08+.12*lift});z-index:5"><i style="width:5px;height:5px;border-radius:50%;background:${A}"></i>Hero</div>`;
+  return `<div class="in" style="padding:13px 12px"><div class="row" style="margin-bottom:8px"><span class="h">Sprint</span><span class="sp"></span><span class="lbl">${roll(String(Math.round(a/2*100))+'%',String(Math.round(b/2*100))+'%',l,.7)}</span></div><div style="position:relative;height:110px">${cols.map((c,i)=>`<div style="position:absolute;left:${i*(cw+gap)}px;top:0;width:${cw}px;height:110px;border-radius:9px;background:rgba(0,0,0,.035)"><div style="font-size:7.5px;color:var(--mut);font-weight:540;padding:6px 7px">${c}</div></div>`).join('')}${cards}${mv}</div></div>`;
+};
+
+W.cmd=(t)=>{
+  const P=3.6,o=1.5;const {k,l}=st(t,P,o);const words=['deploy','preview','invite'];const w=words[md(k,3)];const typed=w.slice(0,Math.floor(clamp(l/.9)*w.length+.0001));const R={deploy:['Deploy to production','Deploy preview','Rollback last deploy'],preview:['Open preview link','Preview on mobile','Share preview'],invite:['Invite a client','Invite teammate','Copy invite link']}[w];
+  const hi=tw(t,1.2,o+.3,[0,1,2],.55,spring);const out=1-expo(clamp((l-3.25)/.3));const cw=Math.sin(t*6)>0?1:0;
+  return `<div class="in" style="padding:10px"><div class="c" style="height:100%;border-radius:14px;padding:6px"><div class="row" style="height:26px;padding:0 6px;gap:7px;border-bottom:1px solid #F0F0EC">${ic.search()}<span style="font-size:10px;font-weight:520;opacity:${out}">${typed}<i style="display:inline-block;width:1.3px;height:11px;margin-left:1px;vertical-align:-1px;background:${A};opacity:${cw}"></i></span><span class="sp"></span><span style="font-size:8px;color:var(--mut);background:#F2F2EF;border-radius:4px;padding:2px 5px">⌘K</span></div>
+  <div style="position:relative;margin-top:4px"><div style="position:absolute;left:0;right:0;top:${hi*24}px;height:24px;border-radius:8px;background:var(--tint);opacity:${expo(clamp((l-.5)/.4))*out}"></div>${R.map((r,i)=>{const on=clamp(1-Math.abs(hi-i));const app=expo(clamp((l-.5-i*.07)/.4));return `<div class="row" style="position:relative;height:24px;padding:0 8px;font-size:9.5px;font-weight:${on>.5?580:480};color:${hexmix('#141416',A,on)};opacity:${app*out};transform:translateY(${(1-app)*5}px)">${r}<span class="sp"></span><span style="font-size:8px;opacity:${on}">↵</span></div>`}).join('')}</div></div></div>`;
+};
+
+W.rings=(t)=>{
+  const vals=[[.82,.64,.46],[.95,.71,.58],[.68,.88,.4],[1,.76,.72]];const P=3.8,o=1.5;const {k,l}=st2(t,P,o);const a=vals[md(k-1,4)],b=vals[md(k,4)];
+  const C=['#2F5BFF','#7D97FF','#C8D4FF'];let s='';[34,25,16].forEach((r,i)=>{const p=spring(clamp((l-i*.08)/.9));const v=mix(a[i],b[i],p);const c=2*Math.PI*r;s+=`<circle cx="44" cy="44" r="${r}" stroke="${C[i]}" stroke-opacity=".18" stroke-width="7" fill="none"/><circle cx="44" cy="44" r="${r}" stroke="${C[i]}" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="${c*v} ${c}"/>`});
+  return `<div class="in" style="display:flex;flex-direction:column;align-items:center;justify-content:center"><svg width="88" height="88" viewBox="0 0 88 88" style="transform:rotate(-90deg)">${s}</svg><div style="font-size:9px;color:#8A8A90;margin-top:6px">Move ${rollV(t,P,o,vals.map(v=>v[0]),v=>Math.round(v*100)+'%',.8,.05)}</div></div>`;
+};
+
+W.sliders=(t)=>{
+  const v1=tw(t,2.4,1.6,[.62,.3,.85,.48],.8,spring),v2=tw(t,2.9,2.3,[.4,.78,.55,.2],.8,spring);
+  const sl=(v,icon)=>`<div style="width:38px;height:110px;border-radius:14px;background:#E2E2DD;position:relative;overflow:hidden"><div style="position:absolute;left:0;right:0;bottom:0;height:${v*100}%;background:#fff;box-shadow:0 -1px 2px rgba(0,0,0,.04)"></div><div style="position:absolute;left:50%;bottom:9px;transform:translateX(-50%)">${icon}</div></div>`;
+  return `<div class="in" style="display:flex;align-items:center;justify-content:center;gap:12px">${sl(v1,ic.vol('#141416'))}${sl(v2,ic.sun('#141416',11))}</div>`;
+};
+
+W.timer=(t)=>{
+  const total=25*60;const startEl=13*60+48;const el=startEl+Math.max(0,t-1);const E=Math.floor(el);const sm=el-E;const fmt=x=>String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0');const fp=fmt(total-E+1),fn=fmt(total-E);
+  const frac=(total-el)/total;const r=40,C=2*Math.PI*r;
+  return `<div class="in" style="display:flex;align-items:center;justify-content:center"><div style="position:relative;width:96px;height:96px"><svg width="96" height="96" viewBox="0 0 96 96" style="position:absolute;transform:rotate(-90deg)"><circle cx="48" cy="48" r="${r}" stroke="#DFDFDA" stroke-width="5" fill="none"/><circle cx="48" cy="48" r="${r}" stroke="${A}" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="${C*frac} ${C}"/></svg>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><div class="lbl">Focus</div><div style="font-size:17px;font-weight:580;letter-spacing:-.4px;margin-top:1px">${roll(fp,fn,sm,.5,.0)}</div></div></div></div>`;
+};
+
+W.battery=(t)=>{
+  const D=[['Phone',.82,1],['Watch',.46,0],['Laptop',.67,1]];
+  return `<div class="in" style="padding:13px 12px;display:flex;flex-direction:column;justify-content:space-between">${D.map((d,i)=>{const v=d[2]?clamp(d[1]+t*.004):d[1]-t*.0015;const pr=Math.round(v*100);const pu=d[2]?.55+.45*Math.abs(Math.sin(t*2.2+i)):1;
+  return `<div><div class="row" style="font-size:9px;font-weight:540">${d[0]}<span class="sp"></span>${d[2]?`<span style="opacity:${pu};margin-right:3px">${ic.bolt(A)}</span>`:''}<span>${pr}%</span></div><div style="margin-top:4px;height:5px;border-radius:3px;background:#DEDED9;overflow:hidden"><div style="height:100%;width:${v*100}%;border-radius:3px;background:${d[2]?A:'#141416'}"></div></div></div>`}).join('')}</div>`;
+};
+
+W.like=(t)=>{
+  const P=3.1,o=2.6;const {k,l}=st(t,P,o);const pop=l<.9?1+.28*Math.sin(clamp(l/.5)*Math.PI)*Math.exp(-l*2):1;const fill=soft(clamp(l/.3));const off=l>2.6?expo(clamp((l-2.6)/.3)):0;const liked=fill*(1-off);
+  const burst=clamp(l/.6);const cnt=1284+Math.max(0,k);
+  return `<div class="in" style="display:flex;flex-direction:column;align-items:center;justify-content:center"><div style="position:relative;width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center"><div style="position:absolute;inset:${-12*expo(burst)}px;border-radius:50%;border:${2*(1-burst)}px solid ${A};opacity:${t<2.6?0:(1-burst)*soft(clamp(l/.1))}"></div><div style="position:relative;width:16px;height:16px;transform:scale(${pop})"><div style="position:absolute;inset:0">${ic.heart('none',16)}</div><div style="position:absolute;inset:0;opacity:${liked};transform:scale(${.5+.5*liked})">${ic.heart(A,16)}</div></div></div><div style="font-size:12px;font-weight:600;margin-top:8px">${roll(String(cnt-1).replace(/\B(?=(\d{3})+$)/,','),String(cnt).replace(/\B(?=(\d{3})+$)/,','),l,.6)}</div><div class="lbl" style="margin-top:1px">likes</div></div>`;
+};
+
+function noise(x){return .5*Math.sin(x*.9)+.32*Math.sin(x*2.3+1.3)+.18*Math.sin(x*4.1+2.1)+.1*Math.sin(x*7.3)}
+W.stock=(t)=>{
+  const sp=.55;const W0=t*sp;const pts=[];for(let i=0;i<=60;i++){const x=i/60*172;const v=noise(W0+i*.1)+i*.006;pts.push([x,46-v*18])}const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(2)+','+p[1].toFixed(2)).join(' ');const last=pts[60];
+  const vals=[12480.32,12512.08,12497.6,12553.41,12530.9,12601.25];const P=1.6,o=1.2;
+  return `<div class="in" style="padding:14px"><div class="row"><span class="lbl">Portfolio</span><span class="sp"></span><span style="font-size:8.5px;font-weight:600;color:${A};background:var(--tint);border-radius:6px;padding:2px 6px">+${rollV(t,P,o,[2.4,2.6,2.5,2.9,2.8,3.1],v=>v.toFixed(1),.6)}%</span></div>
+  <div style="font-size:21px;font-weight:600;letter-spacing:-.7px;margin-top:3px">$${rollV(t,P,o,vals,v=>v.toLocaleString('en-US',{minimumFractionDigits:2}),.7,.035)}</div>
+  <svg width="172" height="62" viewBox="0 0 172 62" style="margin-top:8px;overflow:visible"><defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${A}" stop-opacity=".22"/><stop offset="1" stop-color="${A}" stop-opacity="0"/></linearGradient></defs><path d="${d} L172,62 L0,62z" fill="url(#sg)"/><path d="${d}" fill="none" stroke="${A}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${last[0]}" cy="${last[1]}" r="${6+3*Math.abs(Math.sin(t*2.5))}" fill="${A}" opacity=".18"/><circle cx="${last[0]}" cy="${last[1]}" r="3.5" fill="#fff" stroke="${A}" stroke-width="2"/></svg></div>`;
+};
+
+function hsl2hex(h,s,l){s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1));return '#'+[f(0),f(8),f(4)].map(x=>Math.round(x*255).toString(16).padStart(2,'0')).join('').toUpperCase()}
+W.color=(t)=>{
+  const H=[228,12,158,265,42];const h=tw(t,2.7,1.8,H,.9,spring);const sel=tw(t,2.7,1.8,[0,1,2,3,4],.9,spring);const hex=hsl2hex(((h%360)+360)%360,82,56);
+  return `<div class="in" style="padding:12px"><div style="height:62px;border-radius:13px;background:${hex};position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)"><div style="position:absolute;left:10px;bottom:8px;font-size:10px;font-weight:600;color:#fff;letter-spacing:.2px">${hex}</div></div>
+  <div style="position:relative;height:12px;margin-top:12px;border-radius:7px;background:linear-gradient(90deg,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)"><div style="position:absolute;top:50%;left:${clamp(h/360)*100}%;width:16px;height:16px;border-radius:50%;background:${hex};border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transform:translate(-50%,-50%)"></div></div>
+  <div style="position:relative;margin-top:12px;height:22px"><div style="position:absolute;top:-2px;left:${sel*36-2}px;width:26px;height:26px;border-radius:9px;box-shadow:0 0 0 2px #141416"></div><div class="row" style="gap:14px">${H.map(x=>`<div style="width:22px;height:22px;border-radius:7px;background:${hsl2hex(x,82,56)}"></div>`).join('')}</div></div></div>`;
+};
+
+W.notif=(t)=>{
+  const N=[['Stripe','Payment received, $1,200','#635BFF'],['Figma','Rae commented on Hero','#141416'],['Vercel','Deploy is live','#141416'],['Calendar','Client call in 15 min',A],['Mail','New lead from your site','#16A37F']];const S=2.3,o=1.6,H=44;const n=Math.floor((t-o)/S);
+  let h='';for(let i=n-3;i<=n+1;i++){const ai=o+i*S;const loc=t-ai;if(loc<0)continue;let depth=0;for(let j=i+1;j<=n+1;j++){depth+=soft(clamp((t-(o+j*S))/.6))}const inn=spring(clamp(loc/.7));const it=N[md(i,N.length)];
+  const y=depth*H-(1-inn)*24;const sc=1-Math.max(0,depth-2)*.08;const op=clamp(inn*1.5)*clamp(3-depth);
+  h+=`<div class="c row" style="position:absolute;left:0;right:0;top:${y}px;height:38px;padding:0 10px;gap:8px;border-radius:12px;opacity:${op};transform:scale(${sc});z-index:${100-Math.round(depth*10)}"><div style="width:20px;height:20px;border-radius:6px;background:${it[2]};display:flex;align-items:center;justify-content:center">${ic.bell('#fff')}</div><div style="line-height:1.25;min-width:0"><div style="font-size:9px;font-weight:600">${it[0]}</div><div style="font-size:8.5px;color:#5E5E5A;white-space:nowrap">${it[1]}</div></div><span class="sp"></span><span style="font-size:7.5px;color:var(--mut2)">now</span></div>`}
+  return `<div class="in" style="padding:10px"><div style="position:relative;height:100%">${h}</div></div>`;
+};
+
+W.price=(t)=>{
+  const yr=tw(t,3.2,2.4,[0,1],.75,spring);const {l}=st2(t,3.2,2.4);const k=md(st2(t,3.2,2.4).k,2);
+  return `<div class="in" style="padding:12px"><div style="position:relative;height:26px;background:#E3E3DE;border-radius:10px;padding:2px"><div style="position:absolute;top:2px;left:${2+yr*86}px;width:86px;height:22px;border-radius:8px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.1)"></div><div class="row" style="position:relative;height:22px;font-size:9.5px;font-weight:560"><span style="flex:1;text-align:center;color:${hexmix('#141416','#85857F',yr)}">Monthly</span><span style="flex:1;text-align:center;color:${hexmix('#85857F','#141416',yr)}">Yearly</span></div></div>
+  <div class="row" style="margin-top:14px;align-items:flex-end"><div style="font-size:26px;font-weight:620;letter-spacing:-1px;line-height:1">$${roll(k?'49':'39',k?'39':'49',l,.75,.06)}</div><span class="lbl" style="margin:0 0 3px 4px">/ month</span><span class="sp"></span><span style="font-size:8.5px;font-weight:600;color:#fff;background:${A};border-radius:6px;padding:3px 7px;margin-bottom:2px;opacity:${yr};transform:scale(${.6+.4*yr})">Save 20%</span></div></div>`;
+};
+
+W.deploy=(t)=>{
+  const P=4.4,o=1.9;const {l}=st(t,P,o);const lp=io(clamp((l-.25)/1.95));const live=spring(clamp((l-2.3)/.7));const back=soft(clamp((l-3.75)/.6));
+  const g1=soft(clamp(l/.4));const ww=mix(mix(mix(150,170,g1),118,live),150,back);
+  const oIdle=Math.max(1-soft(clamp((l-.05)/.3)),back),oLoad=soft(clamp((l-.15)/.3))*(1-soft(clamp((l-2.2)/.25))),oLive=soft(clamp((l-2.3)/.3))*(1-back);
+  const bg=hexmix('#141416',A,live*(1-back));
+  const lay=(op,html)=>`<div class="row" style="position:absolute;inset:0;justify-content:center;gap:7px;opacity:${op};transform:translateY(${(1-op)*4}px)">${html}</div>`;
+  return `<div class="in" style="display:flex;align-items:center;justify-content:center"><div style="position:relative;height:34px;width:${ww}px;border-radius:17px;background:${bg};overflow:hidden;color:#fff;font-size:10px;font-weight:580;box-shadow:0 6px 16px rgba(20,20,40,.22)"><div style="position:absolute;left:0;top:0;bottom:0;width:${lp*100}%;background:${A};opacity:${1-back}"></div>
+  ${lay(oIdle,`${ic.lock('#fff')}<span>Deploy site</span>`)}${lay(oLoad,`<span>Deploying</span><span style="opacity:.65">${Math.round(lp*100)}%</span>`)}${lay(oLive,`<span style="width:13px;height:13px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center">${chkPath(clamp((l-2.4)/.4),A,8,4)}</span><span>Live</span>`)}</div></div>`;
+};
+
+const L=[
+  ['music',22,24,200,240,'d'],['seg',22,274,200,54,''],['otp',22,338,200,120,''],['week',22,468,200,80,'w'],['tasks',22,558,200,186,''],
+  ['clock',232,24,150,146,'w'],['streak',232,180,150,120,''],['upload',232,310,150,140,''],['mode',232,460,150,120,''],['crew',232,590,150,154,''],
+  ['map',392,24,240,226,''],['chat',392,260,240,150,''],['kanban',392,420,240,170,''],['cmd',392,600,240,144,''],
+  ['rings',642,24,150,146,'d'],['sliders',642,180,150,150,''],['timer',642,340,150,150,''],['battery',642,500,150,120,''],['like',642,630,150,114,''],
+  ['stock',802,24,200,146,'w'],['color',802,180,200,160,''],['notif',802,350,200,180,''],['price',802,540,200,120,''],['deploy',802,670,200,74,'']
+];
+
+const root=document.getElementById('root');
+
+function draw(t){
+  let h='';
+  for(const [k,x,y,w,hh,cls] of L){
+    const d=.12+(x/1024)*.55+(y/768)*.38;
+    const p=clamp((t-d)/.75);
+    const sc=.86+.14*spring(p);
+    const op=expo(clamp((t-d)/.3));
+    const ci=expo(clamp((t-d-.12)/.45));
+    const ctx={};
+    const body=W[k](t,ctx);
+    const bg=ctx.bg?`background:${ctx.bg};`:'';
+    h+=`<div class="t ${cls}" style="left:${x}px;top:${y}px;width:${w}px;height:${hh}px;${bg}opacity:${op};transform:scale(${sc})"><div class="in" style="opacity:${ci};transform:translateY(${(1-ci)*6}px)">${body}</div></div>`;
+  }
+  root.innerHTML=h;
+}
+
+// Global hooks for d3motion & time seeking
+window.draw=draw;
+window.renderFrame=draw;
+window.seek=draw;
+window.duration=24.0;
+
+// Auto-play via requestAnimationFrame for live browser preview
+let startTime = null;
+function tick(ts){
+  if(!startTime) startTime = ts;
+  const t = ((ts - startTime)/1000) % 24.0;
+  draw(t);
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
