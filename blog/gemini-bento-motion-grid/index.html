@@ -172,7 +172,7 @@
 
       <div class="nav-actions">
         <!-- Return to Blog Hub -->
-        <a href="/blog" class="nav-portal-link">
+        <a href="/blog" class="nav-portal-link nav-link-desktop">
           <span>&larr; All Articles</span>
         </a>
 
@@ -181,7 +181,8 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
           </svg>
-          <span>bento-ui-motion-skill ↗</span>
+          <span class="skill-label-full">bento-motion-skill ↗</span>
+          <span class="skill-label-mobile">Skill ↗</span>
         </a>
 
         <!-- Dual Theme Toggle (Light / Dark) -->
@@ -443,6 +444,7 @@
           </p>
 
           <div class="table-container">
+            <div class="mobile-scroll-hint">&larr; Swipe horizontally to view table &rarr;</div>
             <table class="comparison-table">
               <thead>
                 <tr>
@@ -580,6 +582,7 @@
           </p>
 
           <div class="table-container">
+            <div class="mobile-scroll-hint">&larr; Swipe horizontally to view full matrix &rarr;</div>
             <table class="comparison-table">
               <thead>
                 <tr>
@@ -836,19 +839,31 @@ function roll(from, to, progress) {
       localStorage.setItem('d3motion_theme', newTheme);
     });
 
-    // 2. Responsive 1024x768 Iframe Scaler
+    // 2. Ultra-Robust Responsive 1024x768 Iframe Scaler
     function scaleLiveFrame() {
       const scaler = document.querySelector('.bento-iframe-scaler');
       const iframe = document.getElementById('bentoLiveFrame');
       if (scaler && iframe) {
-        const containerWidth = scaler.clientWidth;
-        const scale = containerWidth / 1024;
-        iframe.style.transform = `scale(${scale})`;
+        const containerWidth = scaler.getBoundingClientRect().width;
+        if (containerWidth > 0) {
+          const scale = containerWidth / 1024;
+          iframe.style.transform = `scale(${scale})`;
+        }
       }
     }
     window.addEventListener('resize', scaleLiveFrame);
+    window.addEventListener('orientationchange', scaleLiveFrame);
     window.addEventListener('DOMContentLoaded', scaleLiveFrame);
-    setTimeout(scaleLiveFrame, 100);
+    window.addEventListener('load', scaleLiveFrame);
+    if (window.ResizeObserver) {
+      const scalerEl = document.querySelector('.bento-iframe-scaler');
+      if (scalerEl) {
+        new ResizeObserver(() => scaleLiveFrame()).observe(scalerEl);
+      }
+    }
+    scaleLiveFrame();
+    setTimeout(scaleLiveFrame, 50);
+    setTimeout(scaleLiveFrame, 200);
 
     // 3. Reading Progress Bar
     window.addEventListener('scroll', () => {
