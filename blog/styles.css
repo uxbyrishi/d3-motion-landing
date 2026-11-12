@@ -124,7 +124,7 @@ html {
   transition: background-color var(--transition-normal), color var(--transition-normal);
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -137,7 +137,7 @@ body {
   position: relative;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -320,7 +320,7 @@ body {
   padding: 40px 24px 100px;
   box-sizing: border-box;
   min-width: 0;
-  overflow-x: hidden;
+  overflow: visible; /* Allows position: sticky on desktop sidebar */
 }
 
 /* --------------------------------------------------------------------------
@@ -1455,11 +1455,30 @@ body {
 
 /* Sidebar & TOC */
 .article-sidebar {
+  position: -webkit-sticky;
   position: sticky;
   top: 96px;
+  align-self: start;
+  height: fit-content;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-medium) transparent;
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.article-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.article-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 4px;
+}
+
+article section[id] {
+  scroll-margin-top: 100px;
 }
 
 .sidebar-widget {
@@ -1495,17 +1514,24 @@ body {
   color: var(--text-secondary);
   text-decoration: none;
   display: block;
-  padding: 5px 8px;
+  padding: 6px 10px;
   border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
   line-height: 1.4;
+  border-left: 2px solid transparent;
 }
 
-.toc-link:hover, .toc-link.active {
+.toc-link:hover {
   color: var(--text-primary);
-  background: var(--bg-card-alt);
+  background: var(--bg-hover);
+}
+
+.toc-link.active {
+  color: var(--signal-primary);
+  background: var(--signal-subtle);
   padding-left: 12px;
   border-left: 2px solid var(--signal-primary);
+  font-weight: 600;
 }
 
 .spec-list {
@@ -1679,15 +1705,7 @@ body {
    Comprehensive Mobile & Tablet Responsiveness (Zero Breakage Guarantee)
    ========================================================================== */
 
-/* Universal Mobile Safeguards */
-html, body {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden !important;
-  position: relative;
-  box-sizing: border-box;
-}
-
+/* Universal Mobile & Typography Safeguards */
 a {
   word-break: break-word;
   overflow-wrap: anywhere;
@@ -1699,6 +1717,16 @@ h1, h2, h3, h4, p, li, span {
 }
 
 @media (max-width: 1080px) {
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    position: relative;
+    box-sizing: border-box;
+  }
+  .app-container {
+    overflow-x: hidden !important;
+  }
   .featured-post-card {
     grid-template-columns: 1fr;
   }

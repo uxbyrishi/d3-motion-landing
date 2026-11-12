@@ -40,7 +40,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="/blog/styles.css?v=3.5">
+  <link rel="stylesheet" href="/blog/styles.css?v=3.6">
 
   <!-- Structured Data / JSON-LD for SEO & AEO -->
   <script type="application/ld+json">
@@ -548,7 +548,7 @@
             <div class="d3-media-stage">
               <div class="video-responsive-stage" id="ytContainer">
                 <iframe id="youtubeIframe" width="560" height="315" 
-                  src="https://www.youtube-nocookie.com/embed/CEy19dVGTu0?si=phnq_a9aN3A-HO5I&amp;origin=https://d3motion.pro&amp;enablejsapi=1&amp;rel=0" 
+                  src="https://www.youtube-nocookie.com/embed/CEy19dVGTu0?si=phnq_a9aN3A-HO5I&amp;enablejsapi=1&amp;mute=1&amp;playsinline=1&amp;origin=https://d3motion.pro&amp;rel=0" 
                   title="YouTube video player" 
                   frameborder="0" 
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -872,26 +872,43 @@ function roll(from, to, progress) {
       document.getElementById('readingProgress').style.width = scrolled + '%';
     });
 
-    // 4. Active Table of Contents Highlighting
+    // 4. Active Table of Contents Highlighting (Scrollspy via getBoundingClientRect)
     const sections = document.querySelectorAll('article section[id]');
     const tocLinks = document.querySelectorAll('.toc-link');
 
-    window.addEventListener('scroll', () => {
+    function updateActiveToc() {
+      if (!sections.length || !tocLinks.length) return;
       let currentSectionId = '';
+
       sections.forEach(section => {
-        const top = section.offsetTop - 120;
-        if (window.scrollY >= top) {
+        const rect = section.getBoundingClientRect();
+        // If top of section is within 220px of top and bottom hasn't scrolled past top 80px
+        if (rect.top <= 220 && rect.bottom > 80) {
           currentSectionId = section.getAttribute('id');
         }
       });
 
-      tocLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + currentSectionId) {
-          link.classList.add('active');
-        }
-      });
-    });
+      // Default to first section when at top of document
+      if (!currentSectionId && window.scrollY < 200 && sections.length > 0) {
+        currentSectionId = sections[0].getAttribute('id');
+      }
+
+      if (currentSectionId) {
+        tocLinks.forEach(link => {
+          if (link.getAttribute('href') === '#' + currentSectionId) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    window.addEventListener('resize', updateActiveToc, { passive: true });
+    window.addEventListener('DOMContentLoaded', updateActiveToc);
+    window.addEventListener('load', updateActiveToc);
+    updateActiveToc();
 
     // 5. FAQ Accordion Toggle
     document.querySelectorAll('.faq-question').forEach(button => {
@@ -901,7 +918,59 @@ function roll(from, to, progress) {
       });
     });
 
-    // 6. Handle YouTube Error 153 in local file:// preview
+    // 6. Autoplay YouTube Video when scrolled into view (Muted Autoplay)
+    (function setupYouTubeAutoplay() {
+      const ytContainer = document.getElementById('ytContainer');
+      const ytIframe = document.getElementById('youtubeIframe');
+      if (!ytContainer || !ytIframe) return;
+
+      let isPlaying = false;
+
+      function sendYtCommand(func) {
+        if (!ytIframe.contentWindow) return;
+        try {
+          ytIframe.contentWindow.postMessage(JSON.stringify({
+            event: 'command',
+            func: func,
+            args: []
+          }), '*');
+        } catch (err) {
+          // Cross-origin restriction fallback
+        }
+      }
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+              if (!isPlaying) {
+                sendYtCommand('playVideo');
+                isPlaying = true;
+              }
+            } else if (entry.intersectionRatio < 0.1 && isPlaying) {
+              sendYtCommand('pauseVideo');
+              isPlaying = false;
+            }
+          });
+        }, {
+          threshold: [0, 0.1, 0.35, 0.8]
+        });
+
+        observer.observe(ytContainer);
+
+        // When iframe finishes loading, trigger playback if already in viewport
+        ytIframe.addEventListener('load', () => {
+          const rect = ytContainer.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight * 0.75 && rect.bottom > window.innerHeight * 0.15;
+          if (inView && !isPlaying) {
+            setTimeout(() => sendYtCommand('playVideo'), 400);
+            isPlaying = true;
+          }
+        });
+      }
+    })();
+
+    // 7. Handle YouTube Error 153 in local file:// preview
     if (window.location.protocol === 'file:') {
       const localOverlay = document.getElementById('localVideoOverlay');
       if (localOverlay) {
