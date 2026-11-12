@@ -170,9 +170,13 @@ body {
   background: var(--bg-glass);
   border-bottom: 1px solid var(--border-subtle);
   height: 72px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .site-nav-container {
+  width: 100%;
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 0 24px;
@@ -180,6 +184,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .brand-group {
@@ -1640,15 +1645,20 @@ body {
   padding: 48px 0;
   background: var(--bg-surface);
   margin-top: 80px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .footer-content {
+  width: 100%;
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 0 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  box-sizing: border-box;
 }
 
 .footer-top {
