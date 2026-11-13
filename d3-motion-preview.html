@@ -1,0 +1,3448 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>D3 Motion — Turn HTML Animations into Production-Ready Videos | 4K 60 FPS Local Renderer</title>
+  <meta name="description" content="Turn CSS keyframes, GSAP, SVG, Canvas, and Three.js animations directly into broadcast-grade 4K 60 FPS MP4 on your own computer. 100% local, frame-accurate, and private. One-time purchase, lifetime license.">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="canonical" href="https://d3motion.pro/">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0B0C10">
+
+  <!-- Open Graph / Facebook / LinkedIn / WhatsApp / Discord / Slack -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://d3motion.pro/">
+  <meta property="og:site_name" content="D3 Motion">
+  <meta property="og:title" content="D3 Motion — Turn HTML Animations into Production-Ready Videos">
+  <meta property="og:description" content="100% Local, private offline rendering engine for CSS keyframes, GSAP, Three.js, SVG and Canvas animations. Frame-accurate 4K 60 FPS MP4 on your own computer.">
+  <meta property="og:image" content="https://d3motion.pro/assets/og-image.png">
+  <meta property="og:image:secure_url" content="https://d3motion.pro/assets/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="D3 Motion Desktop Studio - 100% Local 4K 60 FPS MP4 Rendering">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://d3motion.pro/">
+  <meta name="twitter:title" content="D3 Motion — Turn HTML Animations into Production-Ready Videos">
+  <meta name="twitter:description" content="100% Local, private offline rendering engine for CSS keyframes, GSAP, Three.js, SVG and Canvas animations. Frame-accurate 4K 60 FPS MP4 on your own computer.">
+  <meta name="twitter:image" content="https://d3motion.pro/assets/og-image.png">
+  <meta name="twitter:image:alt" content="D3 Motion Desktop Studio - 100% Local 4K 60 FPS MP4 Rendering">
+
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+
+:root {
+  --panel: #14171E; --panel-2: #111318; --bar: #0E1015; --field: #0B0C10;
+  --field-soft: rgba(0, 0, 0, 0.22); --chip: #12141A; --hover: rgba(255, 255, 255, 0.06);
+  --header-bg: rgba(18, 19, 23, 0.85); --footer-bg: #0B0C10; --grid: rgba(255, 255, 255, 0.025);
+  --glow: rgba(65, 100, 232, 0.18); --band: rgba(18, 19, 23, 0.55); --logo-a: #F0EFEA;
+  --cta-grad: linear-gradient(135deg, #14171E 0%, #1A2035 100%);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 25px 70px rgba(0, 0, 0, 0.5), 0 0 40px rgba(65, 100, 232, 0.2);
+  --text-glow: 0 0 35px rgba(65, 100, 232, 0.45);
+  --btn-glow: 0 0 20px rgba(65, 100, 232, 0.4); --btn-glow-hover: 0 0 28px rgba(65, 100, 232, 0.65);
+
+  --ink: #0B0C10;
+  --surface: #121317;
+  --surface-card: #181B22;
+  --surface-elevated: #1F222B;
+  --graphite: #30343C;
+  --steel: #747B87;
+  --steel-muted: #535862;
+  --bone: #F0EFEA;
+  
+  --signal: #4164E8;
+  --signal-hover: #3252CA;
+  --signal-bright: #4F73FF;
+  --signal-blue: #3B62F6;
+  --signal-glow: rgba(65, 100, 232, 0.45);
+  --signal-subtle: rgba(65, 100, 232, 0.12);
+
+  --green: #22C55E;
+  --green-glow: rgba(34, 197, 94, 0.22);
+  --amber: #E8A741;
+  --red: #DC2626;
+  --red-glow: rgba(220, 38, 38, 0.22);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.15);
+  --border-focus: #4164E8;
+
+  --font-display: 'Space Grotesk', -apple-system, sans-serif;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  background-image: 
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Ambient Radial Glows */
+.ambient-glow-top {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1000px, 90vw);
+  height: 500px;
+  background: radial-gradient(ellipse at top, rgba(65, 100, 232, 0.18) 0%, rgba(11, 12, 16, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Containers */
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header & Nav */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(18, 19, 23, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: all 0.25s ease;
+}
+
+.nav-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--bone);
+}
+
+.brand-icon-box {
+  width: 38px;
+  height: 38px;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 16px rgba(65, 100, 232, 0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.brand-link:hover .brand-icon-box {
+  transform: translateY(-1px);
+  box-shadow: 0 0 22px rgba(65, 100, 232, 0.5);
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -0.5px;
+}
+
+.brand-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(65, 100, 232, 0.15);
+  border: 1px solid rgba(65, 100, 232, 0.35);
+  color: var(--signal);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--steel);
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.18s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--bone);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--signal);
+  color: #FFFFFF;
+  border: 1px solid var(--signal);
+  box-shadow: var(--btn-glow);
+}
+
+.btn-primary:hover {
+  background: var(--signal-bright);
+  border-color: var(--signal-bright);
+  box-shadow: var(--btn-glow-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--surface-card);
+  color: var(--bone);
+  border: 1px solid var(--graphite);
+}
+
+.btn-secondary:hover {
+  background: var(--surface-elevated);
+  border-color: var(--steel);
+  transform: translateY(-1px);
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 9px;
+}
+
+/* Announcement pill */
+.announcement-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  color: var(--steel);
+  margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 8px var(--signal);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* Hero Section */
+.hero-section {
+  padding: 80px 0 60px;
+  text-align: center;
+  position: relative;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(38px, 5.5vw, 68px);
+  line-height: 1.06;
+  letter-spacing: -2.5px;
+  max-width: 960px;
+  margin: 0 auto 20px;
+  color: var(--bone);
+}
+
+.hero-title .highlight {
+  color: var(--signal);
+  text-shadow: 0 0 24px rgba(65, 100, 232, 0.22);
+}
+
+.hero-subtitle {
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--steel);
+  max-width: 740px;
+  margin: 0 auto 36px;
+  line-height: 1.6;
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.hero-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  color: var(--steel);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+
+.hero-badges span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-badges svg {
+  color: var(--green);
+}
+
+/* Interactive Motion Simulator / Demo Card */
+.demo-frame {
+  margin-top: 50px;
+  background: var(--surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(65, 100, 232, 0.15);
+  position: relative;
+}
+
+.window-header {
+  height: 48px;
+  background: var(--bar);
+  border-bottom: 1px solid var(--graphite);
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.traffic-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.traffic-dots i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.traffic-dots i.red { background: var(--red); }
+.traffic-dots i.amber { background: var(--amber); }
+.traffic-dots i.green { background: var(--green); }
+
+.window-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--steel);
+}
+
+.demo-body {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  min-height: 480px;
+}
+
+.demo-controls {
+  padding: 30px;
+  border-right: 1px solid var(--graphite);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  background: var(--panel-2);
+}
+
+.demo-stage {
+  padding: 30px;
+  background: var(--field);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Feature Grid */
+.section {
+  padding: 90px 0;
+  position: relative;
+}
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--signal);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(30px, 3.8vw, 46px);
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+  color: var(--bone);
+}
+
+.section-desc {
+  font-size: 16px;
+  color: var(--steel);
+  max-width: 650px;
+  margin-bottom: 50px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 28px;
+}
+
+.features-group-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.feature-group-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.feature-group-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--signal);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: var(--signal-subtle);
+  border: 1px solid rgba(65, 100, 232, 0.22);
+  padding: 4px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.feature-group-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.table-scroll-hint {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--steel);
+  text-align: right;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 26px 24px;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.card:hover {
+  border-color: rgba(65, 100, 232, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--panel);
+  border: 1px solid rgba(65, 100, 232, 0.2);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: var(--signal);
+  margin-bottom: 18px;
+  box-shadow: 0 0 12px rgba(65, 100, 232, 0.12);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.4px;
+  margin-bottom: 10px;
+  color: var(--bone);
+}
+
+.card-desc {
+  font-size: 13.5px;
+  color: var(--steel);
+  line-height: 1.65;
+}
+
+/* Comparison Table */
+.comparison-table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-top: 36px;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.comparison-table th, .comparison-table td {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.comparison-table th {
+  background: var(--bar);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--steel);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.comparison-table th.col-highlight {
+  background: rgba(65, 100, 232, 0.15);
+  color: var(--signal);
+  border-bottom-color: var(--signal);
+}
+
+.comparison-table td.col-highlight {
+  background: rgba(65, 100, 232, 0.05);
+  font-weight: 600;
+  color: var(--bone);
+}
+
+.comparison-table tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Pricing Card */
+.pricing-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 2px solid var(--signal);
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: 0 0 50px -10px rgba(65, 100, 232, 0.4);
+  position: relative;
+  text-align: center;
+}
+
+.pricing-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--signal);
+  color: #FFFFFF;
+  padding: 4px 16px;
+  border-radius: 99px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0 0 16px var(--signal);
+}
+
+.price-val {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0 12px;
+}
+
+.price-currency {
+  font-size: 28px;
+  color: var(--signal);
+  font-weight: 700;
+}
+
+.price-amount {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--bone);
+}
+
+.price-period {
+  font-size: 14px;
+  color: var(--steel);
+  font-weight: 500;
+}
+
+.price-strike {
+  text-decoration: line-through;
+  color: var(--steel-muted);
+  font-size: 20px;
+  margin-left: 6px;
+}
+
+.pricing-features {
+  list-style: none;
+  margin: 36px 0;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--bone);
+}
+
+.pricing-features svg {
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+/* FAQ Accordion */
+.faq-list {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.faq-item:hover {
+  border-color: rgba(65, 100, 232, 0.4);
+}
+
+.faq-q {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bone);
+  user-select: none;
+}
+
+.faq-a {
+  padding: 0 24px 20px;
+  color: var(--steel);
+  font-size: 14px;
+  line-height: 1.65;
+  display: none;
+}
+
+.faq-item.open .faq-a {
+  display: block;
+}
+
+.faq-item.open .faq-q svg {
+  transform: rotate(180deg);
+}
+
+.faq-q svg {
+  transition: transform 0.2s ease;
+  color: var(--steel);
+}
+
+/* Legal & Doc Pages */
+.doc-shell {
+  padding: 60px 0 90px;
+}
+
+.doc-content {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 48px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.doc-header {
+  border-bottom: 1px solid var(--graphite);
+  padding-bottom: 24px;
+  margin-bottom: 36px;
+}
+
+.doc-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 36px;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+  color: var(--bone);
+}
+
+.doc-updated {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--steel);
+}
+
+.doc-body h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  margin: 36px 0 14px;
+  color: var(--bone);
+  letter-spacing: -0.4px;
+}
+
+.doc-body h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  margin: 24px 0 10px;
+  color: var(--bone);
+}
+
+.doc-body p {
+  color: var(--steel);
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.doc-body ul, .doc-body ol {
+  color: var(--steel);
+  font-size: 14.5px;
+  line-height: 1.7;
+  padding-left: 24px;
+  margin-bottom: 22px;
+}
+
+.doc-body li {
+  margin-bottom: 8px;
+}
+
+.doc-body code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--field);
+  border: 1px solid var(--graphite);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--signal);
+}
+
+.doc-body pre {
+  background: var(--field);
+  border: 1px solid var(--graphite);
+  padding: 18px;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--bone);
+  margin: 20px 0;
+}
+
+.doc-box {
+  background: rgba(65, 100, 232, 0.08);
+  border: 1px solid rgba(65, 100, 232, 0.25);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 24px 0;
+  color: var(--bone);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border-subtle);
+  background: var(--field);
+  padding: 60px 0 36px;
+  margin-top: 60px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.footer-col h4 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--bone);
+  margin-bottom: 16px;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col li {
+  margin-bottom: 10px;
+}
+
+.footer-col a {
+  text-decoration: none;
+  color: var(--steel);
+  font-size: 13px;
+  transition: color 0.18s;
+}
+
+.footer-col a:hover {
+  color: var(--signal);
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--steel);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .demo-body {
+    grid-template-columns: 1fr;
+  }
+  .demo-controls {
+    border-right: 0;
+    border-bottom: 1px solid var(--graphite);
+  }
+  .pricing-features {
+    grid-template-columns: 1fr;
+  }
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+  }
+  .doc-content {
+    padding: 24px;
+  }
+  .pricing-wrap {
+    padding: 32px 20px;
+  }
+}
+
+
+
+/* ==========================================================
+   THEME TOGGLE BUTTON & UNIVERSAL DESIGN SYSTEM
+   ========================================================== */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  color: var(--bone);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--signal);
+  color: var(--signal-bright);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .theme-icon-moon { display: none; }
+[data-theme="dark"] .theme-icon-sun { display: inline-flex; }
+
+/* Default / Dark Theme Classes */
+.cta-banner-box {
+  background: var(--cta-grad);
+  border: 1px solid rgba(65, 100, 232, 0.4);
+  border-radius: 24px;
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(65, 100, 232, 0.25);
+}
+
+.how-it-works-section,
+.pricing-section {
+  background: rgba(18, 19, 23, 0.4);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.demo-telemetry-box {
+  background: var(--field);
+  border: 1px solid var(--graphite);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 20px;
+}
+
+.demo-sim-track {
+  height: 6px;
+  background: var(--field);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid var(--graphite);
+}
+
+.demo-tag-pill {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--steel);
+  background: var(--panel);
+  border: 1px solid var(--graphite);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* ==========================================================
+   LIGHT THEME DESIGN SYSTEM OVERRIDES
+   ========================================================== */
+:root[data-theme="light"] {
+  --ink: #F6F8FA;
+  --surface: #FFFFFF;
+  --surface-card: #FFFFFF;
+  --surface-elevated: #F0F3F7;
+  --graphite: #D1D5DB;
+  --steel: #4B5563;
+  --steel-muted: #6B7280;
+  --bone: #0F172A;
+  
+  --signal: #2563EB;
+  --signal-hover: #1D4ED8;
+  --signal-bright: #3B82F6;
+  --signal-blue: #2563EB;
+  --signal-glow: rgba(37, 99, 235, 0.2);
+  --signal-subtle: rgba(37, 99, 235, 0.08);
+
+  --green: #15803D;
+  --green-glow: rgba(21, 128, 61, 0.15);
+  --amber: #D97706;
+  --red: #B91C1C;
+  --red-glow: rgba(185, 28, 28, 0.15);
+
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-medium: rgba(15, 23, 42, 0.14);
+  --border-focus: #2563EB;
+
+  color-scheme: light;
+
+  --panel: #EEF2F6; --panel-2: #FFFFFF; --bar: #F1F5F9; --field: #FFFFFF;
+  --field-soft: #F8FAFC; --chip: #F1F4F8; --hover: rgba(15, 23, 42, 0.05);
+  --header-bg: rgba(255, 255, 255, 0.9); --footer-bg: #FFFFFF; --grid: rgba(15, 23, 42, 0.035);
+  --glow: rgba(37, 99, 235, 0.12); --band: #FFFFFF; --logo-a: #0F172A;
+  --cta-grad: linear-gradient(135deg, #FFFFFF 0%, #EFF6FF 100%);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.10);
+  --text-glow: none;
+  --btn-glow: 0 4px 14px rgba(37, 99, 235, 0.28); --btn-glow-hover: 0 6px 18px rgba(37, 99, 235, 0.38);
+}
+
+/* Light Theme: Interactive Demo Simulator (Image 3 fix) */
+/* Light Theme: How it works & Pricing sections (Image 2 fix) */
+/* Light Theme: Comparison Table (Image 2 fix) */
+/* Light Theme: CTA Banner Box (Image 1 fix) */
+/* Light Theme: Pricing Card */
+/* Light Theme: Docs, Instructions, Privacy, Terms & License */
+/* ========================================================
+   ORGANIZED NAVBAR & TUTORIALS DROPDOWN
+   ======================================================== */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-dropdown-btn {
+  background: none;
+  border: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--steel);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 0;
+  transition: color 0.18s ease;
+}
+
+.nav-dropdown-btn:hover,
+.nav-dropdown:hover .nav-dropdown-btn {
+  color: var(--bone);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--surface-card);
+  border: 1px solid var(--border-medium);
+  border-radius: 10px;
+  padding: 8px;
+  min-width: 195px;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  z-index: 100;
+  list-style: none;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav-dropdown-menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.nav-dropdown-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: var(--steel);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  font-weight: 500;
+}
+
+.nav-dropdown-menu li a:hover {
+  background: var(--signal-subtle);
+  color: var(--signal);
+}
+
+/* ========================================================
+   REAL APP LIVE DEMO COMPONENT (1:1 REAL APP ARCHITECTURE)
+   ======================================================== */
+.real-app-demo {
+  background: var(--surface-card);
+  border: 1px solid var(--border-medium);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5), 0 0 40px var(--signal-glow);
+  margin-top: 40px;
+}
+
+.demo-real-body {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 20px;
+  padding: 24px;
+}
+
+@media (max-width: 960px) {
+  .demo-real-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.demo-real-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.demo-real-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.real-card {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.real-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.step-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--signal);
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.step-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--bone);
+  margin-top: 1px;
+}
+
+/* Source Mode Tabs */
+.source-mode-tabs {
+  display: flex;
+  background: var(--field);
+  border: 1px solid var(--graphite);
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.source-tab-btn {
+  border: 0;
+  background: transparent;
+  color: var(--steel);
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.source-tab-btn:hover:not(.active) {
+  color: var(--bone);
+}
+
+.source-tab-btn.active {
+  background: var(--surface-card);
+  color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Dropzone Box */
+.demo-dropzone-box {
+  border: 1.5px dashed var(--graphite);
+  border-radius: 10px;
+  padding: 20px 16px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.demo-dropzone-box:hover {
+  border-color: var(--signal);
+  background: var(--signal-subtle);
+}
+
+.demo-dropzone-box .drop-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(65, 100, 232, 0.12);
+  color: var(--signal-bright);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 10px;
+}
+
+.demo-dropzone-box strong {
+  display: block;
+  font-size: 12.5px;
+  color: var(--bone);
+  margin-bottom: 2px;
+}
+
+.demo-dropzone-box p {
+  font-size: 11px;
+  color: var(--steel);
+  margin-bottom: 12px;
+}
+
+.drop-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.btn-drop-action {
+  background: var(--surface-card);
+  border: 1px solid var(--graphite);
+  color: var(--bone);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-drop-action:hover {
+  border-color: var(--signal);
+  color: var(--signal-bright);
+}
+
+.file-badges {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 9.5px;
+  font-family: var(--font-mono);
+}
+
+.file-badges span {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--steel-muted);
+}
+
+/* Loaded Project State */
+.demo-loaded-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(65, 100, 232, 0.08);
+  border: 1px solid rgba(65, 100, 232, 0.35);
+  border-radius: 10px;
+}
+
+.loaded-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(65, 100, 232, 0.2);
+  color: var(--signal-bright);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.loaded-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.loaded-meta strong {
+  display: block;
+  font-size: 12px;
+  color: var(--bone);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.loaded-meta span {
+  display: block;
+  font-size: 10px;
+  color: var(--steel);
+}
+
+.loaded-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9.5px;
+  color: var(--green);
+  margin-top: 3px;
+  font-weight: 600;
+}
+
+.btn-change-project {
+  background: transparent;
+  border: 0;
+  color: var(--steel);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.btn-change-project:hover {
+  color: var(--bone);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.privacy-note {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--steel);
+}
+
+/* Form Controls */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--steel);
+  margin-bottom: 6px;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.sub-label {
+  font-size: 10.5px;
+  color: var(--signal);
+  font-weight: 600;
+}
+
+.custom-select-wrap {
+  position: relative;
+}
+
+.real-select {
+  width: 100%;
+  height: 38px;
+  background: var(--field);
+  border: 1px solid var(--graphite);
+  border-radius: 8px;
+  color: var(--bone);
+  padding: 0 12px;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.real-select:focus {
+  border-color: var(--signal);
+}
+
+.duration-input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.real-num-input {
+  width: 100%;
+  height: 38px;
+  background: var(--field);
+  border: 1px solid var(--graphite);
+  border-radius: 8px;
+  color: var(--bone);
+  padding: 0 34px 0 12px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  outline: none;
+}
+
+.dur-clock-icon {
+  position: absolute;
+  right: 12px;
+  font-size: 13px;
+  color: var(--steel);
+  pointer-events: none;
+}
+
+.dur-chips-row {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.dur-chip {
+  flex: 1;
+  background: var(--chip);
+  border: 1px solid var(--graphite);
+  color: var(--steel);
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  padding: 4px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.dur-chip:hover {
+  color: var(--bone);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.dur-chip.active {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: #fff;
+}
+
+.form-row-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+/* Advanced Controls Accordion */
+.advanced-wrap {
+  margin-bottom: 14px;
+}
+
+.advanced-toggle-btn {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--field-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--bone);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.18s ease;
+}
+
+.advanced-toggle-btn:hover {
+  background: var(--hover);
+  border-color: var(--border-medium);
+}
+
+.sub-hint {
+  font-size: 9.5px;
+  color: var(--steel-muted);
+  font-weight: 400;
+}
+
+.advanced-content {
+  background: var(--field-soft);
+  border: 1px solid var(--border-subtle);
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  padding: 12px;
+}
+
+.adv-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.adv-label {
+  font-size: 11px;
+  color: var(--steel);
+  display: flex;
+  justify-content: space-between;
+}
+
+.adv-label strong {
+  color: var(--bone);
+  font-family: var(--font-mono);
+}
+
+.real-range {
+  width: 100%;
+  accent-color: var(--signal);
+}
+
+.color-chips-row {
+  display: flex;
+  gap: 8px;
+}
+
+.bg-color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.bg-color-dot:hover {
+  transform: scale(1.15);
+}
+
+.bg-color-dot.active {
+  border-color: var(--signal-bright);
+  transform: scale(1.2);
+}
+
+/* Format Card */
+.format-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.format-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--signal-bright);
+  display: grid;
+  place-items: center;
+}
+
+.format-card strong {
+  display: block;
+  font-size: 11.5px;
+  color: var(--bone);
+}
+
+.format-card span {
+  font-size: 10px;
+  color: var(--steel);
+}
+
+.badge-format {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--signal-bright);
+  background: rgba(65, 100, 232, 0.12);
+  border: 1px solid rgba(65, 100, 232, 0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Stage Viewport */
+.stage-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-icon-refresh {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--steel);
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.btn-icon-refresh:hover {
+  color: var(--bone);
+  border-color: var(--border-medium);
+}
+
+.stage-viewport-shell {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-medium);
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-screen-box {
+  width: 100%;
+  height: 290px;
+  background: #06070A;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#demo-real-canvas {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.stage-empty-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #07090E;
+  padding: 20px;
+}
+
+.stage-empty-icon {
+  color: var(--steel-muted);
+  margin-bottom: 8px;
+}
+
+.stage-empty-overlay strong {
+  font-size: 13px;
+  color: var(--bone);
+  margin-bottom: 4px;
+}
+
+.stage-empty-overlay p {
+  font-size: 11px;
+  color: var(--steel);
+}
+
+.stage-meta-bar {
+  height: 34px;
+  background: #0E1016;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  font-size: 11px;
+}
+
+.stage-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--steel);
+}
+
+.stage-res-pill {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--bone);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Render Action Card */
+.render-action-card {
+  padding: 16px 20px;
+}
+
+.render-idle-view {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.render-head-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.render-cam-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(65, 100, 232, 0.12);
+  color: var(--signal-bright);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.render-cam-icon.done-check {
+  background: rgba(22, 163, 74, 0.15);
+  color: #16A34A;
+}
+
+.render-head-info strong {
+  display: block;
+  font-size: 13px;
+  color: var(--bone);
+}
+
+.render-head-info p {
+  font-size: 11px;
+  color: var(--steel);
+}
+
+.btn-render-now {
+  padding: 12px 24px;
+  font-weight: 700;
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+
+.render-tip-note {
+  margin-top: 12px;
+  font-size: 10.5px;
+  color: var(--steel);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 10px;
+}
+
+.tip-dot {
+  color: var(--signal);
+}
+
+/* Light Mode Overrides for Real App Demo */
+
+/* ==========================================================
+   LAYOUT, NAV & RESPONSIVE LAYER (single source of truth)
+   ========================================================== */
+html { scroll-padding-top: 88px; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--signal-bright); outline-offset: 2px; border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ambient-glow-top { background: radial-gradient(ellipse at top, var(--glow) 0%, transparent 70%); }
+
+/* Brand logo adapts to theme */
+.brand-icon-box svg path:first-child { fill: var(--logo-a); }
+
+/* ---------- Header ---------- */
+.site-header { background: var(--header-bg); }
+.nav-wrap { gap: 20px; }
+.brand-link { flex-shrink: 0; }
+.brand-link > div:last-child { display: flex; align-items: center; gap: 6px; }
+.brand-tag { margin-left: 0; white-space: nowrap; }
+.nav-links { gap: 26px; margin-left: auto; }
+.nav-links a, .nav-dropdown-btn { font-size: 14px; }
+.nav-links a[aria-current="page"] { color: var(--bone); }
+.nav-actions { gap: 10px; }
+.nav-actions .btn { padding: 9px 16px; white-space: nowrap; }
+.theme-toggle-btn { width: 38px; height: 38px; padding: 0; justify-content: center; }
+.theme-toggle-btn > span { display: inline-flex; }
+.nav-toggle { display: none; width: 38px; height: 38px; border: 1px solid var(--border-medium); border-radius: 8px; background: var(--surface-card); cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.nav-toggle span { display: block; width: 16px; height: 2px; background: var(--bone); border-radius: 2px; transition: transform .2s, opacity .2s; }
+.nav-open .nav-toggle span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.nav-dropdown.open .nav-dropdown-menu { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+.nav-dropdown-menu { background: var(--surface-card); }
+
+@media (max-width: 960px) {
+  .nav-wrap { height: 64px; gap: 10px; }
+  .nav-toggle { display: inline-flex; }
+  .nav-actions { margin-left: auto; }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; margin: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 24px 20px; background: var(--surface); border-bottom: 1px solid var(--border-medium); box-shadow: var(--shadow-md); max-height: calc(100vh - 64px); overflow-y: auto; }
+  .nav-open .nav-links { display: flex; }
+  .nav-links > li { border-bottom: 1px solid var(--border-subtle); }
+  .nav-links > li:last-child { border-bottom: 0; }
+  .nav-links a, .nav-dropdown-btn { display: flex; width: 100%; padding: 14px 0; font-size: 16px; }
+  .nav-dropdown { display: block; }
+  .nav-dropdown-btn { justify-content: space-between; }
+  .nav-dropdown-menu { position: static; transform: none; opacity: 1; pointer-events: auto; box-shadow: none; border: 0; background: transparent; padding: 0 0 8px 12px; display: none; min-width: 0; }
+  .nav-dropdown.open .nav-dropdown-menu { display: block; transform: none; }
+  .nav-dropdown:hover .nav-dropdown-menu { transform: none; }
+  .nav-dropdown-menu li a { padding: 12px 8px; font-size: 15px; }
+}
+@media (max-width: 420px) {
+  .brand-tag { display: none; }
+  .nav-actions .btn { padding: 8px 12px; font-size: 12.5px; }
+}
+
+/* ---------- Page rhythm ---------- */
+.section { padding: clamp(56px, 8vw, 96px) 0; }
+.section--alt { background: var(--band); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+.section-desc { margin-bottom: clamp(32px, 5vw, 50px); }
+.section-title { text-wrap: balance; }
+.hero-section { padding: clamp(44px, 8vw, 88px) 0 clamp(28px, 5vw, 56px); }
+.hero-title { letter-spacing: -0.04em; text-wrap: balance; }
+.hero-badges { gap: 10px 18px; }
+.hero-badges span { padding: 6px 12px; border: 1px solid var(--border-subtle); border-radius: 99px; background: var(--surface); }
+.btn-outline { background: var(--signal-subtle); border: 1px solid var(--signal); color: var(--bone); }
+.btn-outline:hover { background: var(--hover); transform: translateY(-1px); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); }
+.card { padding: clamp(22px, 3vw, 32px); }
+.card--bad { border-color: rgba(220, 38, 38, .3); }
+.card--good { border-color: rgba(34, 197, 94, .3); }
+.card-icon--bad { color: var(--red); border-color: rgba(220, 38, 38, .3); background: rgba(220, 38, 38, .08); }
+.card-icon--good { color: var(--green); border-color: rgba(34, 197, 94, .3); background: rgba(34, 197, 94, .08); }
+.step-num { font-family: var(--font-mono); font-size: 32px; font-weight: 800; color: var(--signal); margin-bottom: 14px; }
+.card code, .section-desc code { font-family: var(--font-mono); font-size: .85em; background: var(--field-soft); border: 1px solid var(--border-subtle); padding: 1px 6px; border-radius: 4px; color: var(--signal); }
+
+/* ---------- Comparison table scrolls instead of clipping ---------- */
+.comparison-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.comparison-table { min-width: 680px; }
+.comparison-table th, .comparison-table td { padding: 16px 20px; font-size: 14px; }
+.comparison-table td.col-highlight.good { color: var(--green); }
+.comparison-table th { background: var(--bar); }
+
+/* ---------- Pricing ---------- */
+.pricing-wrap { padding: clamp(32px, 5vw, 48px); background: var(--surface); }
+.price-val { flex-wrap: wrap; }
+@media (max-width: 600px) { .pricing-features { grid-template-columns: 1fr; } .price-amount { font-size: 60px; } }
+
+/* ---------- FAQ (native <details>, works without JS) ---------- */
+.faq-item { background: var(--surface); }
+.faq-q { list-style: none; gap: 16px; }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q span { flex: 1; }
+.faq-a { display: block; }
+.faq-item[open] .faq-q svg { transform: rotate(180deg); }
+.faq-item[open] { border-color: rgba(65, 100, 232, .4); }
+
+/* ---------- Live demo ---------- */
+.real-app-demo { text-align: left; margin-top: clamp(32px, 5vw, 56px); background: var(--surface-card); box-shadow: var(--shadow-lg); }
+.real-app-demo .window-header { background: var(--bar); gap: 12px; }
+.window-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.app-status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--steel); white-space: nowrap; }
+.status-dot-green { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green-glow); flex-shrink: 0; }
+.segmented { display: flex; background: var(--field); border: 1px solid var(--graphite); border-radius: 8px; padding: 2px; gap: 2px; height: 38px; }
+.segmented button { flex: 1; border: 0; background: transparent; color: var(--steel); font: 600 12px var(--font-sans); border-radius: 6px; cursor: pointer; }
+.segmented button small { font-size: 9.5px; opacity: .7; }
+.segmented button:hover:not(.active) { color: var(--bone); }
+.segmented button.active { background: var(--signal); color: #fff; }
+.real-select, .real-num-input { background: var(--field); }
+.dur-chip { background: var(--chip); }
+.dur-chip:hover { background: var(--hover); }
+.advanced-toggle-btn { background: var(--field-soft); color: var(--bone); gap: 10px; }
+.advanced-toggle-btn:hover { background: var(--hover); }
+.advanced-content { background: var(--field-soft); }
+.demo-dropzone-box { background: var(--field-soft); }
+.btn-drop-action { background: var(--surface-card); }
+.file-badges span { background: var(--hover); }
+.format-card { background: var(--field-soft); }
+.format-icon { background: var(--panel); }
+.source-tab-btn.active { background: var(--surface-card); color: var(--bone); }
+.btn-change-project:hover { background: var(--hover); }
+.stage-viewport-shell { background: #000; }
+.stage-screen-box { --ar: 1.7778; height: auto; aspect-ratio: var(--ar); width: min(100%, calc(340px * var(--ar))); margin-inline: auto; transition: width .2s; }
+.stage-meta-bar { color: #9AA3B2; }
+.stage-status-indicator { color: #9AA3B2; }
+.stage-res-pill { color: #F0EFEA; background: rgba(255, 255, 255, .08); }
+.stage-empty-overlay strong { color: #F0EFEA; }
+.stage-empty-overlay p { color: #9AA3B2; }
+.render-idle-view { flex-wrap: wrap; }
+.btn-render-now { flex-shrink: 0; }
+@media (max-width: 960px) {
+  .demo-real-body { padding: 16px; }
+}
+
+@media (max-width: 600px) {
+  .container { padding: 0 16px; }
+  .nav-wrap { height: 58px; gap: 8px; }
+  .nav-actions { gap: 6px; }
+  .brand-icon-box { width: 34px; height: 34px; border-radius: 8px; }
+  .brand-title { font-size: 17px; }
+  .brand-tag { display: none; }
+  .theme-toggle-btn { width: 34px; height: 34px; border-radius: 7px; }
+  .nav-toggle { width: 34px; height: 34px; border-radius: 7px; }
+  .nav-actions .btn { height: 34px; padding: 0 11px; font-size: 12px; border-radius: 7px; display: inline-flex; align-items: center; white-space: nowrap; }
+
+  /* Hero Section Mobile Cleanup */
+  .hero-section {
+    padding: 32px 0 28px;
+  }
+  .announcement-bar {
+    max-width: 100%;
+    padding: 7px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    line-height: 1.4;
+    display: inline-flex;
+    align-items: flex-start;
+    text-align: left;
+    gap: 7px;
+    margin-bottom: 16px;
+  }
+  .announcement-bar .pulse-dot {
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .announcement-bar strong, .announcement-strong {
+    white-space: nowrap;
+    color: var(--bone);
+  }
+  .hero-title {
+    font-size: clamp(26px, 7.5vw, 36px);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+    padding: 0 2px;
+  }
+  .hero-subtitle {
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin-bottom: 22px;
+    padding: 0 4px;
+  }
+  .hero-ctas {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto 20px;
+    gap: 10px;
+  }
+  .hero-ctas .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 18px;
+    font-size: 14px;
+    border-radius: 9px;
+  }
+  .hero-badges {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  .hero-badges span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 5px;
+    padding: 8px 6px;
+    font-size: 11px;
+    line-height: 1.25;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border-subtle);
+    white-space: normal;
+  }
+  .hero-badges span svg {
+    flex-shrink: 0;
+    width: 13px;
+    height: 13px;
+  }
+
+  /* Interactive Demo Mobile Tweaks */
+  .real-app-demo {
+    margin-top: 28px;
+    border-radius: 14px;
+  }
+  .real-app-demo .window-title, .app-status-badge { display: none; }
+  .real-app-demo .window-header { height: 38px; padding: 0 12px; }
+  .real-card { padding: 13px; border-radius: 10px; }
+  .real-card-head { gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .source-mode-tabs { width: 100%; }
+  .source-tab-btn { flex: 1; justify-content: center; }
+  .demo-dropzone-box { padding: 16px 10px; }
+  .drop-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .btn-drop-action { justify-content: center; width: 100%; padding: 6px 8px; }
+  .file-badges { flex-wrap: wrap; }
+  .render-idle-view { flex-direction: column; align-items: stretch; gap: 12px; }
+  .btn-render-now { width: 100%; }
+  .dur-chips-row { flex-wrap: wrap; }
+  .dur-chip { flex: 1 0 28%; }
+  .form-row-grid { grid-template-columns: 1fr; }
+
+  /* Sections & Cards */
+  .section { padding: 48px 0; }
+  .section-desc { margin-bottom: 28px; }
+  .grid-3, .grid-2 { grid-template-columns: 1fr; gap: 14px; }
+  .card { padding: 18px 16px; border-radius: 12px; }
+
+  /* Pricing Card Mobile */
+  .pricing-wrap {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+  .price-amount {
+    font-size: 52px;
+  }
+  .pricing-features {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .pricing-features li {
+    font-size: 13.5px;
+  }
+
+  /* Comparison Section */
+  .comparison-table-wrap {
+    margin-inline: -16px;
+    padding-inline: 16px;
+    width: calc(100% + 32px);
+    max-width: calc(100% + 32px);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* CTA Banner Box */
+  .cta-banner-box {
+    padding: 32px 16px;
+    border-radius: 18px;
+  }
+  .cta-banner-box h2 {
+    font-size: 24px !important;
+    line-height: 1.25 !important;
+    margin-bottom: 12px;
+  }
+  .cta-banner-box p {
+    font-size: 14px !important;
+    margin-bottom: 20px;
+  }
+  .cta-banner-box .btn {
+    width: 100%;
+    padding: 13px 14px;
+    font-size: 14.5px;
+    white-space: normal;
+    height: auto;
+    text-align: center;
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 440px) {
+  .nav-btn-price { display: none; }
+  .hero-badges {
+    max-width: 100%;
+  }
+  .hero-badges span {
+    font-size: 10.5px;
+    padding: 7px 4px;
+    gap: 4px;
+  }
+  .hero-badges span svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* ---------- Docs & legal pages ---------- */
+.doc-shell { padding: clamp(32px, 6vw, 60px) 24px clamp(56px, 8vw, 90px); }
+.doc-content { padding: clamp(22px, 5vw, 48px); background: var(--surface); }
+.doc-title { font-size: clamp(28px, 5vw, 36px); text-wrap: balance; }
+.doc-body { overflow-wrap: anywhere; }
+.doc-body table { display: block; overflow-x: auto; max-width: 100%; }
+.doc-body th, .doc-body td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border-subtle); font-size: 13.5px; color: var(--steel); vertical-align: top; }
+.doc-body th { font-family: var(--font-mono); font-size: 11px; color: var(--bone); background: var(--bar); white-space: nowrap; }
+.doc-body td strong { color: var(--bone); }
+.doc-body a { color: var(--signal); }
+.doc-body pre code { background: none; border: 0; padding: 0; color: inherit; }
+.doc-body li { overflow-wrap: anywhere; }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--footer-bg); padding: clamp(40px, 6vw, 60px) 0 32px; margin-top: 0; }
+.footer-col h4 { color: var(--bone); }
+.footer-col li { margin-bottom: 10px; }
+.footer-bottom { gap: 12px 24px; flex-wrap: wrap; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 8px 22px; list-style: none; }
+.footer-links a { color: var(--steel); text-decoration: none; font-size: 13px; }
+.footer-links a:hover { color: var(--signal); }
+.footer-mini { display: flex; flex-direction: column; gap: 18px; }
+@media (max-width: 900px) { .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; } .footer-top > .footer-col:first-child { grid-column: 1 / -1; } }
+@media (max-width: 520px) { .footer-top { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+@media (max-width: 768px) {
+  .features-group-wrap { gap: 36px; }
+  .feature-group-head { margin-bottom: 16px; }
+  .table-scroll-hint { display: flex; }
+}
+
+.site-header .container { position: static; z-index: auto; }
+.doc-body table.comparison-table { min-width: 0; }
+[data-theme="light"] .theme-icon-sun { display: none; }
+[data-theme="light"] .theme-icon-moon { display: inline-flex; }
+
+</style>
+
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    if (window.location.protocol !== 'file:' && window.location.hostname) {
+      var s = document.createElement('script');
+      s.defer = true;
+      s.src = '/_vercel/insights/script.js';
+      document.head.appendChild(s);
+    }
+  </script>
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        var theme = (saved === 'dark' || saved === 'light') ? saved : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch(e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <div class="ambient-glow-top"></div>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="index.html" class="brand-link" aria-label="D3 Motion home">
+        <div class="brand-icon-box"><svg width="24" height="17" viewBox="0 0 240 170" fill="none" aria-hidden="true"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg></div>
+        <div><span class="brand-title">D3 Motion</span><span class="brand-tag">HTML TO VIDEO</span></div>
+      </a>
+
+      <ul class="nav-links" id="site-nav">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#demo">Live demo</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li class="nav-dropdown">
+          <button type="button" class="nav-dropdown-btn" aria-haspopup="true">
+            <span>Tutorials</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="tutorial.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--signal-bright);"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><span>Interactive Tutorial (Win &amp; Mac)</span></a></li>
+            <li><a href="tutorial-windows.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color: var(--signal-bright);"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg><span>Windows 11 Tutorial</span></a></li>
+            <li><a href="tutorial-mac.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="color: var(--signal-bright);"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 1.01-2.87-.96.04-2.14.65-2.8 1.42-.58.67-.99 1.72-.94 2.76 1.08.08 2.12-.56 2.73-1.31z"/></svg><span>macOS Tutorial</span></a></li>
+          </ul>
+        </li>
+        <li><a href="instructions.html">Docs</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Switch theme" title="Switch theme">
+          <span class="theme-icon-sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span><span class="theme-icon-moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+        </button>
+        <a href="#pricing" class="btn btn-primary"><span>Get D3 Motion</span><span class="nav-btn-price"> — $29</span></a>
+      </div>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      
+      <div class="announcement-bar">
+        <span class="pulse-dot"></span>
+        <span>High-performance offline rendering <strong class="announcement-strong">4K 60 FPS &amp; Batch Queue</strong></span>
+      </div>
+
+      <h1 class="hero-title">
+        Turn your HTML animations into <span class="highlight">production-ready videos.</span>
+      </h1>
+
+      <p class="hero-subtitle">Render CSS keyframes, GSAP, Three.js, SVG, and Canvas animations directly to crisp 4K 60&nbsp;FPS MP4 on your own computer. Deterministic, frame-accurate, and 100% private.</p>
+
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn btn-primary btn-lg">
+          <span>Get D3 Motion — $29</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="tutorial-windows.html" class="btn btn-outline btn-lg">
+          <span>▶ Watch setup tutorial</span>
+        </a>
+      </div>
+
+      <div class="hero-badges">
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Local &amp; Private</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Unlimited Exports</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> One-Time License ($29)</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Windows &amp; Mac Native</span>
+      </div>
+
+      <!-- Interactive Real App Live Demo -->
+      <div id="demo" class="real-app-demo">
+        <div class="window-header">
+          <div class="traffic-dots">
+            <i class="red"></i>
+            <i class="amber"></i>
+            <i class="green"></i>
+          </div>
+          <div class="window-title">D3 Motion • Local Motion Engine (Interactive Sandbox)</div>
+          <div class="app-status-badge">
+            <span class="status-dot-green"></span>
+            <span>Runs locally · Private by design</span>
+          </div>
+        </div>
+
+        <div class="demo-real-body">
+          <!-- Left Column: Source & Output Settings -->
+          <div class="demo-real-sidebar">
+            <!-- 01 · SOURCE CARD -->
+            <div class="real-card">
+              <div class="real-card-head">
+                <div>
+                  <div class="step-label">01 · SOURCE</div>
+                  <div class="step-title">Your project</div>
+                </div>
+                <!-- Mode Switch Tabs -->
+                <div class="source-mode-tabs">
+                  <button type="button" class="source-tab-btn active" id="demo-tab-single">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>Single File</span>
+                  </button>
+                  <button type="button" class="source-tab-btn" id="demo-tab-batch">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    <span>Batch Queue</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Empty Dropzone State -->
+              <div id="demo-dropzone" class="demo-dropzone-box" title="Click to test loading a sample HTML project">
+                <div class="drop-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <strong>Drop your HTML file here</strong>
+                <p>Or drop multiple files for batch export</p>
+                <div class="drop-actions">
+                  <button type="button" class="btn-drop-action" id="demo-choose-file">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                    <span>Choose File</span>
+                  </button>
+                  <button type="button" class="btn-drop-action" id="demo-batch-folder">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    <span>Batch Folder</span>
+                  </button>
+                </div>
+                <div class="file-badges">
+                  <span>.HTML</span><span>.HTM</span><span>.ZIP</span><span>FOLDER</span>
+                </div>
+              </div>
+
+              <!-- Loaded Project Card (Interactive Toggle) -->
+              <div id="demo-loaded-card" class="demo-loaded-card" style="display: none;">
+                <div class="loaded-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="loaded-meta">
+                  <strong>ScalpX_Hero_Animation.html</strong>
+                  <span>Desktop/ScalpX · 56 KB</span>
+                  <div class="loaded-badge">
+                    <span class="status-dot-green"></span>
+                    <span>Project loaded &amp; ready</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-change-project" id="demo-btn-change" title="Remove & load another file">✕</button>
+              </div>
+
+              <div class="privacy-note">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--green);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Your files stay on this computer. Nothing is uploaded.</span>
+              </div>
+            </div>
+
+            <!-- 02 · OUTPUT SETTINGS CARD -->
+            <div class="real-card">
+              <div class="real-card-head">
+                <div>
+                  <div class="step-label">02 · OUTPUT</div>
+                  <div class="step-title">Export settings</div>
+                </div>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--steel)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </div>
+
+              <!-- Resolution Dropdown -->
+              <div class="form-group">
+                <label class="form-label">Resolution</label>
+                <div class="custom-select-wrap">
+                  <select id="demo-resolution" class="real-select">
+                    <option value="1920x1080">Landscape - 1080p - 1920 × 1080</option>
+                    <option value="3840x2160">Landscape - 4K UHD - 3840 × 2160</option>
+                    <option value="1080x1920">Vertical - 9:16 Shorts / Reels - 1080 × 1920</option>
+                    <option value="1080x1080">Square - 1:1 Feed - 1080 × 1080</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Duration Input & Chips -->
+              <div class="form-group">
+                <div class="label-row">
+                  <label class="form-label">Duration (seconds)</label>
+                  <span class="sub-label">Suggestions</span>
+                </div>
+                <div class="duration-input-box">
+                  <input type="number" id="demo-duration" value="10" min="1" max="600" class="real-num-input">
+                  <span class="dur-clock-icon">⏱</span>
+                </div>
+                <div class="dur-chips-row">
+                  <button type="button" class="dur-chip" data-dur="5">5s</button>
+                  <button type="button" class="dur-chip active" data-dur="10">10s</button>
+                  <button type="button" class="dur-chip" data-dur="15">15s</button>
+                  <button type="button" class="dur-chip" data-dur="20">20s</button>
+                  <button type="button" class="dur-chip" data-dur="30">30s</button>
+                  <button type="button" class="dur-chip" data-dur="60">60s</button>
+                </div>
+              </div>
+
+              <!-- Frame Rate & Quality Row -->
+              <div class="form-row-grid">
+                <div>
+                  <label class="form-label">Frame rate</label>
+                  <div class="segmented" id="demo-fps-group">
+                    <button type="button" data-fps="24">24 <small>fps</small></button>
+                    <button type="button" class="active" data-fps="30">30 <small>fps</small></button>
+                    <button type="button" data-fps="60">60 <small>fps</small></button>
+                  </div>
+                </div>
+                <div>
+                  <label class="form-label">Render quality</label>
+                  <div class="custom-select-wrap">
+                    <select id="demo-quality" class="real-select">
+                      <option value="Standard">Standard</option>
+                      <option value="High" selected>High (Crisp)</option>
+                      <option value="Ultra">Ultra (Studio)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Advanced Controls Accordion -->
+              <div class="advanced-wrap">
+                <button type="button" id="demo-advanced-btn" class="advanced-toggle-btn">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+                    <span>Advanced Controls</span>
+                  </div>
+                  <span class="sub-hint">Crop, Canvas, Delay, Scrollbars</span>
+                  <span id="demo-adv-chevron" style="transition: transform 0.2s ease;">▾</span>
+                </button>
+                <div id="demo-advanced-content" class="advanced-content" style="display: none;">
+                  <div class="adv-item">
+                    <label class="adv-label">Zoom &amp; Viewport Scale: <strong id="demo-zoom-val">100%</strong></label>
+                    <input type="range" id="demo-zoom-slider" min="50" max="300" value="100" class="real-range">
+                  </div>
+                  <div class="adv-item" style="margin-top: 10px;">
+                    <label class="adv-label">Canvas Background</label>
+                    <div class="color-chips-row">
+                      <span class="bg-color-dot active" data-color="#000000" style="background: #000000;" title="Black"></span>
+                      <span class="bg-color-dot" data-color="#0B0C10" style="background: #0B0C10;" title="Dark Slate"></span>
+                      <span class="bg-color-dot" data-color="#FFFFFF" style="background: #FFFFFF; border: 1px solid #ccc;" title="White"></span>
+                      <span class="bg-color-dot" data-color="transparent" style="background: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%); background-size: 8px 8px; background-position: 0 0, 0 4px, 4px -4px, -4px 0px;" title="Transparent"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Output Format Card -->
+              <div class="format-card">
+                <div class="format-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+                </div>
+                <div style="flex: 1;">
+                  <strong>MP4 video · H.264</strong>
+                  <span>Silent video · yuv420p · web optimized</span>
+                </div>
+                <span class="badge-format">.MP4</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Live Interactive Preview Viewport & Render Box -->
+          <div class="demo-real-main">
+            <!-- 03 · LIVE PREVIEW STAGE -->
+            <div class="real-card stage-card">
+              <div class="real-card-head">
+                <div>
+                  <div class="step-label">03 · LIVE PREVIEW</div>
+                  <div class="step-title">Preview</div>
+                </div>
+                <button type="button" id="demo-refresh-btn" class="btn-icon-refresh" title="Restart animation">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                </button>
+              </div>
+
+              <!-- Viewport Canvas Container -->
+              <div class="stage-viewport-shell">
+                <div class="stage-screen-box" id="demo-stage-screen">
+                  <canvas id="demo-real-canvas" width="600" height="340"></canvas>
+                  
+                  <!-- Empty stage hint if no file -->
+                  <div id="demo-stage-empty-overlay" class="stage-empty-overlay" style="display: none;">
+                    <div class="stage-empty-icon">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <strong>Your preview lives here</strong>
+                    <p>Import an HTML project or batch folder to see it in action.</p>
+                  </div>
+                </div>
+
+                <div class="stage-meta-bar">
+                  <div class="stage-status-indicator">
+                    <span class="status-dot-green" id="demo-status-dot"></span>
+                    <span id="demo-status-text">Ready to render</span>
+                  </div>
+                  <div class="stage-res-pill" id="demo-res-pill">
+                    1920 × 1080 · 30 FPS
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RENDER & PROGRESS CARD -->
+            <div class="real-card render-action-card">
+              <!-- Idle State -->
+              <div id="demo-render-idle-view" class="render-idle-view">
+                <div class="render-head-info">
+                  <div class="render-cam-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                  </div>
+                  <div>
+                    <strong>Ready when you are</strong>
+                    <p>Click Render to test local frame capture simulation.</p>
+                  </div>
+                </div>
+                <button type="button" id="demo-start-render-btn" class="btn btn-primary btn-render-now">
+                  <span>Simulate Export (60 FPS)</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+
+              <!-- Rendering / Progress State -->
+              <div id="demo-render-progress-view" class="render-progress-view" style="display: none;">
+                <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                  <strong id="demo-prog-label" style="color: var(--bone);">Recording frames (30 FPS)...</strong>
+                  <span id="demo-prog-percentage" style="font-family: var(--font-mono); font-weight: 700; color: var(--signal-bright);">0%</span>
+                </div>
+                <div class="demo-sim-track" style="margin: 8px 0 10px;">
+                  <div id="demo-prog-bar-fill" style="height: 100%; width: 0%; background: var(--signal); transition: width 0.08s linear; box-shadow: 0 0 10px var(--signal);"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--steel); font-family: var(--font-mono);">
+                  <span id="demo-prog-frames">Frame: 0 / 300</span>
+                  <span id="demo-prog-speed">2.4x Real-time GPU</span>
+                </div>
+              </div>
+
+              <!-- Finished State -->
+              <div id="demo-render-done-view" class="render-done-view" style="display: none; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="render-cam-icon done-check">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--green);"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                  <div>
+                    <strong style="color: var(--bone); font-size: 13px;">Export complete!</strong>
+                    <p style="font-size: 11px; color: var(--steel);">ScalpX_Hero_Animation.mp4 (14.2 MB) · Saved locally</p>
+                  </div>
+                </div>
+                <button type="button" id="demo-render-again-btn" class="btn btn-secondary" style="font-size: 12px; padding: 7px 14px;">
+                  <span>Render Again</span>
+                </button>
+              </div>
+
+              <div class="render-tip-note">
+                <span class="tip-dot">●</span>
+                <span>Best results with self-contained HTML or a ZIP that includes its CSS, JavaScript, fonts, and images.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works: The 3-Step Workflow -->
+  <section id="how-it-works" class="section section--alt">
+    <div class="container">
+      <span class="section-tag">THREE-STEP WORKFLOW</span>
+      <h2 class="section-title">Drag. Drop. Export. Motion Made Effortless.</h2>
+      <p class="section-desc">
+        Skip complex headless scripts, screen-recording frame drops, and command-line arguments. Turn your web creations into high-fidelity video in three steps.
+      </p>
+
+      <div class="grid-3">
+        <!-- Step 1 -->
+        <div class="card">
+          <div class="step-num">01</div>
+          <h3 class="card-title">DRAG</h3>
+          <p class="card-desc">
+            Drop your animated <code>.html</code> file or a <code>.zip</code> archive containing all linked CSS, JS, SVGs, and Canvas scripts directly into D3 Motion. Local assets, fonts, and dependencies resolve automatically.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card">
+          <div class="step-num">02</div>
+          <h3 class="card-title">CONFIGURE</h3>
+          <p class="card-desc">
+            Select standard presets (1080p, 4K UHD, 9:16 vertical for TikTok, Reels, and Shorts, or custom dimensions). Choose your frame rate (24, 30, or 60 FPS) and inspect your animation live in the real-time stage.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card">
+          <div class="step-num">03</div>
+          <h3 class="card-title">EXPORT</h3>
+          <p class="card-desc">
+            Click <strong>Render MP4</strong>. Embedded headless Chromium steps through each frame deterministically without dropped frames, and FFmpeg encodes a clean, broadcast-ready H.264 video directly to your computer.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="section">
+    <div class="container">
+      <span class="section-tag">ENGINEERED FOR MOTION</span>
+      <h2 class="section-title">Built for Motion Designers, Developers, and Studios</h2>
+      <p class="section-desc">
+        A dedicated local engine to convert interactive web animations into clean, broadcast-ready videos for product launches, social campaigns, and client deliverables.
+      </p>
+
+      <div class="features-group-wrap">
+        <!-- Group 1: Core Engine -->
+        <div>
+          <div class="feature-group-head">
+            <span class="feature-group-tag">01 · Core Rendering Engine</span>
+            <div class="feature-group-line"></div>
+          </div>
+          <div class="grid-3">
+            <!-- Feature 1 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <h3 class="card-title">Full Web Stack Support</h3>
+              <p class="card-desc">
+                Supports standard CSS Keyframes, GSAP, Anime.js, Three.js, WebGL, SVG animations, Canvas 2D, and Lottie-web. If modern Chromium can render it, D3 Motion can record it.
+              </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <h3 class="card-title">Frame-Accurate Zero-Drop Sync</h3>
+              <p class="card-desc">
+                Unlike real-time screen recorders that lag when CPU spikes occur, D3 Motion renders and captures each frame deterministically, guaranteeing smooth 60 FPS output.
+              </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              </div>
+              <h3 class="card-title">Zero Setup / Out-of-the-Box</h3>
+              <p class="card-desc">
+                Includes bundled Chromium and static FFmpeg binaries. You do not need to install Node.js, run terminal commands, or manage browser drivers manually.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group 2: Formats & Composition -->
+        <div>
+          <div class="feature-group-head">
+            <span class="feature-group-tag">02 · Formats &amp; Composition</span>
+            <div class="feature-group-line"></div>
+          </div>
+          <div class="grid-3">
+            <!-- Feature 4 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              </div>
+              <h3 class="card-title">Vertical (9:16) &amp; Social Presets</h3>
+              <p class="card-desc">
+                Instantly render for TikTok, Instagram Reels, YouTube Shorts, and X with built-in 9:16, 1:1, 4:3, and 16:9 aspect ratios up to 4K UHD resolution.
+              </p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <h3 class="card-title">Smart Element Auto-Fit &amp; Crop</h3>
+              <p class="card-desc">
+                Target any CSS selector (like <code>.phone</code>, <code>#banner</code>, or <code>canvas</code>). D3 Motion calculates zoom scaling and centers content edge-to-edge automatically.
+              </p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"/></svg>
+              </div>
+              <h3 class="card-title">Custom &amp; Transparent Canvas</h3>
+              <p class="card-desc">
+                Switch between Dark Void, Pure White, custom brand hex codes, or a transparent background without altering your original HTML or CSS code.
+              </p>
+            </div>
+
+            <!-- Feature 7 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3 class="card-title">100% Air-Gapped Privacy</h3>
+              <p class="card-desc">
+                Keep client animations, NDA assets, and proprietary code safely on your computer. All processing is local—nothing is uploaded, tracked, or sent to cloud servers.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group 3: Studio & Precision Controls -->
+        <div>
+          <div class="feature-group-head">
+            <span class="feature-group-tag">03 · Precision Controls</span>
+            <div class="feature-group-line"></div>
+          </div>
+          <div class="grid-3">
+            <!-- Feature 8 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <h3 class="card-title">Auto-Detect Loop Duration</h3>
+              <p class="card-desc">
+                Eliminate guesswork on loop timings. D3 Motion inspects CSS keyframe definitions, transition lengths, and GSAP timelines to sync exact loop points automatically.
+              </p>
+            </div>
+
+            <!-- Feature 9 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+              </div>
+              <h3 class="card-title">Start Delay Buffer</h3>
+              <p class="card-desc">
+                Set a configurable millisecond delay before capture starts to allow JavaScript initialization, async web fonts, audio buffers, or WebGL shaders to warm up.
+              </p>
+            </div>
+
+            <!-- Feature 10 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </div>
+              <h3 class="card-title">Auto-Hide Scrollbars</h3>
+              <p class="card-desc">
+                Prevents accidental browser scrollbars in exports. D3 Motion cleanly hides overflow scrollbars even when layout dimensions vary by sub-pixel rounding.
+              </p>
+            </div>
+
+            <!-- Feature 11 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              </div>
+              <h3 class="card-title">Batch Folder Queue</h3>
+              <p class="card-desc">
+                Producing multi-size digital campaigns? Drop a directory of HTML banners or multiple files to render each variation sequentially with a single click.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem vs Solution / Comparison -->
+  <section id="comparison" class="section section--alt">
+    <div class="container">
+      <span class="section-tag">WHY D3 MOTION</span>
+      <h2 class="section-title">Deterministic Local Rendering vs. Cloud SaaS &amp; Screen Recorders</h2>
+      <p class="section-desc">
+        Screen recorders drop frames during CPU load, while cloud converters enforce recurring subscriptions and cloud upload risks. D3 Motion delivers deterministic frame-accurate output on your own computer.
+      </p>
+
+      <div class="grid-3">
+        <!-- Card 1 -->
+        <div class="card card--bad">
+          <div class="card-icon card-icon--bad">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <h3 class="card-title">Screen Recording Stutter &amp; Lag</h3>
+          <p class="card-desc">
+            Standard screen recorders rely on real-time display capture. When CPU usage spikes, frames drop, resulting in stutter, uneven pacing, and accidental cursor or notification popups.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card card--bad">
+          <div class="card-icon card-icon--bad">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3 class="card-title">Cloud Uploads &amp; Recurring Fees</h3>
+          <p class="card-desc">
+            Online SaaS converters require continuous monthly subscriptions ($200–$500+/yr), enforce strict file size caps, and upload your proprietary client code to third-party cloud servers.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card card--good">
+          <div class="card-icon card-icon--good">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 class="card-title">D3 Motion: Local &amp; Deterministic</h3>
+          <p class="card-desc">
+            D3 Motion advances each frame programmatically in an isolated environment. Every frame is decoded and rendered at full precision before encoding—silky-smooth 60 FPS, 100% private.
+          </p>
+        </div>
+      </div>
+
+      <!-- Comparison Matrix Table -->
+      <div class="table-scroll-hint">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/><polyline points="19 18 13 12 19 6"/></svg>
+        <span>Scroll horizontally to compare all features</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/><polyline points="5 18 11 12 5 6"/></svg>
+      </div>
+
+      <div class="comparison-table-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>CAPABILITY</th>
+              <th class="col-highlight">★ D3 MOTION</th>
+              <th>CLOUD SAAS CONVERTERS</th>
+              <th>SCREEN RECORDERS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pricing Model</strong></td>
+              <td class="col-highlight" style="color: var(--green);"><strong>$29 One-Time (Lifetime License)</strong></td>
+              <td>$19–$49 / month ($228+/yr)</td>
+              <td>$15–$30 / month recurring</td>
+            </tr>
+            <tr>
+              <td><strong>Export Limits</strong></td>
+              <td class="col-highlight" style="color: var(--green);"><strong>Unlimited Exports</strong></td>
+              <td>Throttled by minute quota</td>
+              <td>Storage limits or watermarks</td>
+            </tr>
+            <tr>
+              <td><strong>Processing Location</strong></td>
+              <td class="col-highlight"><strong>100% Local (Your Machine)</strong></td>
+              <td>Remote Server Upload</td>
+              <td>Local display capture</td>
+            </tr>
+            <tr>
+              <td><strong>Data Privacy &amp; IP Protection</strong></td>
+              <td class="col-highlight" style="color: var(--green);"><strong>Air-gapped (Zero Uploads)</strong></td>
+              <td>Uploaded to third-party servers</td>
+              <td>Captures full desktop UI</td>
+            </tr>
+            <tr>
+              <td><strong>Frame Accuracy &amp; Quality</strong></td>
+              <td class="col-highlight"><strong>Up to 4K UHD @ 60 FPS</strong></td>
+              <td>Often capped at 1080p / 30 FPS</td>
+              <td>Prone to dropped frames &amp; lag</td>
+            </tr>
+            <tr>
+              <td><strong>Offline Capabilities</strong></td>
+              <td class="col-highlight" style="color: var(--green);"><strong>Works 100% Offline</strong></td>
+              <td>Requires constant cloud connection</td>
+              <td>Offline (no frame sync)</td>
+            </tr>
+            <tr>
+              <td><strong>Dependencies Required</strong></td>
+              <td class="col-highlight"><strong>Zero (Chromium &amp; FFmpeg bundled)</strong></td>
+              <td>Web upload limits</td>
+              <td>Virtual audio / display setup</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="section">
+    <div class="container">
+      <span class="section-tag" style="text-align: center;">TRANSPARENT PRICING</span>
+      <h2 class="section-title" style="text-align: center;">One-Time Purchase. Lifetime License.</h2>
+      <p class="section-desc" style="text-align: center; margin: 0 auto 40px;">
+        No recurring subscriptions. No metered credits. Pay once and use D3 Motion on your computer with unlimited exports.
+      </p>
+
+      <div class="pricing-wrap">
+        <span class="pricing-badge">LAUNCH SPECIAL • 40% OFF</span>
+
+        <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--bone);">
+          D3 Motion Lifetime License
+        </h3>
+        <p style="color: var(--steel); font-size: 14px; margin-top: 6px;">
+          For motion designers, creative developers, freelancers, and digital studios.
+        </p>
+
+        <div class="price-val">
+          <span class="price-currency">$</span>
+          <span class="price-amount">29</span>
+          <span class="price-period">one-time payment</span>
+          <span class="price-strike">$49</span>
+        </div>
+
+        <p style="color: var(--green); font-size: 13px; font-weight: 600;">
+          ✓ Save hundreds annually compared to recurring SaaS subscriptions
+        </p>
+
+        <ul class="pricing-features">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Unlimited MP4 video renders</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Up to 4K UHD resolution</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 24, 30, and 60 FPS output modes</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Local &amp; offline processing</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Bundled Chromium &amp; FFmpeg binaries</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Windows &amp; macOS compatible</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Commercial usage rights included</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> All future updates included</li>
+        </ul>
+
+        <!-- Polar Direct Checkout Link -->
+        <a href="https://buy.polar.sh/polar_cl_2s65d7FGxOplrwnmwGynljcFBhjHjgr0Mm6252PkgzV" id="buy-btn" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer" style="width: 100%; font-size: 16px;">
+          <span>Get D3 Motion Lifetime License — $29</span>
+        </a>
+
+        <div style="margin-top: 18px; font-size: 12px; color: var(--steel); display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Guaranteed secure payment via Polar • Instant software download &amp; license key</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="section section--alt">
+    <div class="container">
+      <span class="section-tag" style="text-align: center;">FREQUENTLY ASKED QUESTIONS</span>
+      <h2 class="section-title" style="text-align: center;">Frequently Asked Questions</h2>
+      <p class="section-desc" style="text-align: center; margin: 0 auto 46px;">
+        Everything you need to know about D3 Motion, local rendering, and license terms.
+      </p>
+
+      <div class="faq-list">
+        <!-- FAQ 1 -->
+        <details class="faq-item" open><summary class="faq-q">
+            <span>Do I really not need to install Node.js, Python, or Chromium?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Yes! D3 Motion is distributed as completely self-contained desktop applications (NSIS installer for Windows, DMG for macOS). It embeds its own private Chromium browser and static FFmpeg binary. You simply install the app and start converting. No terminal commands, no package managers, and zero external dependencies required.
+          </div></details>
+
+        <!-- FAQ 2 -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>How does D3 Motion differ from cloud converters or screen recorders?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Cloud converters charge recurring subscriptions, impose strict upload file size caps, and process confidential client code on remote servers. Screen recorders capture in real time, meaning any CPU load causes dropped frames and stutter. D3 Motion runs 100% locally and uses deterministic frame capture: every frame is fully rendered and captured before the next advances, guaranteeing silky-smooth 60 FPS output with complete air-gapped privacy.
+          </div></details>
+
+        <!-- FAQ 3 -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>Can I render complex projects with CSS, JS, and images?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Absolutely! You can drag in a standalone <code>.html</code> file or a <code>.zip</code> archive containing all your subfolders (CSS, JS, fonts, images, audio, etc.). D3 Motion sets up a lightweight local server on your computer, loads the files with proper relative asset resolution, and waits for all assets and fonts to decode before recording.
+          </div></details>
+
+        <!-- FAQ 4 -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>Does it work on Windows and macOS?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Yes! D3 Motion is 100% native cross-platform. It supports 64-bit Windows 10 &amp; 11 (.exe installer) as well as macOS Apple Silicon (M1/M2/M3/M4) and macOS Intel (.dmg). Hardware acceleration leverages your local GPU on both operating systems for fluid, stutter-free 60 FPS rendering.
+          </div></details>
+
+        <!-- FAQ: Mac Installation & Gatekeeper -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>How do I open D3 Motion on macOS? (Gatekeeper Instructions)</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            <p style="margin-bottom: 10px; line-height: 1.6;">
+              Because D3 Motion is an independent professional utility distributed directly outside the Mac App Store, macOS may show a standard first-launch notice: <em>"D3 Motion cannot be opened because it is from an unidentified developer."</em>
+            </p>
+            <p style="margin-bottom: 10px; line-height: 1.6;">
+              <strong>Quick Solution:</strong> In your <code>/Applications</code> folder, right-click (or hold Control and click) on <strong>D3 Motion</strong> and select <strong>Open</strong>, then click <strong>Open</strong> in the confirmation box. You only need to do this once—macOS remembers your permission permanently.
+            </p>
+            <p style="line-height: 1.6;">
+              For terminal bypass commands and step-by-step walkthroughs, see the <a href="tutorial-mac.html" style="color: var(--signal); font-weight: 600; text-decoration: underline;">macOS Tutorial &amp; Setup Guide</a>.
+            </p>
+          </div></details>
+
+        <!-- FAQ 5 -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>Can I use the rendered videos commercially?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            100% yes. You hold full commercial rights to all videos rendered with D3 Motion. You can use them in client projects, YouTube channels, advertisements, software demos, and paid video assets with zero royalties or attribution required.
+          </div></details>
+
+        <!-- FAQ 6: Digital Product Refund Policy -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>What is the refund policy?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Because D3 Motion is an instantly delivered digital software product providing immediate lifetime access to full offline software, native executables, and offline rendering engines, <strong>all sales are final and strictly non-refundable</strong>. Once your digital license and software download are issued, no returns, exchanges, or refunds can be processed. We encourage all creators to test our live interactive motion simulator and review the technical manual before purchasing to ensure D3 Motion meets your needs.
+          </div></details>
+
+        <!-- FAQ 7: Support & Help -->
+        <details class="faq-item"><summary class="faq-q">
+            <span>How do I contact customer support?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary><div class="faq-a">
+            Our engineering support team is directly available at <a href="mailto:d3motion.pro@gmail.com" style="color: var(--signal); font-weight: 600;">d3motion.pro@gmail.com</a>. Whether you need assistance packaging your HTML/ZIP project, running on Windows 11 or macOS, or have licensing questions, email us anytime and we will help you promptly.
+          </div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="section" style="padding: 70px 0;">
+    <div class="container">
+      <div class="cta-banner-box">
+        <h2 style="font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 4vw, 48px); margin-bottom: 16px; color: var(--bone);">
+          Ready to Turn Your Web Animations into Video?
+        </h2>
+        <p style="color: var(--steel); font-size: 16px; max-width: 620px; margin: 0 auto 32px;">
+          Join designers, developers, and studios creating broadcast-grade 4K 60 FPS videos directly from web code.
+        </p>
+        <a href="https://buy.polar.sh/polar_cl_2s65d7FGxOplrwnmwGynljcFBhjHjgr0Mm6252PkgzV" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer" style="font-size: 16px;">
+          <span>Get D3 Motion Lifetime License — $29</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-col">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+            <div class="brand-icon-box" style="width: 32px; height: 32px;">
+              <svg width="20" height="14" viewBox="0 0 240 170" fill="none">
+                <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/>
+                <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+              </svg>
+            </div>
+            <strong style="font-family: var(--font-display); font-size: 17px; color: var(--bone);">D3 Motion</strong>
+          </div>
+          <p style="color: var(--steel); font-size: 13px; line-height: 1.6; max-width: 320px;">
+            The fast, privacy-first local desktop utility to convert HTML, CSS, JavaScript, and Canvas animations into broadcast-ready MP4 video.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#features">Feature Set</a></li>
+            <li><a href="/blog">Blog &amp; Insights</a></li>
+            <li><a href="#demo">Motion Simulator</a></li>
+            <li><a href="#pricing">Lifetime Pricing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Documentation</h4>
+          <ul>
+            <li><a href="instructions.html">User Guide &amp; Setup</a></li>
+            <li><a href="instructions.html#supported-formats">Supported Formats</a></li>
+            <li><a href="instructions.html#troubleshooting">Troubleshooting</a></li>
+            <li><a href="instructions.html#presets">Export Presets</a></li>
+            <li><a href="tutorial-windows.html">Windows tutorial</a></li>
+            <li><a href="tutorial-mac.html">macOS tutorial</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul>
+            <li><a href="terms.html">Terms of Service</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="license.html">License Agreement</a></li>
+            <li><a href="mailto:d3motion.pro@gmail.com">Support: d3motion.pro@gmail.com</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 D3 Motion. All rights reserved. Built for motion, not meetings.</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--green);">● 100% OFFLINE LOCAL UTILITY</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+(function () {
+  var root = document.documentElement;
+  var KEY = 'theme';
+
+  function stored() {
+    try { var v = localStorage.getItem(KEY); return v === 'dark' || v === 'light' ? v : null; } catch (e) { return null; }
+  }
+  function apply(theme) {
+    root.setAttribute('data-theme', theme);
+    var btn = document.getElementById('theme-toggle');
+    if (btn) {
+      var next = theme === 'dark' ? 'light' : 'dark';
+      btn.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+      btn.setAttribute('title', 'Switch to ' + next + ' theme');
+    }
+  }
+
+  // Vercel Web Analytics Initialization
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  if (window.location.protocol !== 'file:' && window.location.hostname && !document.querySelector('script[src*="/_vercel/insights/script.js"]')) {
+    var vaScript = document.createElement('script');
+    vaScript.defer = true;
+    vaScript.src = '/_vercel/insights/script.js';
+    document.head.appendChild(vaScript);
+  }
+
+  // Default to dark theme unless user explicitly chose otherwise in localStorage
+  apply(stored() || 'dark');
+
+  var themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      apply(next);
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+    });
+  }
+
+  // Keep dark theme default unless visitor explicitly toggles
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var onChange = function () { if (stored()) apply(stored()); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+  }
+
+  // Mobile menu
+  var header = document.querySelector('.site-header');
+  var toggle = document.querySelector('.nav-toggle');
+  function setMenu(open) {
+    if (!header || !toggle) return;
+    header.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  if (toggle) {
+    toggle.addEventListener('click', function () { setMenu(!header.classList.contains('nav-open')); });
+  }
+
+  // Tutorials dropdown: click/tap (hover and focus still work on desktop)
+  var dd = document.querySelector('.nav-dropdown');
+  var ddBtn = dd && dd.querySelector('.nav-dropdown-btn');
+  function setDropdown(open) {
+    if (!dd) return;
+    dd.classList.toggle('open', open);
+    ddBtn.setAttribute('aria-expanded', String(open));
+  }
+  if (ddBtn) {
+    ddBtn.setAttribute('aria-expanded', 'false');
+    ddBtn.addEventListener('click', function (e) { e.stopPropagation(); setDropdown(!dd.classList.contains('open')); });
+    document.addEventListener('click', function (e) { if (!dd.contains(e.target)) setDropdown(false); });
+  }
+
+  // Close menus on navigation, Escape or when growing to desktop width
+  document.querySelectorAll('.nav-links a').forEach(function (a) {
+    a.addEventListener('click', function () { setMenu(false); setDropdown(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { setMenu(false); setDropdown(false); }
+  });
+  window.addEventListener('resize', function () { if (window.innerWidth > 960) setMenu(false); });
+
+  // Mark the current section in the nav while scrolling the landing page
+  var links = document.querySelectorAll('.nav-links a[href*="#"]');
+  var map = {};
+  links.forEach(function (a) {
+    var id = a.getAttribute('href').split('#')[1];
+    var sec = id && document.getElementById(id);
+    if (sec) map[id] = a;
+  });
+  if ('IntersectionObserver' in window && Object.keys(map).length) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          links.forEach(function (a) { a.removeAttribute('aria-current'); });
+          map[en.target.id].setAttribute('aria-current', 'true');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(map).forEach(function (id) { io.observe(document.getElementById(id)); });
+  }
+})();
+
+</script>
+
+  <!-- Real App Interactive Demo Controller -->
+  <script>
+    (function() {
+      // Elements
+      const dropzone = document.getElementById('demo-dropzone');
+      const loadedCard = document.getElementById('demo-loaded-card');
+      const btnChange = document.getElementById('demo-btn-change');
+      const chooseFileBtn = document.getElementById('demo-choose-file');
+      const batchFolderBtn = document.getElementById('demo-batch-folder');
+      const tabSingle = document.getElementById('demo-tab-single');
+      const tabBatch = document.getElementById('demo-tab-batch');
+
+      const selectRes = document.getElementById('demo-resolution');
+      const inputDur = document.getElementById('demo-duration');
+      const durChips = document.querySelectorAll('.dur-chip');
+      const fpsGroup = document.getElementById('demo-fps-group');
+      const fpsBtns = fpsGroup ? fpsGroup.querySelectorAll('button') : [];
+      const advBtn = document.getElementById('demo-advanced-btn');
+      const advContent = document.getElementById('demo-advanced-content');
+      const advChevron = document.getElementById('demo-adv-chevron');
+      const zoomSlider = document.getElementById('demo-zoom-slider');
+      const zoomVal = document.getElementById('demo-zoom-val');
+      const colorDots = document.querySelectorAll('.bg-color-dot');
+
+      const resPill = document.getElementById('demo-res-pill');
+      const statusText = document.getElementById('demo-status-text');
+      const statusDot = document.getElementById('demo-status-dot');
+      const stageScreen = document.getElementById('demo-stage-screen');
+      const refreshBtn = document.getElementById('demo-refresh-btn');
+
+      const renderIdleView = document.getElementById('demo-render-idle-view');
+      const renderProgView = document.getElementById('demo-render-progress-view');
+      const renderDoneView = document.getElementById('demo-render-done-view');
+      const btnStartRender = document.getElementById('demo-start-render-btn');
+      const btnRenderAgain = document.getElementById('demo-render-again-btn');
+      const progBar = document.getElementById('demo-prog-bar-fill');
+      const progPct = document.getElementById('demo-prog-percentage');
+      const progFrames = document.getElementById('demo-prog-frames');
+      const progLabel = document.getElementById('demo-prog-label');
+
+      let currentFps = 30;
+      let currentRes = '1920 × 1080';
+      let currentBg = '#06070A';
+      let currentZoom = 1;
+
+      function updateResPill() {
+        if (resPill) {
+          resPill.textContent = currentRes + ' · ' + currentFps + ' FPS';
+        }
+      }
+
+      // 1. Single / Batch mode toggle
+      if (tabSingle && tabBatch) {
+        tabSingle.addEventListener('click', () => {
+          tabSingle.classList.add('active');
+          tabBatch.classList.remove('active');
+        });
+        tabBatch.addEventListener('click', () => {
+          tabBatch.classList.add('active');
+          tabSingle.classList.remove('active');
+        });
+      }
+
+      // 2. Load Sample Project
+      function loadProject() {
+        if (dropzone) dropzone.style.display = 'none';
+        if (loadedCard) loadedCard.style.display = 'flex';
+        if (statusText) statusText.textContent = 'Project loaded & ready';
+      }
+
+      function resetProject() {
+        if (dropzone) dropzone.style.display = 'block';
+        if (loadedCard) loadedCard.style.display = 'none';
+        if (statusText) statusText.textContent = 'Waiting for project';
+      }
+
+      if (dropzone) dropzone.addEventListener('click', loadProject);
+      if (chooseFileBtn) chooseFileBtn.addEventListener('click', (e) => { e.stopPropagation(); loadProject(); });
+      if (batchFolderBtn) batchFolderBtn.addEventListener('click', (e) => { e.stopPropagation(); loadProject(); });
+      if (btnChange) btnChange.addEventListener('click', resetProject);
+
+      // 3. Resolution Selector
+      if (selectRes) {
+        selectRes.addEventListener('change', () => {
+          const val = selectRes.value;
+          if (val === '1920x1080') {
+            currentRes = '1920 × 1080';
+            stageScreen.style.setProperty('--ar', 16/9);
+          } else if (val === '3840x2160') {
+            currentRes = '3840 × 2160';
+            stageScreen.style.setProperty('--ar', 16/9);
+          } else if (val === '1080x1920') {
+            currentRes = '1080 × 1920';
+            stageScreen.style.setProperty('--ar', 9/16);
+          } else if (val === '1080x1080') {
+            currentRes = '1080 × 1080';
+            stageScreen.style.setProperty('--ar', 1/1);
+          }
+          updateResPill();
+        });
+      }
+
+      // 4. Duration Quick Chips
+      durChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          durChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          if (inputDur) inputDur.value = chip.dataset.dur;
+        });
+      });
+
+      if (inputDur) {
+        inputDur.addEventListener('input', () => {
+          durChips.forEach(c => c.classList.toggle('active', c.dataset.dur === inputDur.value));
+        });
+      }
+
+      // 5. FPS Segmented Control
+      fpsBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          fpsBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFps = parseInt(btn.dataset.fps);
+          updateResPill();
+        });
+      });
+
+      // 6. Advanced Controls Accordion
+      if (advBtn && advContent) {
+        advBtn.addEventListener('click', () => {
+          const isClosed = advContent.style.display === 'none';
+          advContent.style.display = isClosed ? 'block' : 'none';
+          if (advChevron) {
+            advChevron.style.transform = isClosed ? 'rotate(180deg)' : 'rotate(0deg)';
+          }
+        });
+      }
+
+      // 7. Zoom Slider
+      if (zoomSlider && zoomVal) {
+        zoomSlider.addEventListener('input', () => {
+          currentZoom = zoomSlider.value / 100;
+          zoomVal.textContent = zoomSlider.value + '%';
+        });
+      }
+
+      // 8. Background Color Chips
+      colorDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          colorDots.forEach(d => d.classList.remove('active'));
+          dot.classList.add('active');
+          currentBg = dot.dataset.color;
+          if (stageScreen) {
+            stageScreen.style.background = currentBg === 'transparent' 
+              ? 'linear-gradient(45deg, #222 25%, transparent 25%), linear-gradient(-45deg, #222 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #222 75%), linear-gradient(-45deg, transparent 75%, #222 75%)' 
+              : currentBg;
+            stageScreen.style.backgroundSize = '12px 12px';
+          }
+        });
+      });
+
+      // 9. Canvas Motion Animation Engine
+      const canvas = document.getElementById('demo-real-canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let tick = 0;
+        let isSimRendering = false;
+
+        function renderFrame() {
+          ctx.save();
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          // Scaled drawing based on currentZoom
+          ctx.translate(canvas.width / 2, canvas.height / 2);
+          ctx.scale(currentZoom, currentZoom);
+
+          // Kinetic orbital ring
+          for (let i = 0; i < 28; i++) {
+            const angle = (i / 28) * Math.PI * 2 + tick * 0.02;
+            const dist = 85 + Math.sin(tick * 0.03 + i) * 18;
+            const px = Math.cos(angle) * dist;
+            const py = Math.sin(angle) * dist;
+            const alpha = 0.3 + 0.7 * Math.sin(tick * 0.04 + i);
+
+            ctx.fillStyle = i % 2 === 0 ? `rgba(59, 130, 246, ${alpha})` : `rgba(147, 197, 253, ${alpha})`;
+            ctx.beginPath();
+            ctx.arc(px, py, 4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          // Center Logo & Title
+          ctx.fillStyle = currentBg === '#FFFFFF' ? '#0F172A' : '#FFFFFF';
+          ctx.font = '800 20px "Space Grotesk", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('D3 MOTION', 0, -6);
+
+          ctx.font = '600 10.5px "JetBrains Mono", monospace';
+          ctx.fillStyle = currentBg === '#FFFFFF' ? '#2563EB' : '#60A5FA';
+          ctx.fillText('60 FPS BROADCAST MP4', 0, 16);
+
+          ctx.restore();
+          tick++;
+          requestAnimationFrame(renderFrame);
+        }
+
+        renderFrame();
+
+        if (refreshBtn) {
+          refreshBtn.addEventListener('click', () => {
+            tick = 0;
+          });
+        }
+
+        // 10. Render Simulation
+        if (btnStartRender) {
+          btnStartRender.addEventListener('click', () => {
+            isSimRendering = true;
+            renderIdleView.style.display = 'none';
+            renderProgView.style.display = 'block';
+            renderDoneView.style.display = 'none';
+            if (statusText) statusText.textContent = 'Rendering 60 FPS...';
+            if (statusDot) statusDot.style.background = 'var(--signal)';
+
+            let pct = 0;
+            const totalFrames = (parseInt(inputDur ? inputDur.value : 10) || 10) * currentFps;
+            if (progLabel) progLabel.textContent = `Recording frames (${currentFps} FPS)...`;
+
+            const interval = setInterval(() => {
+              pct += 2.5;
+              if (pct > 100) pct = 100;
+              if (progBar) progBar.style.width = pct + '%';
+              if (progPct) progPct.textContent = Math.round(pct) + '%';
+              if (progFrames) progFrames.textContent = `Frame: ${Math.round((pct/100) * totalFrames)} / ${totalFrames}`;
+
+              if (pct >= 100) {
+                clearInterval(interval);
+                isSimRendering = false;
+                renderProgView.style.display = 'none';
+                renderDoneView.style.display = 'flex';
+                if (statusText) statusText.textContent = 'Export complete!';
+                if (statusDot) statusDot.style.background = 'var(--green)';
+              }
+            }, 50);
+          });
+        }
+
+        if (btnRenderAgain) {
+          btnRenderAgain.addEventListener('click', () => {
+            renderDoneView.style.display = 'none';
+            renderIdleView.style.display = 'flex';
+            if (progBar) progBar.style.width = '0%';
+            if (progPct) progPct.textContent = '0%';
+            if (statusText) statusText.textContent = 'Ready to render';
+          });
+        }
+      }
+
+      // Pre-load project state by default so demo looks lively immediately
+      loadProject();
+      updateResPill();
+    })();
+  </script>
+</body>
+</html>

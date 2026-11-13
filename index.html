@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark light">
-  <title>D3 HTML to Video - Drag. Drop. Download. | Local HTML to MP4 Converter</title>
-  <meta name="description" content="Tired of AI video platforms burning credits just to convert HTML to video? D3 converts HTML, CSS, and Canvas animations directly to broadcast-grade 4K 60FPS MP4 locally on your computer. One-time payment, lifetime free forever.">
+  <title>D3 Motion — Turn HTML Animations into Production-Ready Videos | 4K 60 FPS Local Renderer</title>
+  <meta name="description" content="Turn CSS keyframes, GSAP, SVG, Canvas, and Three.js animations directly into broadcast-grade 4K 60 FPS MP4 on your own computer. 100% local, frame-accurate, and private. One-time purchase, lifetime license.">
   <link rel="icon" type="image/png" href="assets/icon.png">
   <link rel="canonical" href="https://d3motion.pro/">
   <meta name="robots" content="index, follow">
@@ -14,31 +14,36 @@
   <!-- Open Graph / Facebook / LinkedIn / WhatsApp / Discord / Slack -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://d3motion.pro/">
-  <meta property="og:site_name" content="D3 HTML to Video">
-  <meta property="og:title" content="D3 HTML to Video - Turn HTML into Crisp 4K 60 FPS Video">
-  <meta property="og:description" content="100% Local, private offline rendering engine for CSS keyframes, Three.js, SVG and Canvas animations. No credits. No subscriptions. Drag. Drop. Download.">
+  <meta property="og:site_name" content="D3 Motion">
+  <meta property="og:title" content="D3 Motion — Turn HTML Animations into Production-Ready Videos">
+  <meta property="og:description" content="100% Local, private offline rendering engine for CSS keyframes, GSAP, Three.js, SVG and Canvas animations. Frame-accurate 4K 60 FPS MP4 on your own computer.">
   <meta property="og:image" content="https://d3motion.pro/assets/og-image.png">
   <meta property="og:image:secure_url" content="https://d3motion.pro/assets/og-image.png">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="D3 HTML to Video Desktop Studio - 100% Local 4K 60 FPS MP4 Rendering">
+  <meta property="og:image:alt" content="D3 Motion Desktop Studio - 100% Local 4K 60 FPS MP4 Rendering">
 
   <!-- Twitter / X Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://d3motion.pro/">
-  <meta name="twitter:title" content="D3 HTML to Video - Turn HTML into Crisp 4K 60 FPS Video">
-  <meta name="twitter:description" content="100% Local, private offline rendering engine for CSS keyframes, Three.js, SVG and Canvas animations. No credits. No subscriptions. Drag. Drop. Download.">
+  <meta name="twitter:title" content="D3 Motion — Turn HTML Animations into Production-Ready Videos">
+  <meta name="twitter:description" content="100% Local, private offline rendering engine for CSS keyframes, GSAP, Three.js, SVG and Canvas animations. Frame-accurate 4K 60 FPS MP4 on your own computer.">
   <meta name="twitter:image" content="https://d3motion.pro/assets/og-image.png">
-  <meta name="twitter:image:alt" content="D3 HTML to Video Desktop Studio - 100% Local 4K 60 FPS MP4 Rendering">
+  <meta name="twitter:image:alt" content="D3 Motion Desktop Studio - 100% Local 4K 60 FPS MP4 Rendering">
 
   <link rel="stylesheet" href="styles.css">
 
   <!-- Vercel Web Analytics -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    if (window.location.protocol !== 'file:' && window.location.hostname) {
+      var s = document.createElement('script');
+      s.defer = true;
+      s.src = '/_vercel/insights/script.js';
+      document.head.appendChild(s);
+    }
   </script>
-  <script defer src="/_vercel/insights/script.js"></script>
   <script>
     (function() {
       try {
@@ -56,13 +61,14 @@
   <!-- Header Navigation -->
   <header class="site-header">
     <div class="container nav-wrap">
-      <a href="index.html" class="brand-link" aria-label="D3 HTML to Video home">
+      <a href="index.html" class="brand-link" aria-label="D3 Motion home">
         <div class="brand-icon-box"><svg width="24" height="17" viewBox="0 0 240 170" fill="none" aria-hidden="true"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg></div>
-        <div><span class="brand-title">D3</span><span class="brand-tag">HTML TO VIDEO</span></div>
+        <div><span class="brand-title">D3 Motion</span><span class="brand-tag">HTML TO VIDEO</span></div>
       </a>
 
       <ul class="nav-links" id="site-nav">
         <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How it works</a></li>
         <li><a href="#demo">Live demo</a></li>
         <li><a href="/blog">Blog</a></li>
         <li class="nav-dropdown">
@@ -84,7 +90,7 @@
         <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Switch theme" title="Switch theme">
           <span class="theme-icon-sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span><span class="theme-icon-moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
         </button>
-        <a href="#pricing" class="btn btn-primary"><span>Get D3</span><span class="nav-btn-price"> - $29</span></a>
+        <a href="#pricing" class="btn btn-primary"><span>Get D3 Motion</span><span class="nav-btn-price"> — $29</span></a>
       </div>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span></span><span></span><span></span></button>
@@ -97,30 +103,30 @@
       
       <div class="announcement-bar">
         <span class="pulse-dot"></span>
-        <span>Tired of AI platforms burning your credits? <strong class="announcement-strong">Stop paying $30/month.</strong></span>
+        <span>High-performance offline rendering <strong class="announcement-strong">4K 60 FPS &amp; Batch Queue</strong></span>
       </div>
 
       <h1 class="hero-title">
-        Stop Burning AI Credits Just to Turn <span class="highlight">HTML into Video.</span>
+        Turn your HTML animations into <span class="highlight">production-ready videos.</span>
       </h1>
 
-      <p class="hero-subtitle">Turn HTML, CSS keyframes, Three.js, SVG and Canvas animations into crisp 4K 60 FPS MP4 on your own computer. No credits, no uploads, no render queue. <strong>Drag. Drop. Download.</strong></p>
+      <p class="hero-subtitle">Render CSS keyframes, GSAP, Three.js, SVG, and Canvas animations directly to crisp 4K 60&nbsp;FPS MP4 on your own computer. Deterministic, frame-accurate, and 100% private.</p>
 
       <div class="hero-ctas">
         <a href="#pricing" class="btn btn-primary btn-lg">
-          <span>Buy Once, Free Forever - $29</span>
+          <span>Get D3 Motion — $29</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
         <a href="tutorial-windows.html" class="btn btn-outline btn-lg">
-          <span>▶ Watch the setup tutorial</span>
+          <span>▶ Watch setup tutorial</span>
         </a>
       </div>
 
       <div class="hero-badges">
         <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Local &amp; Private</span>
         <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Unlimited Exports</span>
-        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> No Subscriptions</span>
-        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Windows &amp; Mac Ready</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> One-Time License ($29)</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Windows &amp; Mac Native</span>
       </div>
 
       <!-- Interactive Real App Live Demo -->
@@ -131,7 +137,7 @@
             <i class="amber"></i>
             <i class="green"></i>
           </div>
-          <div class="window-title">HTML to Video • Local Motion Engine (Interactive Sandbox)</div>
+          <div class="window-title">D3 Motion • Local Motion Engine (Interactive Sandbox)</div>
           <div class="app-status-badge">
             <span class="status-dot-green"></span>
             <span>Runs locally · Private by design</span>
@@ -366,7 +372,7 @@
                   </div>
                 </div>
                 <button type="button" id="demo-start-render-btn" class="btn btn-primary btn-render-now">
-                  <span>Render MP4 (Free Forever)</span>
+                  <span>Simulate Export (60 FPS)</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
               </div>
@@ -413,13 +419,13 @@
     </div>
   </section>
 
-  <!-- How It Works: The 3-Step Moto -->
+  <!-- How It Works: The 3-Step Workflow -->
   <section id="how-it-works" class="section section--alt">
     <div class="container">
-      <span class="section-tag">SIMPLICITY BY DESIGN</span>
-      <h2 class="section-title">Drag. Drop. Download. That's D3.</h2>
+      <span class="section-tag">THREE-STEP WORKFLOW</span>
+      <h2 class="section-title">Drag. Drop. Export. Motion Made Effortless.</h2>
       <p class="section-desc">
-        No complicated command line flags, no headless scripting, and no convoluted dashboards. Rendering your web creations into video takes less than 3 clicks.
+        Skip complex headless scripts, screen-recording frame drops, and command-line arguments. Turn your web creations into high-fidelity video in three steps.
       </p>
 
       <div class="grid-3">
@@ -428,7 +434,7 @@
           <div class="step-num">01</div>
           <h3 class="card-title">DRAG</h3>
           <p class="card-desc">
-            Drag your animated <code>.html</code> file or an entire <code>.zip</code> package containing CSS, JS, SVGs, or Canvas scripts directly into the dropzone. D3 loads and pre-warms all local assets automatically.
+            Drop your animated <code>.html</code> file or a <code>.zip</code> archive containing all linked CSS, JS, SVGs, and Canvas scripts directly into D3 Motion. Local assets, fonts, and dependencies resolve automatically.
           </p>
         </div>
 
@@ -437,253 +443,286 @@
           <div class="step-num">02</div>
           <h3 class="card-title">CONFIGURE</h3>
           <p class="card-desc">
-            Select standard presets (1080p, 4K, 9:16 Vertical for TikTok/Reels/Shorts, or Custom dimensions). Pick your frame rate (24, 30, or 60 FPS) and render quality. Inspect your animation live in the real-time viewport.
+            Select standard presets (1080p, 4K UHD, 9:16 vertical for TikTok, Reels, and Shorts, or custom dimensions). Choose your frame rate (24, 30, or 60 FPS) and inspect your animation live in the real-time stage.
           </p>
         </div>
 
         <!-- Step 3 -->
         <div class="card">
           <div class="step-num">03</div>
-          <h3 class="card-title">DOWNLOAD</h3>
+          <h3 class="card-title">EXPORT</h3>
           <p class="card-desc">
-            Hit <strong>Render MP4</strong>. The bundled headless Chromium captures every frame without stutter, and FFmpeg encodes an ultra-clean H.264 broadcast MP4 directly to your local Videos folder.
+            Click <strong>Render MP4</strong>. Embedded headless Chromium steps through each frame deterministically without dropped frames, and FFmpeg encodes a clean, broadcast-ready H.264 video directly to your computer.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Features Grid -->
+  <!-- Features Section -->
   <section id="features" class="section">
     <div class="container">
-      <span class="section-tag">POWERFUL LOCAL ARCHITECTURE</span>
-      <h2 class="section-title">Engineered for Developers, Motion Designers, and Agencies</h2>
+      <span class="section-tag">ENGINEERED FOR MOTION</span>
+      <h2 class="section-title">Built for Motion Designers, Developers, and Studios</h2>
       <p class="section-desc">
-        Everything you need to turn interactive web code into production-ready social clips, portfolio reels, product mockups, and client deliverables.
+        A dedicated local engine to convert interactive web animations into clean, broadcast-ready videos for product launches, social campaigns, and client deliverables.
       </p>
 
-      <div class="grid-3">
-        <!-- Feature 1 -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <div class="features-group-wrap">
+        <!-- Group 1: Core Engine -->
+        <div>
+          <div class="feature-group-head">
+            <span class="feature-group-tag">01 · Core Rendering Engine</span>
+            <div class="feature-group-line"></div>
           </div>
-          <h3 class="card-title">Full Web Stack Support</h3>
-          <p class="card-desc">
-            Works with standard CSS Keyframes, GSAP, Anime.js, Three.js, WebGL, SVG animations, Canvas 2D, and Lottie-web. If Chrome can render it, D3 can record it.
-          </p>
+          <div class="grid-3">
+            <!-- Feature 1 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <h3 class="card-title">Full Web Stack Support</h3>
+              <p class="card-desc">
+                Supports standard CSS Keyframes, GSAP, Anime.js, Three.js, WebGL, SVG animations, Canvas 2D, and Lottie-web. If modern Chromium can render it, D3 Motion can record it.
+              </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <h3 class="card-title">Frame-Accurate Zero-Drop Sync</h3>
+              <p class="card-desc">
+                Unlike real-time screen recorders that lag when CPU spikes occur, D3 Motion renders and captures each frame deterministically, guaranteeing smooth 60 FPS output.
+              </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+              </div>
+              <h3 class="card-title">Zero Setup / Out-of-the-Box</h3>
+              <p class="card-desc">
+                Includes bundled Chromium and static FFmpeg binaries. You do not need to install Node.js, run terminal commands, or manage browser drivers manually.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <!-- Feature 2 -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <!-- Group 2: Formats & Composition -->
+        <div>
+          <div class="feature-group-head">
+            <span class="feature-group-tag">02 · Formats &amp; Composition</span>
+            <div class="feature-group-line"></div>
           </div>
-          <h3 class="card-title">Frame-Accurate Zero-Drop Sync</h3>
-          <p class="card-desc">
-            Unlike screen recorders that lag when your computer stutters, D3 decodes fonts and images before recording begins, guaranteeing 100% silky 60 FPS output.
-          </p>
+          <div class="grid-3">
+            <!-- Feature 4 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              </div>
+              <h3 class="card-title">Vertical (9:16) &amp; Social Presets</h3>
+              <p class="card-desc">
+                Instantly render for TikTok, Instagram Reels, YouTube Shorts, and X with built-in 9:16, 1:1, 4:3, and 16:9 aspect ratios up to 4K UHD resolution.
+              </p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <h3 class="card-title">Smart Element Auto-Fit &amp; Crop</h3>
+              <p class="card-desc">
+                Target any CSS selector (like <code>.phone</code>, <code>#banner</code>, or <code>canvas</code>). D3 Motion calculates zoom scaling and centers content edge-to-edge automatically.
+              </p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"/></svg>
+              </div>
+              <h3 class="card-title">Custom &amp; Transparent Canvas</h3>
+              <p class="card-desc">
+                Switch between Dark Void, Pure White, custom brand hex codes, or a transparent background without altering your original HTML or CSS code.
+              </p>
+            </div>
+
+            <!-- Feature 7 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3 class="card-title">100% Air-Gapped Privacy</h3>
+              <p class="card-desc">
+                Keep client animations, NDA assets, and proprietary code safely on your computer. All processing is local—nothing is uploaded, tracked, or sent to cloud servers.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <!-- Feature 3 -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        <!-- Group 3: Studio & Precision Controls -->
+        <div>
+          <div class="feature-group-head">
+            <span class="feature-group-tag">03 · Precision Controls</span>
+            <div class="feature-group-line"></div>
           </div>
-          <h3 class="card-title">Zero Setup / Out-of-the-Box</h3>
-          <p class="card-desc">
-            The installer comes with bundled Chromium and FFmpeg. You do not need to install Node.js, run terminal commands, or download playwright browsers manually.
-          </p>
-        </div>
+          <div class="grid-3">
+            <!-- Feature 8 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <h3 class="card-title">Auto-Detect Loop Duration</h3>
+              <p class="card-desc">
+                Eliminate guesswork on loop timings. D3 Motion inspects CSS keyframe definitions, transition lengths, and GSAP timelines to sync exact loop points automatically.
+              </p>
+            </div>
 
-        <!-- Feature 4 -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-          </div>
-          <h3 class="card-title">Vertical (9:16) &amp; Social Presets</h3>
-          <p class="card-desc">
-            Instantly render for TikTok, Instagram Reels, YouTube Shorts, Twitter, and LinkedIn with built-in 9:16, 1:1, 4:3, and 16:9 4K aspect ratios.
-          </p>
-        </div>
+            <!-- Feature 9 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+              </div>
+              <h3 class="card-title">Start Delay Buffer</h3>
+              <p class="card-desc">
+                Set a configurable millisecond delay before capture starts to allow JavaScript initialization, async web fonts, audio buffers, or WebGL shaders to warm up.
+              </p>
+            </div>
 
-        <!-- Feature 5 -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <h3 class="card-title">100% Air-Gapped Privacy</h3>
-          <p class="card-desc">
-            Keep client animations, NDA-protected graphics, and proprietary frontend code strictly on your machine. Nothing is ever tracked, stored, or sent to the cloud.
-          </p>
-        </div>
+            <!-- Feature 10 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </div>
+              <h3 class="card-title">Auto-Hide Scrollbars</h3>
+              <p class="card-desc">
+                Prevents accidental browser scrollbars in exports. D3 Motion cleanly hides overflow scrollbars even when layout dimensions vary by sub-pixel rounding.
+              </p>
+            </div>
 
-        <!-- Feature 6 -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+            <!-- Feature 11 -->
+            <div class="card">
+              <div class="card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              </div>
+              <h3 class="card-title">Batch Folder Queue</h3>
+              <p class="card-desc">
+                Producing multi-size digital campaigns? Drop a directory of HTML banners or multiple files to render each variation sequentially with a single click.
+              </p>
+            </div>
           </div>
-          <h3 class="card-title">Start Delay Buffer</h3>
-          <p class="card-desc">
-            Need 500ms or 2 seconds for your JavaScript initialization, audio loaders, or WebGL shaders to warm up? Set an exact millisecond delay before capture starts.
-          </p>
-        </div>
-
-        <!-- Feature 7: Zero Ugly Scrollbars -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-          </div>
-          <h3 class="card-title">Auto-Hide Scrollbars</h3>
-          <p class="card-desc">
-            Never ruin a product video with ugly browser scrollbars. D3 automatically suppresses horizontal and vertical scrollbars, even if responsive layouts overflow by 1 pixel.
-          </p>
-        </div>
-
-        <!-- Feature 8: Smart Target Auto-Fit & Crop -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-          </div>
-          <h3 class="card-title">Smart Element Auto-Fit &amp; Crop</h3>
-          <p class="card-desc">
-            Target any container (like <code>.phone</code>, <code>#banner</code>, or <code>canvas</code>). D3 automatically computes the exact zoom factor and centers it edge-to-edge without quality loss.
-          </p>
-        </div>
-
-        <!-- Feature 9: Transparent & Custom Backgrounds -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"/></svg>
-          </div>
-          <h3 class="card-title">Custom &amp; Transparent Canvas</h3>
-          <p class="card-desc">
-            Easily switch between Dark Void (#0B0C10), Pure White, Custom Brand Colors, or Transparent Matte without ever touching or modifying your HTML/CSS files.
-          </p>
-        </div>
-
-        <!-- Feature 10: Auto-Detect Loop Duration -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          </div>
-          <h3 class="card-title">Auto-Detect Loop Duration</h3>
-          <p class="card-desc">
-            No more guessing whether your animation is 4.5s or 12s. D3 automatically inspects CSS keyframes, transition lengths, and GSAP timelines to sync exact loop points.
-          </p>
-        </div>
-
-        <!-- Feature 11: Batch Folder Export Queue -->
-        <div class="card">
-          <div class="card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          </div>
-          <h3 class="card-title">Batch Folder Queue</h3>
-          <p class="card-desc">
-            Producing multi-size digital ad campaigns? Drop a whole directory of HTML banners or multiple files at once and render every size sequentially with a single click.
-          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Problem vs Solution: The AI Credit Drain Trap -->
+  <!-- Problem vs Solution / Comparison -->
   <section id="comparison" class="section section--alt">
     <div class="container">
-      <span class="section-tag">THE PROBLEM VS THE SOLUTION</span>
-      <h2 class="section-title">Why Developers &amp; Creators Are Ditching Cloud &amp; AI Converters</h2>
+      <span class="section-tag">WHY D3 MOTION</span>
+      <h2 class="section-title">Deterministic Local Rendering vs. Cloud SaaS &amp; Screen Recorders</h2>
       <p class="section-desc">
-        Cloud converters charge you by the minute, require you to upload your sensitive code, and AI platforms burn $50+ in credits just to turn 5 seconds of CSS into video. D3 is here to fix that forever.
+        Screen recorders drop frames during CPU load, while cloud converters enforce recurring subscriptions and cloud upload risks. D3 Motion delivers deterministic frame-accurate output on your own computer.
       </p>
 
       <div class="grid-3">
         <!-- Card 1 -->
         <div class="card card--bad">
           <div class="card-icon card-icon--bad">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
           </div>
-          <h3 class="card-title">The "AI Credit" Drain</h3>
+          <h3 class="card-title">Screen Recording Stutter &amp; Lag</h3>
           <p class="card-desc">
-            Modern video generation platforms force you into $20-$60 monthly tiers. Every 10 seconds of rendering eats 50-100 credits. Re-rendering a typo costs another dollar. With D3, you render infinite videos for zero credits.
+            Standard screen recorders rely on real-time display capture. When CPU usage spikes, frames drop, resulting in stutter, uneven pacing, and accidental cursor or notification popups.
           </p>
         </div>
 
         <!-- Card 2 -->
         <div class="card card--bad">
           <div class="card-icon card-icon--bad">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
-          <h3 class="card-title">Cloud Privacy Leaks</h3>
+          <h3 class="card-title">Cloud Uploads &amp; Recurring Fees</h3>
           <p class="card-desc">
-            Online SaaS converters make you upload your source HTML, proprietary JavaScript, API keys, and client assets to random cloud servers. D3 runs 100% locally on your computer with complete air-gapped privacy.
+            Online SaaS converters require continuous monthly subscriptions ($200–$500+/yr), enforce strict file size caps, and upload your proprietary client code to third-party cloud servers.
           </p>
         </div>
 
         <!-- Card 3 -->
         <div class="card card--good">
           <div class="card-icon card-icon--good">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <h3 class="card-title">The D3 Way: Drag. Drop. Download.</h3>
+          <h3 class="card-title">D3 Motion: Local &amp; Deterministic</h3>
           <p class="card-desc">
-            Pay once ($29), own forever. Zero cloud limits, zero watermarks, zero dropped frames. Bundled with native Chromium and FFmpeg so you don't even need to install Node or configure dependencies.
+            D3 Motion advances each frame programmatically in an isolated environment. Every frame is decoded and rendered at full precision before encoding—silky-smooth 60 FPS, 100% private.
           </p>
         </div>
       </div>
 
       <!-- Comparison Matrix Table -->
+      <div class="table-scroll-hint">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/><polyline points="19 18 13 12 19 6"/></svg>
+        <span>Scroll horizontally to compare all features</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/><polyline points="5 18 11 12 5 6"/></svg>
+      </div>
+
       <div class="comparison-table-wrap">
         <table class="comparison-table">
           <thead>
             <tr>
-              <th>FEATURE / CAPABILITY</th>
-              <th class="col-highlight">★ D3 HTML TO VIDEO</th>
-              <th>AI VIDEO PLATFORMS</th>
+              <th>CAPABILITY</th>
+              <th class="col-highlight">★ D3 MOTION</th>
               <th>CLOUD SAAS CONVERTERS</th>
+              <th>SCREEN RECORDERS</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Pricing Model</strong></td>
-              <td class="col-highlight" style="color: var(--green);"><strong>$29 One-Time (Lifetime)</strong></td>
-              <td>$20-$60 / month (Credit meter)</td>
-              <td>$19-$49 / month ($228+/yr)</td>
+              <td class="col-highlight" style="color: var(--green);"><strong>$29 One-Time (Lifetime License)</strong></td>
+              <td>$19–$49 / month ($228+/yr)</td>
+              <td>$15–$30 / month recurring</td>
             </tr>
             <tr>
-              <td><strong>Cost Per Render</strong></td>
-              <td class="col-highlight" style="color: var(--green);"><strong>$0.00 (Unlimited Forever)</strong></td>
-              <td>50-100 credits ($0.50 - $2.00)</td>
+              <td><strong>Export Limits</strong></td>
+              <td class="col-highlight" style="color: var(--green);"><strong>Unlimited Exports</strong></td>
               <td>Throttled by minute quota</td>
+              <td>Storage limits or watermarks</td>
             </tr>
             <tr>
               <td><strong>Processing Location</strong></td>
               <td class="col-highlight"><strong>100% Local (Your Machine)</strong></td>
-              <td>Remote Cloud GPU Queue</td>
               <td>Remote Server Upload</td>
+              <td>Local display capture</td>
             </tr>
             <tr>
               <td><strong>Data Privacy &amp; IP Protection</strong></td>
               <td class="col-highlight" style="color: var(--green);"><strong>Air-gapped (Zero Uploads)</strong></td>
-              <td>Source code uploaded to AI cloud</td>
               <td>Uploaded to third-party servers</td>
+              <td>Captures full desktop UI</td>
             </tr>
             <tr>
               <td><strong>Frame Accuracy &amp; Quality</strong></td>
               <td class="col-highlight"><strong>Up to 4K UHD @ 60 FPS</strong></td>
-              <td>AI hallucinations / compression</td>
-              <td>Often capped at 720p or 30 FPS</td>
+              <td>Often capped at 1080p / 30 FPS</td>
+              <td>Prone to dropped frames &amp; lag</td>
             </tr>
             <tr>
               <td><strong>Offline Capabilities</strong></td>
               <td class="col-highlight" style="color: var(--green);"><strong>Works 100% Offline</strong></td>
-              <td>Requires fast internet &amp; auth</td>
               <td>Requires constant cloud connection</td>
+              <td>Offline (no frame sync)</td>
             </tr>
             <tr>
               <td><strong>Dependencies Required</strong></td>
               <td class="col-highlight"><strong>Zero (Chromium &amp; FFmpeg bundled)</strong></td>
-              <td>Web app / Browser only</td>
               <td>Web upload limits</td>
+              <td>Virtual audio / display setup</td>
             </tr>
           </tbody>
         </table>
@@ -695,20 +734,20 @@
   <!-- Pricing Section -->
   <section id="pricing" class="section">
     <div class="container">
-      <span class="section-tag" style="text-align: center;">SIMPLE, FAIR PRICING</span>
-      <h2 class="section-title" style="text-align: center;">Buy Once. Lifetime Free Forever.</h2>
-      <p class="section-desc" style="text-align: center; margin: 0 auto 50px;">
-        No monthly recurring charges. No credit meter. No subscriptions. Pay once and use D3 for the rest of your life.
+      <span class="section-tag" style="text-align: center;">TRANSPARENT PRICING</span>
+      <h2 class="section-title" style="text-align: center;">One-Time Purchase. Lifetime License.</h2>
+      <p class="section-desc" style="text-align: center; margin: 0 auto 40px;">
+        No recurring subscriptions. No metered credits. Pay once and use D3 Motion on your computer with unlimited exports.
       </p>
 
       <div class="pricing-wrap">
-        <span class="pricing-badge">LIFETIME ACCESS • LAUNCH SPECIAL</span>
+        <span class="pricing-badge">LAUNCH SPECIAL • 40% OFF</span>
 
         <h3 style="font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--bone);">
-          D3 Motion Pro License
+          D3 Motion Lifetime License
         </h3>
         <p style="color: var(--steel); font-size: 14px; margin-top: 6px;">
-          For designers, developers, freelancers, and video creators.
+          For motion designers, creative developers, freelancers, and digital studios.
         </p>
 
         <div class="price-val">
@@ -719,28 +758,28 @@
         </div>
 
         <p style="color: var(--green); font-size: 13px; font-weight: 600;">
-          ✓ Save $300+/year compared to cloud SaaS &amp; AI subscriptions
+          ✓ Save hundreds annually compared to recurring SaaS subscriptions
         </p>
 
         <ul class="pricing-features">
           <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Unlimited MP4 video renders</li>
           <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Up to 4K UHD resolution</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 24, 30, and 60 FPS modes</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Local offline processing</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Bundled Chromium &amp; FFmpeg</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Commercial usage rights</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 24, 30, and 60 FPS output modes</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 100% Local &amp; offline processing</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Bundled Chromium &amp; FFmpeg binaries</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Windows &amp; macOS compatible</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Commercial usage rights included</li>
           <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> All future updates included</li>
-          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Instant Digital Delivery (All Sales Final)</li>
         </ul>
 
         <!-- Polar Direct Checkout Link -->
         <a href="https://buy.polar.sh/polar_cl_2s65d7FGxOplrwnmwGynljcFBhjHjgr0Mm6252PkgzV" id="buy-btn" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer" style="width: 100%; font-size: 16px;">
-          <span>Get Instant Lifetime Access - $29</span>
+          <span>Get D3 Motion Lifetime License — $29</span>
         </a>
 
         <div style="margin-top: 18px; font-size: 12px; color: var(--steel); display: flex; align-items: center; justify-content: center; gap: 8px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          <span>Guaranteed secure payment • Instant license key &amp; software delivery</span>
+          <span>Guaranteed secure payment via Polar • Instant software download &amp; license key</span>
         </div>
       </div>
     </div>
@@ -750,9 +789,9 @@
   <section id="faq" class="section section--alt">
     <div class="container">
       <span class="section-tag" style="text-align: center;">FREQUENTLY ASKED QUESTIONS</span>
-      <h2 class="section-title" style="text-align: center;">Got Questions? We've Got Answers.</h2>
+      <h2 class="section-title" style="text-align: center;">Frequently Asked Questions</h2>
       <p class="section-desc" style="text-align: center; margin: 0 auto 46px;">
-        Everything you need to know about D3 HTML to Video, local rendering, and license terms.
+        Everything you need to know about D3 Motion, local rendering, and license terms.
       </p>
 
       <div class="faq-list">
@@ -761,15 +800,15 @@
             <span>Do I really not need to install Node.js, Python, or Chromium?</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </summary><div class="faq-a">
-            Yes! D3 is distributed as completely self-contained desktop applications (NSIS installer for Windows, DMG for macOS). It embeds its own private Chromium browser and static FFmpeg binary. You simply install the app and start converting. No terminal commands, no package managers, and zero external dependencies required.
+            Yes! D3 Motion is distributed as completely self-contained desktop applications (NSIS installer for Windows, DMG for macOS). It embeds its own private Chromium browser and static FFmpeg binary. You simply install the app and start converting. No terminal commands, no package managers, and zero external dependencies required.
           </div></details>
 
         <!-- FAQ 2 -->
         <details class="faq-item"><summary class="faq-q">
-            <span>How does this save money compared to AI video tools?</span>
+            <span>How does D3 Motion differ from cloud converters or screen recorders?</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </summary><div class="faq-a">
-            AI video generation services charge between $20 and $60 every month and burn through credits on every single generation or re-render. If you have an HTML, CSS, SVG, or Three.js animation that you built, you don't need generative AI to capture it - you need a deterministic, high-frame-rate local renderer. D3 gives you unlimited exports forever for a one-time $29 fee.
+            Cloud converters charge recurring subscriptions, impose strict upload file size caps, and process confidential client code on remote servers. Screen recorders capture in real time, meaning any CPU load causes dropped frames and stutter. D3 Motion runs 100% locally and uses deterministic frame capture: every frame is fully rendered and captured before the next advances, guaranteeing silky-smooth 60 FPS output with complete air-gapped privacy.
           </div></details>
 
         <!-- FAQ 3 -->
@@ -777,7 +816,7 @@
             <span>Can I render complex projects with CSS, JS, and images?</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </summary><div class="faq-a">
-            Absolutely! You can drag in a standalone <code>.html</code> file or a <code>.zip</code> archive containing all your subfolders (CSS, JS, fonts, images, audio, etc.). D3 sets up a lightweight local server on your computer, loads the files with proper relative asset resolution, and waits for all assets and fonts to decode before recording.
+            Absolutely! You can drag in a standalone <code>.html</code> file or a <code>.zip</code> archive containing all your subfolders (CSS, JS, fonts, images, audio, etc.). D3 Motion sets up a lightweight local server on your computer, loads the files with proper relative asset resolution, and waits for all assets and fonts to decode before recording.
           </div></details>
 
         <!-- FAQ 4 -->
@@ -789,35 +828,19 @@
           </div></details>
 
         <!-- FAQ: Mac Installation & Gatekeeper -->
-        <details class="faq-item" open><summary class="faq-q">
+        <details class="faq-item"><summary class="faq-q">
             <span>How do I open D3 Motion on macOS? (Gatekeeper Instructions)</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </summary><div class="faq-a">
-            <p style="margin-bottom: 12px; line-height: 1.6;">
-              Because D3 Motion is an independent professional utility distributed directly outside the Mac App Store, macOS Gatekeeper may show a security notice on first launch: <em>"D3 Motion cannot be opened because it is from an unidentified developer."</em>
+            <p style="margin-bottom: 10px; line-height: 1.6;">
+              Because D3 Motion is an independent professional utility distributed directly outside the Mac App Store, macOS may show a standard first-launch notice: <em>"D3 Motion cannot be opened because it is from an unidentified developer."</em>
             </p>
-            <div style="background: rgba(59, 98, 246, 0.08); border-left: 3px solid var(--signal-bright); padding: 14px 16px; border-radius: 6px; margin-bottom: 14px;">
-              <strong style="color: var(--signal-bright); font-size: 14px; display: block; margin-bottom: 6px;">The Standard Way to Open (First Launch Only):</strong>
-              <ol style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6;">
-                <li>Drag <strong>D3 Motion.app</strong> into your <strong>/Applications</strong> folder.</li>
-                <li>In Applications, <strong>Right-click</strong> (or hold <kbd style="background:var(--panel);padding:1px 5px;border-radius:4px;border:1px solid var(--border-medium);font-family:var(--font-mono);font-size:11px;">Control</kbd> and click) on <strong>D3 Motion</strong>.</li>
-                <li>Click <strong>Open</strong> in the context menu.</li>
-                <li>When the macOS confirmation box appears, click the <strong>Open</strong> button.</li>
-              </ol>
-              <div style="margin-top: 8px; font-size: 12px; color: var(--steel);">
-                ✓ You only have to do this once. macOS permanently remembers your approval, and you can double-click to launch it anytime afterward!
-              </div>
-            </div>
-
-            <div style="background: rgba(239, 68, 68, 0.08); border-left: 3px solid #EF4444; padding: 14px 16px; border-radius: 6px;">
-              <strong style="color: #F87171; font-size: 14px; display: block; margin-bottom: 6px;">Missed that and got blocked with only "Cancel" or "Move to Trash"?</strong>
-              <div style="font-size: 13.5px; line-height: 1.5; color: var(--bone);">
-                <strong>Option 1 (System Settings):</strong> Open <strong>Apple Menu  &gt; System Settings &gt; Privacy &amp; Security</strong>. Scroll down to the <em>Security</em> section where you will see: <em>"D3 Motion was blocked from use..."</em>. Click the <strong>Open Anyway</strong> button, enter your Mac password, and click <strong>Open</strong>.<br><br>
-                <strong>Option 2 (Instant One-Line Terminal Command):</strong> Open Terminal (<kbd style="background:var(--panel);padding:1px 5px;border-radius:4px;border:1px solid var(--border-medium);font-family:var(--font-mono);font-size:11px;">Cmd + Space</kbd>, type <code>Terminal</code>, press Enter) and paste:<br>
-                <code style="display:inline-block;background:rgba(0,0,0,0.5);padding:6px 10px;border-radius:6px;margin:6px 0;color:var(--signal-bright);font-size:12px;border:1px solid rgba(255,255,255,0.1);">xattr -d com.apple.quarantine "/Applications/D3 Motion.app"</code><br>
-                Press Return, and the application will open immediately without any security prompts!
-              </div>
-            </div>
+            <p style="margin-bottom: 10px; line-height: 1.6;">
+              <strong>Quick Solution:</strong> In your <code>/Applications</code> folder, right-click (or hold Control and click) on <strong>D3 Motion</strong> and select <strong>Open</strong>, then click <strong>Open</strong> in the confirmation box. You only need to do this once—macOS remembers your permission permanently.
+            </p>
+            <p style="line-height: 1.6;">
+              For terminal bypass commands and step-by-step walkthroughs, see the <a href="tutorial-mac.html" style="color: var(--signal); font-weight: 600; text-decoration: underline;">macOS Tutorial &amp; Setup Guide</a>.
+            </p>
           </div></details>
 
         <!-- FAQ 5 -->
@@ -825,7 +848,7 @@
             <span>Can I use the rendered videos commercially?</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </summary><div class="faq-a">
-            100% yes. You hold full commercial rights to all videos rendered with D3. You can use them in client projects, YouTube channels, advertisements, software demos, and paid video assets with zero royalties or attribution required.
+            100% yes. You hold full commercial rights to all videos rendered with D3 Motion. You can use them in client projects, YouTube channels, advertisements, software demos, and paid video assets with zero royalties or attribution required.
           </div></details>
 
         <!-- FAQ 6: Digital Product Refund Policy -->
@@ -833,7 +856,7 @@
             <span>What is the refund policy?</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </summary><div class="faq-a">
-            Because D3 Motion is an instantly delivered digital software product providing immediate lifetime access to full offline software, native executables, and offline rendering engines, <strong>all sales are final and strictly non-refundable</strong>. Once your digital license and software download are issued, no returns, exchanges, or refunds can be processed. We encourage all creators to test our live interactive motion simulator and review the technical manual before purchasing to ensure D3 meets your needs.
+            Because D3 Motion is an instantly delivered digital software product providing immediate lifetime access to full offline software, native executables, and offline rendering engines, <strong>all sales are final and strictly non-refundable</strong>. Once your digital license and software download are issued, no returns, exchanges, or refunds can be processed. We encourage all creators to test our live interactive motion simulator and review the technical manual before purchasing to ensure D3 Motion meets your needs.
           </div></details>
 
         <!-- FAQ 7: Support & Help -->
@@ -855,10 +878,10 @@
           Ready to Turn Your Web Animations into Video?
         </h2>
         <p style="color: var(--steel); font-size: 16px; max-width: 620px; margin: 0 auto 32px;">
-          Join thousands of developers, motion designers, and creators who stopped paying monthly subscription fees and credit drains.
+          Join designers, developers, and studios creating broadcast-grade 4K 60 FPS videos directly from web code.
         </p>
         <a href="https://buy.polar.sh/polar_cl_2s65d7FGxOplrwnmwGynljcFBhjHjgr0Mm6252PkgzV" class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer" style="font-size: 16px;">
-          <span>Get D3 HTML to Video Lifetime License - $29</span>
+          <span>Get D3 Motion Lifetime License — $29</span>
         </a>
       </div>
     </div>
@@ -876,10 +899,10 @@
                 <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
               </svg>
             </div>
-            <strong style="font-family: var(--font-display); font-size: 17px; color: var(--bone);">D3 HTML to Video</strong>
+            <strong style="font-family: var(--font-display); font-size: 17px; color: var(--bone);">D3 Motion</strong>
           </div>
           <p style="color: var(--steel); font-size: 13px; line-height: 1.6; max-width: 320px;">
-            The fast, privacy-first local utility to convert HTML, CSS, JavaScript, and Canvas animations into broadcast-ready MP4 video. Drag. Drop. Download.
+            The fast, privacy-first local desktop utility to convert HTML, CSS, JavaScript, and Canvas animations into broadcast-ready MP4 video.
           </p>
         </div>
 
@@ -918,7 +941,7 @@
       </div>
 
       <div class="footer-bottom">
-        <span>© 2026 D3 Motion Engine. All rights reserved. Built for motion, not meetings.</span>
+        <span>© 2026 D3 Motion. All rights reserved. Built for motion, not meetings.</span>
         <span style="font-family: var(--font-mono); font-size: 11px; color: var(--green);">● 100% OFFLINE LOCAL UTILITY</span>
       </div>
     </div>

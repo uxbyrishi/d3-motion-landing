@@ -17,7 +17,7 @@
 
   // Vercel Web Analytics Initialization
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  if (!document.querySelector('script[src*="/_vercel/insights/script.js"]')) {
+  if (window.location.protocol !== 'file:' && window.location.hostname && !document.querySelector('script[src*="/_vercel/insights/script.js"]')) {
     var vaScript = document.createElement('script');
     vaScript.defer = true;
     vaScript.src = '/_vercel/insights/script.js';

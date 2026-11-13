@@ -275,7 +275,7 @@ body {
 
 .hero-title .highlight {
   color: var(--signal);
-  text-shadow: var(--text-glow);
+  text-shadow: 0 0 24px rgba(65, 100, 232, 0.22);
 }
 
 .hero-subtitle {
@@ -430,32 +430,77 @@ body {
   gap: 28px;
 }
 
+.features-group-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.feature-group-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.feature-group-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--signal);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: var(--signal-subtle);
+  border: 1px solid rgba(65, 100, 232, 0.22);
+  padding: 4px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.feature-group-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.table-scroll-hint {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--steel);
+  text-align: right;
+  margin-bottom: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 32px;
+  border-radius: 14px;
+  padding: 26px 24px;
   transition: all 0.25s ease;
   position: relative;
 }
 
 .card:hover {
-  border-color: rgba(65, 100, 232, 0.4);
+  border-color: rgba(65, 100, 232, 0.35);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
 .card-icon {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   background: var(--panel);
-  border: 1px solid rgba(65, 100, 232, 0.25);
-  border-radius: 12px;
+  border: 1px solid rgba(65, 100, 232, 0.2);
+  border-radius: 10px;
   display: grid;
   place-items: center;
   color: var(--signal);
-  margin-bottom: 22px;
-  box-shadow: 0 0 16px rgba(65, 100, 232, 0.15);
+  margin-bottom: 18px;
+  box-shadow: 0 0 12px rgba(65, 100, 232, 0.12);
 }
 
 .card-title {
@@ -2070,8 +2115,11 @@ a { color: inherit; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
-/* 11 feature cards: let the last one fill the row instead of leaving a gap */
-@media (min-width: 700px) { #features .grid-3 > .card:last-child { grid-column: span 2; } }
+@media (max-width: 768px) {
+  .features-group-wrap { gap: 36px; }
+  .feature-group-head { margin-bottom: 16px; }
+  .table-scroll-hint { display: flex; }
+}
 
 .site-header .container { position: static; z-index: auto; }
 .doc-body table.comparison-table { min-width: 0; }
