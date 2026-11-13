@@ -6,8 +6,8 @@
   
   <title>D3motion Blog &mdash; Motion Systems, AI Workflows &amp; Video Engineering</title>
   <meta name="title" content="D3motion Blog &mdash; Motion Systems, AI Workflows &amp; Video Engineering">
-  <meta name="description" content="Explore deep dives into generative UI motion systems, time-driven HTML animations, and zero-credit desktop video rendering from the D3motion engineering team and community.">
-  <meta name="keywords" content="D3motion Blog, UI Motion Design, HTML to MP4, Gemini 3.8 Flash, Bento UI, Motion Systems, Generative Animation">
+  <meta name="description" content="Tutorials, deep dives, and comparisons on code-based UI motion, deterministic 60fps video rendering, Gemini & Claude workflows, and zero-credit desktop export.">
+  <meta name="keywords" content="D3motion Blog, UI Motion Design, HTML to MP4, convert HTML5 to video, GSAP to MP4, Three.js video render, Remotion alternative, Claude animation export, Gemini 3.8 Flash, Bento UI, zero credit video rendering">
   <meta name="author" content="D3motion">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://d3motion.pro/blog">
@@ -18,7 +18,7 @@
   <meta property="og:url" content="https://d3motion.pro/blog">
   <meta property="og:site_name" content="D3motion Blog">
   <meta property="og:title" content="D3motion Blog &mdash; Motion Systems, AI Workflows &amp; Video Engineering">
-  <meta property="og:description" content="Technical tutorials and guides on building broadcast-quality UI animations without cloud credit burn.">
+  <meta property="og:description" content="Technical tutorials, framework comparisons, and guides on building broadcast-quality UI animations without cloud credit burn.">
   <meta property="og:image" content="https://d3motion.pro/assets/og-image.png">
 
   <!-- Twitter Card -->
@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Absolute Root-Relative Stylesheet -->
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="/blog/styles.css?v=3.6">
 
   <!-- Vercel Web Analytics -->
@@ -40,6 +40,22 @@
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
+
+  <!-- Structured Data / JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "D3motion Blog & Insights",
+    "url": "https://d3motion.pro/blog",
+    "description": "Guides, benchmarks, and tutorials for turning web animations into high-framerate MP4 videos locally.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "D3motion",
+      "url": "https://d3motion.pro"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -62,12 +78,12 @@
       <div class="nav-actions">
         <a href="/" class="nav-portal-link nav-link-desktop"><span>App Studio</span></a>
         <a href="/tutorial" class="nav-portal-link nav-link-desktop"><span>Tutorials</span></a>
-        <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer" class="nav-skill-link" title="Official Bento Skill">
+        <a href="/assets/templates/d3motion-free-templates.zip" download class="nav-skill-link" title="Download Free HTML Motion Templates">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
           </svg>
-          <span class="skill-label-full">bento-motion-skill ↗</span>
-          <span class="skill-label-mobile">Skill ↗</span>
+          <span class="skill-label-full">Free Templates (.zip) &darr;</span>
+          <span class="skill-label-mobile">Templates &darr;</span>
         </a>
 
         <!-- Dual Theme Toggle Button -->
@@ -97,7 +113,7 @@
     <!-- Blog Hub Header -->
     <header class="blog-hub-header">
       <div class="blog-hub-eyebrow">
-        <span>Engineering &bull; Tutorials &bull; Design Systems</span>
+        <span>Engineering &bull; Tutorials &bull; AI Workflows &bull; Comparisons</span>
       </div>
       <h1 class="blog-hub-title">D3motion Insights</h1>
       <p class="blog-hub-subtitle">
@@ -105,57 +121,176 @@
       </p>
 
       <!-- Category Filter Chips -->
-      <nav class="blog-filter-bar" aria-label="Blog categories">
-        <button type="button" class="filter-chip active">All Articles</button>
-        <button type="button" class="filter-chip">Tutorials</button>
-        <button type="button" class="filter-chip">AI Workflows</button>
-        <button type="button" class="filter-chip">Motion Systems</button>
-        <button type="button" class="filter-chip">Case Studies</button>
+      <nav class="blog-filter-bar" aria-label="Blog categories" style="margin-bottom: 24px;">
+        <button type="button" class="filter-chip active" data-category="all">All Articles (11)</button>
+        <button type="button" class="filter-chip" data-category="tutorials">Tutorials (3)</button>
+        <button type="button" class="filter-chip" data-category="ai-workflows">AI Workflows (3)</button>
+        <button type="button" class="filter-chip" data-category="comparisons">Comparisons (3)</button>
+        <button type="button" class="filter-chip" data-category="portfolio">Portfolio Guides (2)</button>
       </nav>
+
+      <!-- Search Input -->
+      <div style="max-width: 480px; margin: 0 auto; position: relative;">
+        <input type="text" id="blogSearchInput" placeholder="Search by topic (e.g. GSAP, Remotion, Claude, Three.js)..." style="width: 100%; padding: 12px 18px 12px 42px; border-radius: 999px; border: 1px solid var(--border-medium); background: var(--bg-surface); color: var(--text-primary); font-family: var(--font-sans); font-size: 14px; outline: none; box-shadow: var(--card-shadow);" />
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
     </header>
 
-    <!-- Featured Post Hero Card (Links to Gemini Bento Motion Article) -->
-    <a href="/blog/gemini-bento-motion-grid" class="featured-post-card">
-      <div class="featured-media-box">
-        <img src="/assets/bento-preview-poster.jpg" alt="Bento UI Motion Grid 120fps Preview Poster" loading="lazy">
-        <div class="featured-badge-overlay">&starf; Featured Guide</div>
-      </div>
-      <div class="featured-content-box">
-        <div>
-          <div class="featured-top-meta">
-            <span>Tutorial &bull; AI Motion Engineering</span>
-          </div>
-          <h2 class="featured-title">
-            You Don't Need Fable 5.2: How to Build 60fps Bento Motion Grids with Gemini 3.8 Flash &amp; D3motion
-          </h2>
-          <p class="featured-excerpt">
-            A zero-credit-waste, browser-native pipeline for designing high-density bento motion graphics. Generate time-driven spring physics with Gemini 3.8 Flash (Medium) and render broadcast-ready MP4s directly in D3motion.
-          </p>
+    <!-- Featured Post Hero Card (Bento Motion Grid) -->
+    <div id="featuredHeroWrap">
+      <a href="/blog/gemini-bento-motion-grid" class="featured-post-card" data-category="ai-workflows">
+        <div class="featured-media-box">
+          <img src="/assets/bento-preview-poster.jpg" alt="Bento UI Motion Grid 120fps Preview Poster" loading="lazy">
+          <div class="featured-badge-overlay">&starf; Featured Guide</div>
         </div>
-
-        <div class="author-lockup">
-          <img src="/assets/heyyashd.jpg" alt="Yash (@heyyashd)" class="author-photo">
+        <div class="featured-content-box">
           <div>
-            <div class="author-meta-name">Yash (@heyyashd)</div>
-            <div class="author-meta-sub">Nov 12, 2026 &bull; 5 min read</div>
+            <div class="featured-top-meta">
+              <span>AI Workflows &bull; Motion Systems</span>
+            </div>
+            <h2 class="featured-title">
+              You Don't Need Fable 5.2: How to Build 60fps Bento Motion Grids with Gemini 3.8 Flash &amp; D3motion
+            </h2>
+            <p class="featured-excerpt">
+              A zero-credit-waste, browser-native pipeline for designing high-density bento motion graphics. Generate time-driven spring physics with Gemini 3.8 Flash and render broadcast-ready MP4s directly in D3motion.
+            </p>
+          </div>
+
+          <div class="author-lockup">
+            <img src="/assets/heyyashd.jpg" alt="Yash (@heyyashd)" class="author-photo">
+            <div>
+              <div class="author-meta-name">Yash (@heyyashd)</div>
+              <div class="author-meta-sub">Nov 12, 2026 &bull; 5 min read</div>
+            </div>
           </div>
         </div>
-      </div>
-    </a>
+      </a>
+    </div>
 
-    <!-- CMS Articles Grid for Future Posts -->
+    <!-- Free Templates Banner -->
+    <section style="background: linear-gradient(135deg, rgba(59, 98, 246, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%); border: 1px solid var(--signal-border); border-radius: 20px; padding: 28px 36px; margin: 48px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div style="max-width: 620px;">
+        <span class="blog-card-tag" style="background: var(--signal-glow); color: var(--signal-primary); border-color: var(--signal-border);">Free Developer Templates</span>
+        <h3 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin: 8px 0;">
+          Download 5 Starter HTML Animation Templates (.ZIP)
+        </h3>
+        <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.5;">
+          Includes Kinetic Typography, GSAP Card Decks, Three.js WebGL Particle Spheres, AI Metrics Dashboards, and Micro-Interactions. Self-contained and ready to test in D3motion.
+        </p>
+      </div>
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <a href="/assets/templates/d3motion-free-templates.zip" download class="btn-primary-action" style="text-decoration: none; padding: 12px 24px; font-size: 14px; font-weight: 600;">
+          Download All Templates (.ZIP) &darr;
+        </a>
+      </div>
+    </section>
+
+    <!-- Articles Grid Section -->
     <section>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);">
         <h3 style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;">Latest Publications</h3>
-        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);">4 Articles</span>
+        <span id="articleCountDisplay" style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">11 Publications</span>
       </div>
 
-      <div class="blog-grid">
+      <div class="blog-grid" id="blogGridContainer">
 
-        <!-- Card 1: Bento UI Motion (Linked) -->
-        <a href="/blog/gemini-bento-motion-grid" class="blog-card">
+        <!-- 1. HTML5 to MP4 Without Losing Frame Rate -->
+        <a href="/blog/html5-to-mp4-without-losing-frame-rate" class="blog-card" data-category="tutorials" data-keywords="html5 mp4 dropped frames screen recording obs quicktime 60fps deterministic">
           <div class="blog-card-media">
-            <img src="/assets/bento-preview-poster.jpg" alt="Bento UI Motion Grid preview" loading="lazy">
+            <img src="/assets/covers/cover-html5-to-mp4-without-losing-frame-rate.jpg" alt="How to Convert HTML5 Animations to MP4 Without Losing Frame Rate" loading="lazy">
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">Tutorials</span>
+              <h4 class="blog-card-title">How to Convert HTML5 Animations to MP4 Without Losing Frame Rate</h4>
+              <p class="blog-card-desc">Why OBS and screen recording stutters on web motion, and how deterministic frame-stepping guarantees 60fps/120fps.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion Engineering</span>
+              <span>7 min read</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 2. Export GSAP, Three.js, CSS to MP4 -->
+        <a href="/blog/export-gsap-threejs-css-to-mp4" class="blog-card" data-category="tutorials" data-keywords="gsap threejs css keyframes webgl canvas animation mp4 4k export">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-export-gsap-threejs-css-to-mp4.jpg" alt="How to Export GSAP, Three.js, and CSS Animations as High-Res MP4 Videos" loading="lazy">
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">Tutorials</span>
+              <h4 class="blog-card-title">How to Export GSAP, Three.js, and CSS Animations as High-Res MP4 Videos</h4>
+              <p class="blog-card-desc">Code recipes for hooking into GSAP tickers, Three.js render loops, and CSS keyframe duration triggers.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion Engineering</span>
+              <span>8 min read</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 3. Batch Rendering HTML to Video -->
+        <a href="/blog/batch-rendering-html-to-video" class="blog-card" data-category="tutorials" data-keywords="batch render html automation multi aspect ratio programmatic video agency">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-batch-rendering-html-to-video.jpg" alt="Batch Rendering HTML to Video: How to Automate Motion Asset Exports" loading="lazy">
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">Tutorials</span>
+              <h4 class="blog-card-title">Batch Rendering HTML to Video: How to Automate Motion Asset Exports</h4>
+              <p class="blog-card-desc">Scale your multi-variant motion asset pipeline across aspect ratios without paying per-minute rendering bills.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion Engineering</span>
+              <span>7 min read</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 4. Turn Claude & Gemini HTML into Shareable MP4s -->
+        <a href="/blog/turn-claude-gemini-html-animations-into-mp4" class="blog-card" data-category="ai-workflows" data-keywords="claude gemini llm ai prompts html video mp4 social media">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-turn-claude-gemini-html-animations-into-mp4.jpg" alt="How to Turn Claude &amp; Gemini HTML Animations into Shareable MP4s" loading="lazy">
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">AI Workflows</span>
+              <h4 class="blog-card-title">How to Turn Claude &amp; Gemini HTML Animations into Shareable MP4s</h4>
+              <p class="blog-card-desc">From prompt to 60fps MP4 video in under 60 seconds. Eliminate browser chrome capture and credit burn.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion AI Lab</span>
+              <span>6 min read</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 5. No After Effects Needed: HTML & CSS Motion Graphics -->
+        <a href="/blog/no-after-effects-needed-html-css-motion-graphics" class="blog-card" data-category="ai-workflows" data-keywords="after effects alternative adobe motion graphics css html social video saas">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-no-after-effects-needed-html-css-motion-graphics.jpg" alt="No After Effects Needed: Building Social Media Motion Graphics with HTML &amp; CSS" loading="lazy">
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">AI Workflows</span>
+              <h4 class="blog-card-title">No After Effects Needed: Building Social Media Motion Graphics with HTML &amp; CSS</h4>
+              <p class="blog-card-desc">Why code-based motion is replacing timeline editors for clean SaaS demos and social product reels.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion Design Team</span>
+              <span>8 min read</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 6. Bento UI Motion Grid (Gemini 3.8 Flash) -->
+        <a href="/blog/gemini-bento-motion-grid" class="blog-card" data-category="ai-workflows" data-keywords="gemini 3.8 flash bento ui motion fable spring physics playwright">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-gemini-bento-motion-grid.jpg" alt="Bento UI Motion Grid preview" loading="lazy">
           </div>
           <div class="blog-card-body">
             <div>
@@ -164,60 +299,101 @@
               <p class="blog-card-desc">Generate mathematical UI motion grids without timeline keyframing or Playwright credit consumption.</p>
             </div>
             <div class="blog-card-footer">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <img src="/assets/heyyashd.jpg" alt="Yash" style="width:20px; height:20px; border-radius:50%; object-fit:cover;">
-                <span>Yash</span>
-              </div>
+              <span>Yash (@heyyashd)</span>
               <span>5 min read</span>
             </div>
           </div>
         </a>
 
-        <!-- Card 2: Spring Physics -->
-        <div class="blog-card" style="opacity: 0.95;">
-          <div class="blog-card-media" style="background: linear-gradient(135deg, #12141C 0%, #1D2336 100%); display:grid; place-items:center;">
-            <div style="text-align:center;">
-              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--signal-primary)" stroke-width="2">
-                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-              </svg>
-            </div>
+        <!-- 7. Remotion vs Local HTML-to-MP4 Renderers -->
+        <a href="/blog/remotion-vs-local-html-to-mp4" class="blog-card" data-category="comparisons" data-keywords="remotion alternative vs react lambda aws code video framework">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-remotion-vs-local-html-to-mp4.jpg" alt="Remotion vs. Local HTML-to-MP4 Renderers: Which Fits Your Workflow?" loading="lazy">
           </div>
           <div class="blog-card-body">
             <div>
-              <span class="blog-card-tag">Motion Math</span>
-              <h4 class="blog-card-title">Mathematical Easing in D3motion: Why Damped Springs Beat CSS Transitions</h4>
-              <p class="blog-card-desc">How from-rest damped harmonic oscillators (zeta 0.55) prevent frame-1 stutter and continuous cycle-wrap jumps.</p>
+              <span class="blog-card-tag">Comparisons</span>
+              <h4 class="blog-card-title">Remotion vs. Local HTML-to-MP4 Renderers: Which Fits Your Workflow?</h4>
+              <p class="blog-card-desc">Comparing code-heavy React video suites with universal drag-and-drop desktop renderers.</p>
             </div>
             <div class="blog-card-footer">
               <span>D3motion Core Team</span>
-              <span>6 min read</span>
+              <span>9 min read</span>
             </div>
           </div>
-        </div>
+        </a>
 
-        <!-- Card 3: Zero-Credit Architecture -->
-        <div class="blog-card" style="opacity: 0.95;">
-          <div class="blog-card-media" style="background: linear-gradient(135deg, #0B0D13 0%, #162035 100%); display:grid; place-items:center;">
-            <div style="text-align:center;">
-              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-              </svg>
-            </div>
+        <!-- 8. Cloud Video Rendering API Alternatives -->
+        <a href="/blog/cloud-video-rendering-api-alternatives" class="blog-card" data-category="comparisons" data-keywords="shotstack creatomate bannerbear cloud video api credits alternatives offline">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-cloud-video-rendering-api-alternatives.jpg" alt="Best Alternatives to Cloud Video Rendering APIs (Stop Paying Per Credit)" loading="lazy">
           </div>
           <div class="blog-card-body">
             <div>
-              <span class="blog-card-tag">Engineering</span>
-              <h4 class="blog-card-title">Zero-Credit Video Pipelines: Replacing Headless Playwright with Direct GPU Rendering</h4>
-              <p class="blog-card-desc">Bypassing cloud chromium instances to render 4K 120fps video files locally on your machine with zero credit spend.</p>
+              <span class="blog-card-tag">Comparisons</span>
+              <h4 class="blog-card-title">Best Alternatives to Cloud Video Rendering APIs (Stop Paying Per Credit)</h4>
+              <p class="blog-card-desc">Break down the hidden costs of Shotstack and Creatomate vs a one-time desktop license.</p>
             </div>
             <div class="blog-card-footer">
-              <span>D3motion Core Team</span>
+              <span>D3motion Infrastructure</span>
               <span>8 min read</span>
             </div>
           </div>
-        </div>
+        </a>
+
+        <!-- 9. Screen Recording vs Deterministic Rendering -->
+        <a href="/blog/screen-recording-vs-deterministic-rendering" class="blog-card" data-category="comparisons" data-keywords="screen recording blurry ui obs loom quicktime display scaling downsample cfr vfr">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-screen-recording-vs-deterministic-rendering.jpg" alt="Screen Recording vs. Deterministic Rendering: Why Your UI Videos Look Blurry" loading="lazy">
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">Comparisons</span>
+              <h4 class="blog-card-title">Screen Recording vs. Deterministic Rendering: Why Your UI Videos Look Blurry</h4>
+              <p class="blog-card-desc">The science of display scaling, VFR stutter, and pixel rasterization in UI demo videos.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion Core Team</span>
+              <span>7 min read</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 10. Web Prototypes for Dribbble, Behance, X -->
+        <a href="/blog/export-web-prototypes-dribbble-behance-x" class="blog-card" data-category="portfolio" data-keywords="dribbble behance x twitter linkedin portfolio seamless loop ratio">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-export-web-prototypes-dribbble-behance-x.jpg" alt="How to Prepare Interactive Web Prototypes for Dribbble, Behance, and X" loading="lazy">
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">Portfolio Guides</span>
+              <h4 class="blog-card-title">How to Prepare Interactive Web Prototypes for Dribbble, Behance, and X</h4>
+              <p class="blog-card-desc">Platform specs, aspect ratios, seamless loop formulas, and 60fps MP4 export tricks.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion Design Team</span>
+              <span>7 min read</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 11. 5 Micro-Interaction Examples for Client Pitches -->
+        <a href="/blog/5-micro-interactions-html-export-video" class="blog-card" data-category="portfolio" data-keywords="micro interactions templates client pitches button morph 2fa otp passkey pulse skeleton">
+          <div class="blog-card-media">
+            <img src="/assets/covers/cover-5-micro-interactions-html-export-video.jpg" alt="5 Micro-Interaction Examples You Can Build in HTML and Export for Client Pitches" loading="lazy">
+          </div>
+          <div class="blog-card-body">
+            <div>
+              <span class="blog-card-tag">Portfolio Guides</span>
+              <h4 class="blog-card-title">5 Micro-Interaction Examples You Can Build in HTML and Export for Client Pitches</h4>
+              <p class="blog-card-desc">Production-ready UI motion components with copy-paste code and free downloadable templates.</p>
+            </div>
+            <div class="blog-card-footer">
+              <span>D3motion Design Team</span>
+              <span>8 min read</span>
+            </div>
+          </div>
+        </a>
 
       </div>
     </section>
@@ -229,11 +405,11 @@
         Get upcoming tutorials, production-tested animation skills, and mathematical easing formulas delivered to your inbox.
       </p>
       <div class="cta-actions-group">
-        <a href="https://d3motion.pro" class="btn-primary-action">
+        <a href="/" class="btn-primary-action">
           Get D3motion Studio ↗
         </a>
-        <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-secondary-action">
-          Download Free Skills (.zip) ↗
+        <a href="/assets/templates/d3motion-free-templates.zip" download class="btn-secondary-action">
+          Download Free Templates (.zip) &darr;
         </a>
       </div>
     </section>
@@ -254,14 +430,15 @@
           <span style="font-family: var(--font-display); font-weight: 700;">D3motion Design System</span>
         </div>
         <div class="footer-copy">
-          &copy; 2026 D3motion. Visit <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer">d3motion.pro</a> &bull; Skill at <a href="https://bento-ui-motion-skill.vercel.app/" target="_blank" rel="noopener noreferrer">bento-ui-motion-skill.vercel.app</a>
+          &copy; 2026 D3motion. Visit <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer">d3motion.pro</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Theme Toggle Script -->
+  <!-- Theme Toggle & Dynamic Filter / Search Script -->
   <script>
+    // Theme Toggle
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const savedTheme = localStorage.getItem('d3motion_theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -273,11 +450,61 @@
       localStorage.setItem('d3motion_theme', newTheme);
     });
 
+    // Reading Progress
     window.addEventListener('scroll', () => {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrolled = (window.scrollY / docHeight) * 100;
       document.getElementById('readingProgress').style.width = scrolled + '%';
     });
+
+    // Category Tabs & Live Search
+    const filterChips = document.querySelectorAll('.filter-chip');
+    const blogCards = document.querySelectorAll('#blogGridContainer .blog-card');
+    const searchInput = document.getElementById('blogSearchInput');
+    const countDisplay = document.getElementById('articleCountDisplay');
+    const heroCard = document.getElementById('featuredHeroWrap');
+
+    let currentCategory = 'all';
+
+    function applyFilter() {
+      const query = (searchInput.value || '').trim().toLowerCase();
+      let visibleCount = 0;
+
+      blogCards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        const text = (card.innerText + ' ' + (card.getAttribute('data-keywords') || '')).toLowerCase();
+
+        const matchCat = (currentCategory === 'all' || cat === currentCategory);
+        const matchSearch = (!query || text.includes(query));
+
+        if (matchCat && matchSearch) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Handle Featured Hero Visibility
+      if (heroCard) {
+        const heroMatchCat = (currentCategory === 'all' || currentCategory === 'ai-workflows');
+        const heroMatchSearch = (!query || heroCard.innerText.toLowerCase().includes(query));
+        heroCard.style.display = (heroMatchCat && heroMatchSearch) ? 'block' : 'none';
+      }
+
+      countDisplay.textContent = `${visibleCount + (heroCard && heroCard.style.display !== 'none' ? 1 : 0)} Publications`;
+    }
+
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        filterChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentCategory = chip.getAttribute('data-category');
+        applyFilter();
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilter);
   </script>
 </body>
 </html>

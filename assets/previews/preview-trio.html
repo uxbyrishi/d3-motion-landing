@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bento Trio Showcase (1024x768)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;580;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --acc:#2F5BFF;--acc2:#6E8BFF;--tint:#EEF2FF;
+  --bg:#F7F7F5;--tray:#EEEEEA;--ink:#141416;
+  --mut:#8B8B87;--mut2:#B8B8B3;
+}
+html,body{
+  width:1024px;height:768px;overflow:hidden;background:var(--bg);
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  color:var(--ink);-webkit-font-smoothing:antialiased;
+  letter-spacing:-.01em;
+}
+#root{
+  position:relative;width:1024px;height:768px;overflow:hidden;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;padding:48px;
+}
+.grid-stage{
+  display:grid;grid-template-columns:310px 310px 310px;gap:24px;width:100%;max-width:960px;
+}
+.t{position:relative;border-radius:24px;background:var(--tray);overflow:hidden;box-shadow:0 1px 2px rgba(20,20,30,.05),0 12px 32px rgba(20,20,30,.06)}
+.t.w{background:#fff}
+.in{position:absolute;inset:0}
+.c{background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(20,20,30,.06),0 4px 14px rgba(20,20,30,.05)}
+.row{display:flex;align-items:center}.sp{flex:1}
+.lbl{font-size:10px;color:var(--mut);font-weight:500}
+.h{font-size:12px;font-weight:600}
+.rl{display:inline-flex;vertical-align:top;overflow:hidden;height:1.2em;line-height:1.2em}
+.rc{display:inline-block;height:1.2em;overflow:hidden;position:relative}
+.rc b{display:block;height:1.2em;line-height:1.2em;font-weight:inherit}
+svg{display:block}
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="grid-stage">
+    <div class="t" style="height:440px;" id="c-music"></div>
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="t w" style="height:208px;" id="c-week"></div>
+      <div class="t" style="height:208px;" id="c-streak"></div>
+    </div>
+    <div class="t w" style="height:440px;" id="c-clock"></div>
+  </div>
+</div>
+
+<script>
+const A='#2F5BFF';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const mix=(a,b,p)=>a+(b-a)*p;
+const expo=p=>p<=0?0:p>=1?1:(1-Math.pow(2,-10*p))/(1-Math.pow(2,-10));
+const sprRaw=p=>1-Math.exp(-6.5*p)*(Math.cos(9.86*p)+(6.5/9.86)*Math.sin(9.86*p));
+const spring=p=>p<=0?0:p>=1?1:sprRaw(p)/sprRaw(1);
+const soft=p=>{const f=q=>1-Math.exp(-7*q)*(1+7*q);return p<=0?0:p>=1?1:f(p)/f(1)};
+const md=(k,n)=>((k%n)+n)%n;
+
+function st(t,P,o){const x=t-o;if(x<0)return {k:0,l:0,pre:1};const k=Math.floor(x/P);return {k,l:x-k*P}}
+function st2(t,P,o){const x=t-o;if(x<0)return {k:0,l:99};const k=Math.floor(x/P)+1;return {k,l:x-(k-1)*P}}
+function tw(t,P,o,vals,dur,e=spring){const {k,l}=st2(t,P,o);const a=vals[md(k-1,vals.length)],b=vals[md(k,vals.length)];return mix(a,b,e(clamp(l/dur)))}
+function hexmix(a,b,p){const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),pb=[1,3,5].map(i=>parseInt(b.substr(i,2),16));return `rgb(${pa.map((v,i)=>Math.round(mix(v,pb[i],p))).join(',')})`}
+
+function roll(f,to,l,dur=.7,stg=.045){
+  const n=Math.max(f.length,to.length);
+  f=f.padStart(n,' ');to=to.padStart(n,' ');let s='';
+  for(let i=0;i<n;i++){
+    const a=f[i],b=to[i];
+    const p=spring(clamp((l-i*stg)/dur));
+    const da=/\d/.test(a),db=/\d/.test(b);
+    if(da&&db){
+      const y=mix(+a,+b,p);
+      s+=`<span class="rc"><span style="display:block;transform:translateY(${-y*1.2}em)">${[0,1,2,3,4,5,6,7,8,9].map(d=>`<b style="height:1.2em">${d}</b>`).join('')}</span></span>`;
+    }else if(a===b){
+      s+=a===' '?'':`<span class="rc">${a}</span>`;
+    }else{
+      const pe=expo(clamp((l-i*stg)/(dur*.6)));
+      if(a===' '&&!db){s+=`<span class="rc" style="opacity:${pe}">${b}</span>`;continue}
+      const w=a===' '?pe:b===' '?1-pe:1;
+      s+=`<span class="rc" style="max-width:${w*0.7}em"><span style="display:block;transform:translateY(${-pe*1.2}em)"><b style="height:1.2em;opacity:${1-pe}">${a===' '?'&nbsp;':a}</b><b style="height:1.2em;opacity:${pe}">${b===' '?'&nbsp;':b}</b></span></span>`;
+    }
+  }
+  return `<span class="rl">${s}</span>`;
+}
+
+function rollV(t,P,o,vals,fmt,dur,stg){
+  const {k,l}=st2(t,P,o);
+  const a=vals[md(k-1,vals.length)],b=vals[md(k,vals.length)];
+  return roll(fmt(a),fmt(b),l,dur,stg);
+}
+
+const ic={
+  prev:(c='#141416')=>`<svg width="14" height="14" viewBox="0 0 24 24" fill="${c}"><path d="M19 5v14L8 12z"/><rect x="5" y="5" width="2.6" height="14" rx="1"/></svg>`,
+  next:(c='#141416')=>`<svg width="14" height="14" viewBox="0 0 24 24" fill="${c}"><path d="M5 5v14l11-7z"/><rect x="16.4" y="5" width="2.6" height="14" rx="1"/></svg>`,
+  pause:(c='#fff',s=12)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><rect x="6" y="4.5" width="4" height="15" rx="1.2"/><rect x="14" y="4.5" width="4" height="15" rx="1.2"/></svg>`,
+  sun:(c,s=14,r=0)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" style="transform:rotate(${r}deg)"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>`,
+};
+
+function renderMusic(t){
+  const tracks=[['Late Bloom','Juno Vale',['#2F5BFF','#9DB2FF','#0F1A4D'],187],['Saturn Walk','Kaito',['#FF7A59','#FFC5A8','#3A1408'],204],['Glass House','Mira Lane',['#16A37F','#A9F0DA','#04291F'],171]];
+  const P=7.5,o=4.5;const S=st(t,P,o);const k=S.pre?0:S.k+1,l=S.pre?99:S.l;const cur=tracks[md(k,3)],prv=tracks[md(k-1,3)];const p=soft(clamp(l/.8));
+  const art=(tr,op)=>`<div style="position:absolute;inset:0;opacity:${op};background:radial-gradient(120% 90% at 20% 15%,${tr[2][1]} 0%,${tr[2][0]} 45%,${tr[2][2]} 100%)"><div style="position:absolute;right:-20px;bottom:-20px;width:90px;height:90px;border-radius:50%;border:12px solid rgba(255,255,255,.2)"></div></div>`;
+  const el=(S.pre?t+o:l)+38+md(k,3)*21;const len=cur[3];const pr=(el%len)/len;
+  const fm=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+  const bars=[0,1,2,3,4].map(i=>{const h=.35+.65*Math.abs(Math.sin(t*(3.1+i*.7)+i*1.7)*Math.cos(t*(1.3+i*.4)));return `<i style="display:block;width:3px;height:${4+h*14}px;border-radius:2px;background:${A}"></i>`}).join('');
+  const ttl=(tr,op,y)=>`<div style="position:absolute;left:0;top:0;opacity:${op};transform:translateY(${y}px)"><div style="font-size:15px;font-weight:700;color:#141416">${tr[0]}</div><div style="font-size:11px;color:#8A8A90;margin-top:2px">${tr[1]}</div></div>`;
+  return `<div class="in" style="padding:22px">
+  <div style="position:relative;width:100%;height:180px;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.15)">${art(prv,1-p)}${art(cur,p)}</div>
+  <div class="row" style="margin-top:18px"><div style="position:relative;height:38px;flex:1">${ttl(prv,1-p,-8*p)}${ttl(cur,p,8*(1-p))}</div><div class="row" style="gap:3px;align-items:flex-end;height:18px">${bars}</div></div>
+  <div style="margin-top:16px;height:4px;border-radius:2px;background:#D9D9D4;position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:${pr*100}%;border-radius:2px;background:${A}"></div><div style="position:absolute;top:50%;left:${pr*100}%;width:10px;height:10px;border-radius:50%;background:${A};transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(47,91,255,.4)"></div></div>
+  <div class="row" style="margin-top:8px;font-size:10px;color:#8B8B87"><span>${fm(el)}</span><span class="sp"></span><span>${fm(len)}</span></div>
+  <div class="row" style="justify-content:center;gap:28px;margin-top:14px">${ic.prev()}<div style="width:40px;height:40px;border-radius:50%;background:${A};display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(47,91,255,.35)">${ic.pause('#fff',14)}</div>${ic.next()}</div></div>`;
+}
+
+function renderWeek(t){
+  const days=['M','T','W','T','F','S','S'];const x=tw(t,2.2,2.1,[2,4,5,1,3,6],.8,spring);
+  return `<div class="in" style="padding:18px 16px"><div class="row" style="padding:0 4px"><span class="h" style="font-size:13px">November 2026</span><span class="sp"></span><span class="lbl">Week 46</span></div><div style="position:relative;margin-top:16px;height:44px"><div style="position:absolute;top:0;left:${x*(270/7)}px;width:${270/7}px;height:44px;border-radius:12px;background:${A};box-shadow:0 4px 12px rgba(47,91,255,.35)"></div><div class="row" style="position:relative;height:44px">${days.map((d,i)=>{const on=clamp(1-Math.abs(x-i));return `<div style="flex:1;text-align:center;line-height:1.3"><div style="font-size:9px;color:${hexmix('#9A9A95','#C8D3FF',on)}">${d}</div><div style="font-size:13px;font-weight:600;color:${hexmix('#141416','#FFFFFF',on)}">${9+i}</div></div>`}).join('')}</div></div></div>`;
+}
+
+function renderStreak(t){
+  const P=7.2,o=1.6;const {k,l}=st(t,P,o);const lit=[0,1,2,3,4,5,6].map(i=>l-.3-i*.8);const reset=1-soft(clamp((l-6.4)/.6));const cnt=Math.min(7,lit.filter(x=>x>0).length);
+  return `<div class="in" style="padding:20px 18px"><div class="lbl">Design streak</div><div style="font-size:26px;font-weight:700;margin-top:4px;letter-spacing:-.6px">${cnt?roll(String(12+k*7+cnt-1),String(12+k*7+cnt),lit[cnt-1],.6):String(12+k*7)} <span style="font-size:12px;font-weight:500;color:var(--mut)">days</span></div>
+  <div class="row" style="gap:6px;margin-top:20px">${lit.map((x)=>{const p=spring(clamp(x/.55))*reset;return `<div style="flex:1;height:22px;position:relative;border-radius:7px;background:#E1E1DC"><div style="position:absolute;inset:0;border-radius:7px;background:${A};transform:scale(${p});opacity:${clamp(p*1.5)}"></div></div>`}).join('')}</div></div>`;
+}
+
+function renderClock(t){
+  const P=3.2,o=1.4;const mins=[41,42,43,44,45,46,47,48,49];const temps=[68,69,71,70,72,73];
+  return `<div class="in" style="padding:24px 22px;display:flex;flex-direction:column"><div class="row"><span class="lbl" style="font-weight:600;color:#141416;font-size:13px">New York Studio</span><span class="sp"></span>${ic.sun('#F2A516',16,t*24)}</div>
+  <div style="font-size:48px;font-weight:600;letter-spacing:-1.8px;margin-top:24px;line-height:1">9:${rollV(t,P,o,mins,v=>String(v),.7,.06)}</div><div class="lbl" style="margin-top:10px;font-size:12px">Tuesday, November 13</div><div class="sp"></div>
+  <div class="c row" style="padding:14px 18px;margin-top:auto"><div style="font-size:14px;font-weight:600">${rollV(t,4.1,2,temps,v=>v+'°',.7,.05)}</div><span class="lbl" style="margin-left:8px;font-size:12px">Clear &bull; 60 FPS</span></div></div>`;
+}
+
+let startTime=performance.now();
+function loop(){
+  const t=(performance.now()-startTime)/1000;
+  document.getElementById('c-music').innerHTML=renderMusic(t);
+  document.getElementById('c-week').innerHTML=renderWeek(t);
+  document.getElementById('c-streak').innerHTML=renderStreak(t);
+  document.getElementById('c-clock').innerHTML=renderClock(t);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

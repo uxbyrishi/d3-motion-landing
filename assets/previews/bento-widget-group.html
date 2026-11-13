@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bento UI Motion Trio &mdash; Original Light Styles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;580;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --acc:#2F5BFF;--acc2:#6E8BFF;--tint:#EEF2FF;
+  --bg:#F7F7F5;--tray:#EEEEEA;--ink:#141416;
+  --mut:#8B8B87;--mut2:#B8B8B3;
+}
+html,body{
+  width:100%;height:100%;
+  overflow:hidden;
+  background:var(--bg);
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"cv11","ss01","tnum";
+  letter-spacing:-.01em;
+  display:flex;align-items:center;justify-content:center;
+}
+.bento-container{
+  display:grid;
+  grid-template-columns:220px 220px 220px;
+  gap:16px;
+  padding:16px;
+}
+.t{position:relative;height:175px;border-radius:22px;background:var(--tray);overflow:hidden;box-shadow:0 1px 2px rgba(20,20,30,.05),0 8px 24px rgba(20,20,30,.05)}
+.t.w{background:#fff}
+.in{position:absolute;inset:0}
+.c{background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(20,20,30,.06),0 4px 14px rgba(20,20,30,.05)}
+.row{display:flex;align-items:center}.sp{flex:1}
+.lbl{font-size:9px;color:var(--mut);font-weight:460}
+.h{font-size:11px;font-weight:580}
+.rl{display:inline-flex;vertical-align:top;overflow:hidden;height:1.2em;line-height:1.2em}
+.rc{display:inline-block;height:1.2em;overflow:hidden;position:relative}
+.rc b{display:block;height:1.2em;line-height:1.2em;font-weight:inherit}
+svg{display:block}
+</style>
+</head>
+<body>
+<div class="bento-container" id="bentoTrio"></div>
+
+<script>
+const A='#2F5BFF';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const mix=(a,b,p)=>a+(b-a)*p;
+const expo=p=>p<=0?0:p>=1?1:(1-Math.pow(2,-10*p))/(1-Math.pow(2,-10));
+const sprRaw=p=>1-Math.exp(-6.5*p)*(Math.cos(9.86*p)+(6.5/9.86)*Math.sin(9.86*p));
+const spring=p=>p<=0?0:p>=1?1:sprRaw(p)/sprRaw(1);
+const soft=p=>{const f=q=>1-Math.exp(-7*q)*(1+7*q);return p<=0?0:p>=1?1:f(p)/f(1)};
+const md=(k,n)=>((k%n)+n)%n;
+
+function st(t,P,o){const x=t-o;if(x<0)return {k:0,l:0,pre:1};const k=Math.floor(x/P);return {k,l:x-k*P}}
+function st2(t,P,o){const x=t-o;if(x<0)return {k:0,l:99};const k=Math.floor(x/P)+1;return {k,l:x-(k-1)*P}}
+function tw(t,P,o,vals,dur,e=spring){const {k,l}=st2(t,P,o);const a=vals[md(k-1,vals.length)],b=vals[md(k,vals.length)];return mix(a,b,e(clamp(l/dur)))}
+function hexmix(a,b,p){const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),pb=[1,3,5].map(i=>parseInt(b.substr(i,2),16));return `rgb(${pa.map((v,i)=>Math.round(mix(v,pb[i],p))).join(',')})`}
+
+function roll(f,to,l,dur=.7,stg=.045){
+  const n=Math.max(f.length,to.length);
+  f=f.padStart(n,' ');to=to.padStart(n,' ');let s='';
+  for(let i=0;i<n;i++){
+    const a=f[i],b=to[i];
+    const p=spring(clamp((l-i*stg)/dur));
+    const da=/\d/.test(a),db=/\d/.test(b);
+    if(da&&db){
+      const y=mix(+a,+b,p);
+      s+=`<span class="rc"><span style="display:block;transform:translateY(${-y*1.2}em)">${[0,1,2,3,4,5,6,7,8,9].map(d=>`<b style="height:1.2em">${d}</b>`).join('')}</span></span>`;
+    }else if(a===b){
+      s+=a===' '?'':`<span class="rc">${a}</span>`;
+    }else{
+      const pe=expo(clamp((l-i*stg)/(dur*.6)));
+      if(a===' '&&!db){s+=`<span class="rc" style="opacity:${pe}">${b}</span>`;continue}
+      const w=a===' '?pe:b===' '?1-pe:1;
+      s+=`<span class="rc" style="max-width:${w*0.7}em"><span style="display:block;transform:translateY(${-pe*1.2}em)"><b style="height:1.2em;opacity:${1-pe}">${a===' '?'&nbsp;':a}</b><b style="height:1.2em;opacity:${pe}">${b===' '?'&nbsp;':b}</b></span></span>`;
+    }
+  }
+  return `<span class="rl">${s}</span>`;
+}
+
+const ic={
+  prev:(c='#141416')=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="${c}"><path d="M19 5v14L8 12z"/><rect x="5" y="5" width="2.6" height="14" rx="1"/></svg>`,
+  next:(c='#141416')=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="${c}"><path d="M5 5v14l11-7z"/><rect x="16.4" y="5" width="2.6" height="14" rx="1"/></svg>`,
+  pause:(c='#fff',s=10)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><rect x="6" y="4.5" width="4" height="15" rx="1.2"/><rect x="14" y="4.5" width="4" height="15" rx="1.2"/></svg>`,
+};
+
+const trio=document.getElementById('bentoTrio');
+
+function draw(t){
+  // 1. Music Tile
+  const tracks=[['Late Bloom','Juno Vale',['#2F5BFF','#9DB2FF','#0F1A4D'],187],['Saturn Walk','Kaito',['#FF7A59','#FFC5A8','#3A1408'],204],['Glass House','Mira Lane',['#16A37F','#A9F0DA','#04291F'],171]];
+  const P=7.5,o=4.5;const S=st(t,P,o);const k=S.pre?0:S.k+1,l=S.pre?99:S.l;const cur=tracks[md(k,3)],prv=tracks[md(k-1,3)];const p=soft(clamp(l/.8));
+  const art=(tr,op,ty)=>`<div style="position:absolute;inset:0;opacity:${op};transform:scale(${1+.06*(1-op)}) translateY(${ty}px);background:radial-gradient(120% 90% at 20% 15%,${tr[2][1]} 0%,${tr[2][0]} 45%,${tr[2][2]} 100%)"><div style="position:absolute;right:-14px;bottom:-14px;width:54px;height:54px;border-radius:50%;border:8px solid rgba(255,255,255,.18)"></div></div>`;
+  const el=(S.pre?t+o:l)+38+md(k,3)*21;const len=cur[3];const prE=k==1?(P+o+38)/prv[3]:(P+38+md(k-1,3)*21)/prv[3];const pr=mix(prE,el/len,expo(clamp(l/.6)));
+  const fm=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+  const bars=[0,1,2,3].map(i=>{const h=.35+.65*Math.abs(Math.sin(t*(3.1+i*.7)+i*1.7)*Math.cos(t*(1.3+i*.4)));return `<i style="display:block;width:2.5px;height:${3+h*9}px;border-radius:2px;background:${A}"></i>`}).join('');
+  const ttl=(tr,op,y)=>`<div style="position:absolute;left:0;top:0;opacity:${op};transform:translateY(${y}px)"><div style="font-size:11px;font-weight:600">${tr[0]}</div><div style="font-size:8.5px;color:#8A8A90;margin-top:2px">${tr[1]}</div></div>`;
+
+  // 2. Streak Tile
+  const streakP=7.2,streakO=1.6;const {k:stK,l:stL}=st(t,streakP,streakO);const lit=[0,1,2,3,4,5,6].map(i=>stL-.3-i*.8);const reset=1-soft(clamp((stL-6.4)/.6));const cnt=Math.min(7,lit.filter(x=>x>0).length);
+
+  // 3. Calendar Tile
+  const days=['M','T','W','T','F','S','S'];const xCal=tw(t,2.2,2.1,[2,4,5,1,3,6],.8,spring);
+
+  trio.innerHTML = `
+    <!-- 1. Music -->
+    <div class="t w">
+      <div class="in" style="padding:12px">
+        <div style="position:relative;width:100%;height:68px;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.15)">${art(prv,1-p,0)}${art(cur,p,0)}</div>
+        <div class="row" style="margin-top:8px"><div style="position:relative;height:24px;flex:1">${ttl(prv,1-p,-6*p)}${ttl(cur,p,6*(1-p))}</div><div class="row" style="gap:2px;align-items:flex-end;height:12px">${bars}</div></div>
+        <div style="margin-top:6px;height:3px;border-radius:2px;background:#E5E5E0;position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:${pr*100}%;border-radius:2px;background:${A}"></div></div>
+        <div class="row" style="margin-top:3px;font-size:7.5px;color:#7A7A80"><span>${fm(el)}</span><span class="sp"></span><span>${fm(len)}</span></div>
+        <div class="row" style="justify-content:center;gap:16px;margin-top:4px">${ic.prev()}<div style="width:24px;height:24px;border-radius:50%;background:${A};display:flex;align-items:center;justify-content:center">${ic.pause('#fff',8)}</div>${ic.next()}</div>
+      </div>
+    </div>
+
+    <!-- 2. Streak -->
+    <div class="t">
+      <div class="in" style="padding:14px">
+        <div class="lbl">Design streak</div>
+        <div style="font-size:24px;font-weight:600;margin-top:4px;letter-spacing:-.6px">${cnt?roll(String(12+stK*7+cnt-1),String(12+stK*7+cnt),lit[cnt-1],.6):String(12+stK*7)} <span style="font-size:10px;font-weight:500;color:var(--mut)">days</span></div>
+        <div class="row" style="gap:4px;margin-top:20px">${lit.map((x)=>{const p=spring(clamp(x/.55))*reset;return `<div style="flex:1;height:24px;position:relative;border-radius:6px;background:#E1E1DC"><div style="position:absolute;inset:0;border-radius:6px;background:${A};transform:scale(${p});opacity:${clamp(p*1.5)}"></div></div>`}).join('')}</div>
+        <div class="lbl" style="margin-top:24px;color:#16A37F;font-weight:540">&bull; Spring Easing (&zeta; 0.55)</div>
+      </div>
+    </div>
+
+    <!-- 3. Calendar -->
+    <div class="t">
+      <div class="in" style="padding:14px">
+        <div class="row"><span class="h" style="font-size:12px">November</span><span class="sp"></span><span class="lbl">Week 46</span></div>
+        <div style="position:relative;margin-top:16px;height:44px"><div style="position:absolute;top:0;left:${xCal*(192/7)}px;width:${192/7}px;height:44px;border-radius:12px;background:${A};box-shadow:0 4px 10px rgba(47,91,255,.35)"></div><div class="row" style="position:relative;height:44px">${days.map((d,i)=>{const on=clamp(1-Math.abs(xCal-i));return `<div style="flex:1;text-align:center;line-height:1.25"><div style="font-size:8px;color:${hexmix('#9A9A95','#C8D3FF',on)}">${d}</div><div style="font-size:12px;font-weight:580;color:${hexmix('#141416','#FFFFFF',on)}">${9+i}</div></div>`}).join('')}</div></div>
+        <div class="lbl" style="margin-top:22px">&uarr; Closed-form glider</div>
+      </div>
+    </div>
+  `;
+}
+
+let start=performance.now();
+function loop(now){
+  draw((now-start)/1000);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tasks &amp; Segmented Control (Bento UI Motion Component)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;580;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --acc:#2F5BFF;--acc2:#6E8BFF;--tint:#EEF2FF;
+  --bg:#F7F7F5;--tray:#EEEEEA;--ink:#141416;
+  --mut:#8B8B87;--mut2:#B8B8B3;
+}
+html,body{
+  width:100%;height:100%;
+  overflow:hidden;
+  background:var(--bg);
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"cv11","ss01","tnum";
+  letter-spacing:-.01em;
+  display:flex;align-items:center;justify-content:center;
+}
+.tasks-container{
+  width:320px;
+  height:240px;
+  position:relative;
+  border-radius:22px;
+  background:var(--tray);
+  box-shadow:0 1px 2px rgba(20,20,30,.05),0 8px 24px rgba(20,20,30,.05);
+  overflow:hidden;
+}
+.in{position:absolute;inset:0}
+.c{background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(20,20,30,.06),0 4px 14px rgba(20,20,30,.05)}
+.row{display:flex;align-items:center}.sp{flex:1}
+.lbl{font-size:9.5px;color:var(--mut);font-weight:460}
+.h{font-size:12px;font-weight:580}
+.rl{display:inline-flex;vertical-align:top;overflow:hidden;height:1.2em;line-height:1.2em}
+.rc{display:inline-block;height:1.2em;overflow:hidden;position:relative}
+.rc b{display:block;height:1.2em;line-height:1.2em;font-weight:inherit}
+svg{display:block}
+</style>
+</head>
+<body>
+<div class="tasks-container" id="tasksBox"></div>
+
+<script>
+const A='#2F5BFF';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const mix=(a,b,p)=>a+(b-a)*p;
+const expo=p=>p<=0?0:p>=1?1:(1-Math.pow(2,-10*p))/(1-Math.pow(2,-10));
+const sprRaw=p=>1-Math.exp(-6.5*p)*(Math.cos(9.86*p)+(6.5/9.86)*Math.sin(9.86*p));
+const spring=p=>p<=0?0:p>=1?1:sprRaw(p)/sprRaw(1);
+const md=(k,n)=>((k%n)+n)%n;
+
+function st(t,P,o){const x=t-o;if(x<0)return {k:0,l:0,pre:1};const k=Math.floor(x/P);return {k,l:x-k*P}}
+function hexmix(a,b,p){const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),pb=[1,3,5].map(i=>parseInt(b.substr(i,2),16));return `rgb(${pa.map((v,i)=>Math.round(mix(v,pb[i],p))).join(',')})`}
+
+function roll(f,to,l,dur=.7,stg=.045){
+  const n=Math.max(f.length,to.length);
+  f=f.padStart(n,' ');to=to.padStart(n,' ');let s='';
+  for(let i=0;i<n;i++){
+    const a=f[i],b=to[i];
+    const p=spring(clamp((l-i*stg)/dur));
+    const da=/\d/.test(a),db=/\d/.test(b);
+    if(da&&db){
+      const y=mix(+a,+b,p);
+      s+=`<span class="rc"><span style="display:block;transform:translateY(${-y*1.2}em)">${[0,1,2,3,4,5,6,7,8,9].map(d=>`<b style="height:1.2em">${d}</b>`).join('')}</span></span>`;
+    }else if(a===b){
+      s+=a===' '?'':`<span class="rc">${a}</span>`;
+    }else{
+      const pe=expo(clamp((l-i*stg)/(dur*.6)));
+      if(a===' '&&!db){s+=`<span class="rc" style="opacity:${pe}">${b}</span>`;continue}
+      const w=a===' '?pe:b===' '?1-pe:1;
+      s+=`<span class="rc" style="max-width:${w*0.7}em"><span style="display:block;transform:translateY(${-pe*1.2}em)"><b style="height:1.2em;opacity:${1-pe}">${a===' '?'&nbsp;':a}</b><b style="height:1.2em;opacity:${pe}">${b===' '?'&nbsp;':b}</b></span></span>`;
+    }
+  }
+  return `<span class="rl">${s}</span>`;
+}
+
+const chkPath=(p,c='#fff',s=10,w=3.2)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${1-p}"/></svg>`;
+
+const box=document.getElementById('tasksBox');
+
+function draw(t){
+  const T=['Wireframe the hero','Pick a type scale','Build the grid','Ship it'];
+  const P=6,o=1.8;
+  const {l}=st(t,P,o);
+  const fade=1-expo(clamp((l-5.3)/.5));
+  const done=T.filter((_,i)=>l>.5+i*1.1).length;
+
+  box.innerHTML = `
+    <div class="in" style="padding:16px 18px">
+      <div class="row">
+        <span class="h">Today</span>
+        <span class="sp"></span>
+        <span class="lbl">${roll(String(Math.max(0,done-1)),String(done),l-.5-(done-1)*1.1,.6)} of 4 done</span>
+      </div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+        ${T.map((tx,i)=>{
+          const q=clamp((l-.5-i*1.1)/.5)*fade;
+          const pp=spring(q),ch=expo(clamp((l-.62-i*1.1)/.35))*fade,sk=expo(clamp((l-.7-i*1.1)/.5))*fade;
+          return `
+            <div class="c row" style="height:34px;padding:0 12px;gap:10px;border-radius:10px">
+              <div style="width:16px;height:16px;border-radius:5px;position:relative;box-shadow:inset 0 0 0 1.5px ${hexmix('#D4D4CF',A,clamp(q*2))}">
+                <div style="position:absolute;inset:0;border-radius:5px;background:${A};transform:scale(${pp})"></div>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">${chkPath(ch,'#fff',10)}</div>
+              </div>
+              <span style="position:relative;font-size:11px;font-weight:520;color:${hexmix('#141416','#A3A39E',sk)}">
+                ${tx}
+                <i style="position:absolute;left:0;top:52%;height:1.2px;background:#A3A39E;width:${sk*100}%"></i>
+              </span>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+let start=performance.now();
+function loop(now){
+  draw((now-start)/1000);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

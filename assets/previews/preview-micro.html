@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>5 Micro-Interactions Showcase Suite (1024x768)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;580;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --acc:#2F5BFF;--acc2:#6E8BFF;--tint:#EEF2FF;
+  --bg:#F7F7F5;--tray:#EEEEEA;--ink:#141416;
+  --mut:#8B8B87;--mut2:#B8B8B3;
+}
+html,body{
+  width:1024px;height:768px;overflow:hidden;background:var(--bg);
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  color:var(--ink);-webkit-font-smoothing:antialiased;
+  letter-spacing:-.01em;
+}
+#root{
+  position:relative;width:1024px;height:768px;overflow:hidden;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;padding:48px;
+}
+.grid-stage{
+  display:grid;grid-template-columns:310px 310px 310px;gap:24px;width:100%;max-width:960px;
+}
+.t{position:relative;border-radius:24px;background:var(--tray);overflow:hidden;box-shadow:0 1px 2px rgba(20,20,30,.05),0 12px 32px rgba(20,20,30,.06)}
+.t.w{background:#fff}
+.in{position:absolute;inset:0}
+.c{background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(20,20,30,.06),0 4px 14px rgba(20,20,30,.05)}
+.row{display:flex;align-items:center}.sp{flex:1}
+.lbl{font-size:10px;color:var(--mut);font-weight:500}
+.h{font-size:12px;font-weight:600}
+.rl{display:inline-flex;vertical-align:top;overflow:hidden;height:1.2em;line-height:1.2em}
+.rc{display:inline-block;height:1.2em;overflow:hidden;position:relative}
+.rc b{display:block;height:1.2em;line-height:1.2em;font-weight:inherit}
+svg{display:block}
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="grid-stage">
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="t w" style="height:220px;" id="c-otp"></div>
+      <div class="t" style="height:196px;" id="c-seg"></div>
+    </div>
+    <div class="t" style="height:440px;" id="c-music"></div>
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div class="t w" style="height:220px;" id="c-tasks"></div>
+      <div class="t" style="height:196px;" id="c-streak"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const A='#2F5BFF';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const mix=(a,b,p)=>a+(b-a)*p;
+const expo=p=>p<=0?0:p>=1?1:(1-Math.pow(2,-10*p))/(1-Math.pow(2,-10));
+const sprRaw=p=>1-Math.exp(-6.5*p)*(Math.cos(9.86*p)+(6.5/9.86)*Math.sin(9.86*p));
+const spring=p=>p<=0?0:p>=1?1:sprRaw(p)/sprRaw(1);
+const soft=p=>{const f=q=>1-Math.exp(-7*q)*(1+7*q);return p<=0?0:p>=1?1:f(p)/f(1)};
+const md=(k,n)=>((k%n)+n)%n;
+
+function st(t,P,o){const x=t-o;if(x<0)return {k:0,l:0,pre:1};const k=Math.floor(x/P);return {k,l:x-k*P}}
+function st2(t,P,o){const x=t-o;if(x<0)return {k:0,l:99};const k=Math.floor(x/P)+1;return {k,l:x-(k-1)*P}}
+function tw(t,P,o,vals,dur,e=spring){const {k,l}=st2(t,P,o);const a=vals[md(k-1,vals.length)],b=vals[md(k,vals.length)];return mix(a,b,e(clamp(l/dur)))}
+
+function roll(f,to,l,dur=.7,stg=.045){
+  const n=Math.max(f.length,to.length);
+  f=f.padStart(n,' ');to=to.padStart(n,' ');let s='';
+  for(let i=0;i<n;i++){
+    const a=f[i],b=to[i];
+    const p=spring(clamp((l-i*stg)/dur));
+    const da=/\d/.test(a),db=/\d/.test(b);
+    if(da&&db){
+      const y=mix(+a,+b,p);
+      s+=`<span class="rc"><span style="display:block;transform:translateY(${-y*1.2}em)">${[0,1,2,3,4,5,6,7,8,9].map(d=>`<b style="height:1.2em">${d}</b>`).join('')}</span></span>`;
+    }else if(a===b){
+      s+=a===' '?'':`<span class="rc">${a}</span>`;
+    }else{
+      const pe=expo(clamp((l-i*stg)/(dur*.6)));
+      if(a===' '&&!db){s+=`<span class="rc" style="opacity:${pe}">${b}</span>`;continue}
+      const w=a===' '?pe:b===' '?1-pe:1;
+      s+=`<span class="rc" style="max-width:${w*0.7}em"><span style="display:block;transform:translateY(${-pe*1.2}em)"><b style="height:1.2em;opacity:${1-pe}">${a===' '?'&nbsp;':a}</b><b style="height:1.2em;opacity:${pe}">${b===' '?'&nbsp;':b}</b></span></span>`;
+    }
+  }
+  return `<span class="rl">${s}</span>`;
+}
+
+const chkPath=(p,c='#fff',s=10,w=3.2)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${1-p}"/></svg>`;
+
+function renderOTP(t){
+  const codes=['482913','730146','195827','604358'];const P=4,o=1.6;const {k,l}=st(t,P,o);const a=codes[md(k-1,4)],b=codes[md(k,4)];const life=l<.4?expo(l/.4):1-(l-.4)/(P-.4);
+  const r=8,C=2*Math.PI*r;
+  return `<div class="in" style="padding:18px 16px"><div class="row"><div><div class="h">1. Rolling OTP Code</div><div class="lbl">Security micro-interaction</div></div><span class="sp"></span><svg width="20" height="20" viewBox="0 0 20 20" style="transform:rotate(-90deg)"><circle cx="10" cy="10" r="${r}" stroke="#E2E2DD" stroke-width="2.6" fill="none"/><circle cx="10" cy="10" r="${r}" stroke="${A}" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-dasharray="${C*life} ${C}"/></svg></div>
+  <div class="row" style="gap:5px;margin-top:20px">${[...b].map((d,i)=>{return `<div class="c" style="flex:1;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;${i==5?`box-shadow:0 0 0 1.5px ${A},0 0 0 4px rgba(47,91,255,.15)`:''}">${roll(a[i],d,l-i*.06,.7,0)}</div>`}).join('')}</div></div>`;
+}
+
+function renderSeg(t){
+  const opts=['Monthly','Annual &bull; Save 20%'];const x=tw(t,2.8,1.6,[0,1],.75,spring);
+  return `<div class="in" style="padding:18px 16px"><div class="lbl" style="margin-bottom:12px;">2. Segmented Pill Glider</div><div style="position:relative;height:40px;background:#E3E3DE;border-radius:14px;padding:4px"><div style="position:absolute;top:4px;left:${4+x*((278-8)/2)}px;width:${(278-8)/2}px;height:32px;border-radius:10px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.08)"></div><div class="row" style="position:relative;height:32px">${opts.map((o,i)=>`<div style="flex:1;text-align:center;font-size:10px;font-weight:${Math.abs(x-i)<.5?700:500};color:${Math.abs(x-i)<.5?'#141416':'#7E7E79'}">${o}</div>`).join('')}</div></div><div class="row lbl" style="margin-top:14px;"><span>Spring overshoot physics</span></div></div>`;
+}
+
+function renderMusic(t){
+  const tracks=[['Audio Spectrum','Dynamic Equalizer',['#2F5BFF','#9DB2FF','#0F1A4D'],187],['Staggered Bars','Wave Motion',['#FF7A59','#FFC5A8','#3A1408'],204]];
+  const P=7.5,o=4.5;const S=st(t,P,o);const k=S.pre?0:S.k+1,l=S.pre?99:S.l;const cur=tracks[md(k,2)],prv=tracks[md(k-1,2)];const p=soft(clamp(l/.8));
+  const art=(tr,op)=>`<div style="position:absolute;inset:0;opacity:${op};background:radial-gradient(120% 90% at 20% 15%,${tr[2][1]} 0%,${tr[2][0]} 45%,${tr[2][2]} 100%)"><div style="position:absolute;right:-20px;bottom:-20px;width:90px;height:90px;border-radius:50%;border:10px solid rgba(255,255,255,.2)"></div></div>`;
+  const el=(S.pre?t+o:l)+38+md(k,2)*21;const len=cur[3];const pr=(el%len)/len;
+  const bars=[0,1,2,3,4].map(i=>{const h=.35+.65*Math.abs(Math.sin(t*(3.1+i*.7)+i*1.7)*Math.cos(t*(1.3+i*.4)));return `<i style="display:block;width:3px;height:${4+h*16}px;border-radius:2px;background:${A}"></i>`}).join('');
+  const ttl=(tr,op,y)=>`<div style="position:absolute;left:0;top:0;opacity:${op};transform:translateY(${y}px)"><div style="font-size:14px;font-weight:700;color:#141416">${tr[0]}</div><div style="font-size:11px;color:#8A8A90;margin-top:2px">${tr[1]}</div></div>`;
+  return `<div class="in" style="padding:22px">
+  <div class="lbl" style="margin-bottom:12px;">3. Equalizer Spectrum</div>
+  <div style="position:relative;width:100%;height:180px;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.15)">${art(prv,1-p)}${art(cur,p)}</div>
+  <div class="row" style="margin-top:18px"><div style="position:relative;height:38px;flex:1">${ttl(prv,1-p,-8*p)}${ttl(cur,p,8*(1-p))}</div><div class="row" style="gap:3px;align-items:flex-end;height:20px">${bars}</div></div>
+  <div style="margin-top:16px;height:4px;border-radius:2px;background:#D9D9D4;position:relative"><div style="position:absolute;left:0;top:0;bottom:0;width:${pr*100}%;border-radius:2px;background:${A}"></div><div style="position:absolute;top:50%;left:${pr*100}%;width:10px;height:10px;border-radius:50%;background:${A};transform:translate(-50%,-50%)"></div></div>
+  <div class="c row" style="justify-content:center;padding:12px;margin-top:24px;font-size:12px;font-weight:600;"><span style="color:${A};">Continuous Mathematical Loop</span></div></div>`;
+}
+
+function renderTasks(t){
+  const T=['Drawn Checkmark','Rolling Counter'];const P=5,o=1.5;const {l}=st(t,P,o);const fade=1-expo(clamp((l-4.5)/.5));const done=T.filter((_,i)=>l>.5+i*1.2).length;
+  return `<div class="in" style="padding:18px 16px"><div class="row"><span class="h">4. Drawn SVG Checkmarks</span><span class="sp"></span><span class="lbl">${done} done</span></div>
+  <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">${T.map((tx,i)=>{const q=clamp((l-.5-i*1.2)/.5)*fade;const pp=spring(q),ch=expo(clamp((l-.62-i*1.2)/.35))*fade,sk=expo(clamp((l-.7-i*1.2)/.5))*fade;
+  return `<div class="c row" style="height:36px;padding:0 12px;gap:10px;border-radius:10px"><div style="width:16px;height:16px;border-radius:5px;position:relative;box-shadow:inset 0 0 0 1.5px #D4D4CF"><div style="position:absolute;inset:0;border-radius:5px;background:${A};transform:scale(${pp})"></div><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">${chkPath(ch,'#fff',10)}</div></div><span style="position:relative;font-size:11px;font-weight:600;">${tx}<i style="position:absolute;left:0;top:52%;height:1.5px;background:#9CA3AF;width:${sk*100}%"></i></span></div>`}).join('')}</div></div>`;
+}
+
+function renderStreak(t){
+  const P=6,o=1.4;const {k,l}=st(t,P,o);const lit=[0,1,2,3,4,5,6].map(i=>l-.2-i*.7);const cnt=Math.min(7,lit.filter(x=>x>0).length);
+  return `<div class="in" style="padding:18px 16px"><div class="lbl">5. Gamified Streak</div><div style="font-size:22px;font-weight:700;margin-top:4px;">${14+cnt} <span style="font-size:11px;font-weight:500;color:var(--mut)">days</span></div>
+  <div class="row" style="gap:5px;margin-top:16px">${lit.map((x)=>{const p=spring(clamp(x/.55));return `<div style="flex:1;height:18px;position:relative;border-radius:6px;background:#E1E1DC"><div style="position:absolute;inset:0;border-radius:6px;background:${A};transform:scale(${p});"></div></div>`}).join('')}</div></div>`;
+}
+
+let startTime=performance.now();
+function loop(){
+  const t=(performance.now()-startTime)/1000;
+  document.getElementById('c-otp').innerHTML=renderOTP(t);
+  document.getElementById('c-seg').innerHTML=renderSeg(t);
+  document.getElementById('c-music').innerHTML=renderMusic(t);
+  document.getElementById('c-tasks').innerHTML=renderTasks(t);
+  document.getElementById('c-streak').innerHTML=renderStreak(t);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI SaaS Metrics Counter &mdash; 60fps D3motion Template</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #090B10;
+      color: #F8FAFC;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+    .card-wrap {
+      width: 1080px;
+      height: 600px;
+      background: radial-gradient(circle at 80% 20%, rgba(59, 98, 246, 0.12) 0%, #10131C 70%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 28px;
+      padding: 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 6px 14px;
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ADE80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #4ADE80;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #4ADE80;
+    }
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .metric-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 28px;
+      position: relative;
+    }
+    .metric-label {
+      font-size: 14px;
+      color: #8E95A2;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .metric-number {
+      font-size: 48px;
+      font-weight: 700;
+      margin-top: 10px;
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+      color: #FFFFFF;
+    }
+    .sparkline-svg {
+      width: 100%;
+      height: 60px;
+      margin-top: 16px;
+    }
+    .sparkline-path {
+      fill: none;
+      stroke: #3B62F6;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      animation: drawLine 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+    }
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card-wrap">
+    <div class="header">
+      <div>
+        <h2 style="font-size: 26px; font-weight: 700;">Revenue &amp; Velocity Telemetry</h2>
+        <p style="color: #8E95A2; font-size: 14px; margin-top: 4px;">Synthesized via Claude 3.7 &bull; D3motion Deterministic Loop</p>
+      </div>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Streaming Realtime
+      </div>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric-box">
+        <div class="metric-label">Monthly Run Rate</div>
+        <div class="metric-number" id="mrr">$0</div>
+        <svg class="sparkline-svg" viewBox="0 0 200 60">
+          <path class="sparkline-path" d="M 10 50 Q 50 10, 100 35 T 190 15" stroke="#3B62F6" />
+        </svg>
+      </div>
+
+      <div class="metric-box">
+        <div class="metric-label">Active Workspaces</div>
+        <div class="metric-number" id="workspaces">0</div>
+        <svg class="sparkline-svg" viewBox="0 0 200 60">
+          <path class="sparkline-path" d="M 10 45 Q 60 55, 110 20 T 190 10" stroke="#10B981" />
+        </svg>
+      </div>
+
+      <div class="metric-box">
+        <div class="metric-label">Frame Efficiency</div>
+        <div class="metric-number" id="efficiency">0%</div>
+        <svg class="sparkline-svg" viewBox="0 0 200 60">
+          <path class="sparkline-path" d="M 10 40 Q 50 40, 100 25 T 190 8" stroke="#A855F7" />
+        </svg>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; color:#64748B; font-family:'JetBrains Mono', monospace; font-size:12px;">
+      <span>HARDWARE: DIRECT GPU PASS-THROUGH</span>
+      <span>CLOUD API CREDITS BURNED: 0.00</span>
+    </div>
+  </div>
+
+  <script>
+    let t = 0;
+    function animateCounters() {
+      t += 0.016;
+      const progress = Math.min(1, t / 2.5);
+      const ease = 1 - Math.pow(1 - progress, 4);
+
+      const mrrVal = Math.floor(ease * 148920);
+      const wsVal = Math.floor(ease * 12450);
+      const effVal = (ease * 99.9).toFixed(1);
+
+      document.getElementById('mrr').textContent = '$' + mrrVal.toLocaleString();
+      document.getElementById('workspaces').textContent = wsVal.toLocaleString();
+      document.getElementById('efficiency').textContent = effVal + '%';
+
+      if (t < 5) {
+        requestAnimationFrame(animateCounters);
+      } else {
+        // loop seamlessly
+        t = 0;
+        requestAnimationFrame(animateCounters);
+      }
+    }
+    requestAnimationFrame(animateCounters);
+  </script>
+</body>
+</html>

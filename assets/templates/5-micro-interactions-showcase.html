@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5 Micro-Interactions Showcase &mdash; 60fps D3motion Template</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0B0C10;
+      color: #F8FAFC;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+    .showcase-stage {
+      width: 1280px;
+      height: 720px;
+      background: #11141C;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1.2fr 1.8fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 24px;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+    .panel {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .panel-tag {
+      position: absolute;
+      top: 16px;
+      left: 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #64748B;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* 1. Liquid Morphing Submit Button */
+    .btn-morph {
+      position: relative;
+      width: 180px;
+      height: 52px;
+      background: #3B62F6;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(59, 98, 246, 0.4);
+      animation: morphBtn 4s ease-in-out infinite;
+    }
+    @keyframes morphBtn {
+      0%, 25% { width: 180px; background: #3B62F6; border-radius: 999px; }
+      40%, 65% { width: 52px; background: #22C55E; border-radius: 50%; box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4); }
+      75%, 100% { width: 180px; background: #3B62F6; border-radius: 999px; }
+    }
+
+    /* 2. 2FA Verification Code */
+    .otp-row {
+      display: flex;
+      gap: 10px;
+    }
+    .otp-cell {
+      width: 44px;
+      height: 54px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .otp-cell.active {
+      border-color: #3B62F6;
+      box-shadow: 0 0 16px rgba(59, 98, 246, 0.4);
+      animation: pulseCell 1.2s infinite alternate;
+    }
+    @keyframes pulseCell {
+      from { border-color: #3B62F6; }
+      to { border-color: #60A5FA; }
+    }
+
+    /* 3. Passkey Pulse */
+    .passkey-ring {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(59, 98, 246, 0.1);
+      border: 2px solid #3B62F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .passkey-ring::after {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 1px solid rgba(59, 98, 246, 0.4);
+      animation: pulseRing 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    /* 4. Segmented Pill Switcher */
+    .pill-group {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      padding: 4px;
+      display: flex;
+      position: relative;
+    }
+    .pill-thumb {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      width: 90px;
+      background: #3B62F6;
+      border-radius: 999px;
+      animation: slideThumb 3s ease-in-out infinite alternate;
+      box-shadow: 0 4px 12px rgba(59, 98, 246, 0.4);
+    }
+    .pill-btn {
+      position: relative;
+      z-index: 2;
+      width: 90px;
+      padding: 8px 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: #E2E8F0;
+    }
+    @keyframes slideThumb {
+      0%, 20% { left: 4px; }
+      80%, 100% { left: 94px; }
+    }
+
+    /* 5. Skeleton Card Reveal */
+    .skeleton-card {
+      width: 280px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .sk-bar {
+      height: 12px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
+      background-size: 200% 100%;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      animation: shimmer 1.8s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="showcase-stage">
+    
+    <!-- 1. Morphing Button -->
+    <div class="panel">
+      <div class="panel-tag">01. Liquid Button Morph</div>
+      <div class="btn-morph">
+        <span>Save Changes</span>
+      </div>
+    </div>
+
+    <!-- 2. 2FA Code -->
+    <div class="panel">
+      <div class="panel-tag">02. 6-Digit Verification</div>
+      <div class="otp-row">
+        <div class="otp-cell">8</div>
+        <div class="otp-cell">3</div>
+        <div class="otp-cell">9</div>
+        <div class="otp-cell active">_</div>
+        <div class="otp-cell"></div>
+        <div class="otp-cell"></div>
+      </div>
+    </div>
+
+    <!-- 3 & 4. Biometric + Segmented Switch -->
+    <div class="panel" style="flex-direction:row; gap:40px;">
+      <div class="panel-tag">03 &amp; 04. Biometrics &amp; Segmented Pill</div>
+      <div class="passkey-ring">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2">
+          <path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"/>
+        </svg>
+      </div>
+
+      <div class="pill-group">
+        <div class="pill-thumb"></div>
+        <div class="pill-btn">Monthly</div>
+        <div class="pill-btn">Annual</div>
+      </div>
+    </div>
+
+    <!-- 5. Shimmer Reveal -->
+    <div class="panel">
+      <div class="panel-tag">05. Content Skeleton Reveal</div>
+      <div class="skeleton-card">
+        <div class="sk-bar" style="width: 60%;"></div>
+        <div class="sk-bar" style="width: 100%;"></div>
+        <div class="sk-bar" style="width: 80%;"></div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

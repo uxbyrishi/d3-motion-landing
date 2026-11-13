@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morphing UI Loop — 1440x1440 Closed-Form Spring Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #111113;
+    color: #e4e4e7;
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 24px;
+    user-select: none;
+    overflow-x: hidden;
+  }
+
+  /* Main 1440x1440 Canvas Viewport */
+  #viewport-wrapper {
+    position: relative;
+    width: 1440px;
+    height: 1440px;
+    max-width: 92vw;
+    max-height: 92vw;
+    aspect-ratio: 1 / 1;
+    background: #EAEAE6; /* Light warm-gray canvas */
+    border-radius: 28px;
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Internal absolute 1440x1440 coordinate plane */
+  #canvas-plane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1440px;
+    height: 1440px;
+    transform-origin: 0 0;
+    /* Subtly textured background grid */
+    background-image: 
+      radial-gradient(#d6d6d0 1.2px, transparent 1.2px);
+    background-size: 32px 32px;
+  }
+
+  /* Camera Layer: Zoom & Pan around center */
+  /* NOTE: NO will-change on camera or morphing containers to preserve sharp font rendering */
+  #camera-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1440px;
+    height: 1440px;
+    transform-origin: 720px 720px;
+  }
+
+  /* Center Anchor */
+  #anchor-point {
+    position: absolute;
+    top: 720px;
+    left: 720px;
+    width: 0;
+    height: 0;
+  }
+
+  /* THE SINGLE MORPHING CONTAINER: All states live inside this one element */
+  #morph-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    background: #09090b;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 
+      0 24px 50px -12px rgba(0, 0, 0, 0.35),
+      0 8px 16px -6px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* High contrast content layer inside container */
+  .state-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    /* Blur and opacity computed dynamically inside seek(t) */
+  }
+
+  /* State 1: Button */
+  #layer-button {
+    font-size: 17px;
+    font-weight: 550;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    gap: 10px;
+  }
+
+  /* State 2: Loader */
+  #layer-loader svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* State 3: Checkmark */
+  #layer-check svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* State 4: Dynamic Island */
+  #layer-island {
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  /* State 5: Music Player */
+  #layer-player {
+    padding: 20px 24px;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* State 6: Volume Slider */
+  #layer-volume {
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 16px;
+  }
+
+  /* State 7: Toggle Switch */
+  #layer-toggle {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  /* State 8: Segmented Tabs */
+  #layer-tabs {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    position: relative;
+  }
+
+  /* State 9: Interactive Chart */
+  #layer-chart {
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  /* State 10: Command Palette */
+  #layer-cmdk {
+    width: 100%;
+    height: 100%;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* State 11: Toast */
+  #layer-toast {
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  /* Interactive Cursor */
+  #cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    z-index: 9999;
+    transform-origin: 2px 2px;
+  }
+
+  /* Bottom Inspector & Controls Bar */
+  #inspector-bar {
+    margin-top: 20px;
+    width: 1440px;
+    max-width: 92vw;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .timeline-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+
+  #scrubber {
+    flex: 1;
+    appearance: none;
+    height: 8px;
+    background: #27272a;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  #scrubber::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: grab;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  .controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    font-family: 'Geist Mono', monospace;
+    color: #a1a1aa;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 8px;
+  }
+
+  .ctrl-btn {
+    background: #27272a;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: 'Geist', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .ctrl-btn:hover {
+    background: #3f3f46;
+  }
+  .ctrl-btn.active {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  /* Beat grid indicators */
+  #beat-track {
+    display: flex;
+    height: 18px;
+    width: 100%;
+    gap: 2px;
+    margin-top: 4px;
+  }
+  .beat-segment {
+    flex: 1;
+    background: #27272a;
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+  }
+  .beat-segment.downbeat {
+    background: #3f3f46;
+  }
+  .beat-segment.active {
+    background: #38bdf8;
+  }
+</style>
+</head>
+<body>
+
+<div id="viewport-wrapper">
+  <div id="canvas-plane">
+    <!-- Camera Pan/Zoom Layer -->
+    <div id="camera-layer">
+      <div id="anchor-point">
+        <!-- THE SINGLE MORPHING CONTAINER -->
+        <div id="morph-container">
+          
+          <!-- State 1: Button -->
+          <div id="layer-button" class="state-layer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v14M5 9l7-7 7 7"/>
+              <rect x="4" y="18" width="16" height="4" rx="1.5" fill="currentColor"/>
+            </svg>
+            <span>Deploy Project</span>
+          </div>
+
+          <!-- State 2: Loader -->
+          <div id="layer-loader" class="state-layer">
+            <svg viewBox="0 0 36 36">
+              <circle cx="18" cy="18" r="14" fill="none" stroke="#27272a" stroke-width="3.5"/>
+              <path id="loader-spinner-path" d="M18 4 A 14 14 0 0 1 32 18" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- State 3: Checkmark -->
+          <div id="layer-check" class="state-layer">
+            <svg viewBox="0 0 36 36">
+              <circle cx="18" cy="18" r="15" fill="none" stroke="#27272a" stroke-width="2.5"/>
+              <path id="check-path" d="M11 18.5 L15.5 23 L25 13.5" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <!-- State 4: Dynamic Island -->
+          <div id="layer-island" class="state-layer">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e;"></div>
+              <div style="font-size: 13px; font-weight: 500; color: #ffffff; letter-spacing: -0.01em;">Deploying v2.4</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 4px; height: 16px;">
+              <div class="island-eq" style="width: 3px; height: 12px; background: #ffffff; border-radius: 2px;"></div>
+              <div class="island-eq" style="width: 3px; height: 16px; background: #ffffff; border-radius: 2px;"></div>
+              <div class="island-eq" style="width: 3px; height: 8px; background: #ffffff; border-radius: 2px;"></div>
+            </div>
+          </div>
+
+          <!-- State 5: Music Player -->
+          <div id="layer-player" class="state-layer">
+            <div style="display: flex; align-items: center; gap: 16px; width: 100%;">
+              <div style="width: 52px; height: 52px; border-radius: 12px; background: #27272a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18V5l12-2v13"></path>
+                  <circle cx="6" cy="18" r="3"></circle>
+                  <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+              </div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 16px; font-weight: 600; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Midnight City</div>
+                <div style="font-size: 13px; color: #a1a1aa; font-weight: 400; margin-top: 2px;">M83 · Hurry Up</div>
+              </div>
+              <!-- Play / Pause Icon Button -->
+              <div id="player-btn-box" style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer;">
+                <svg id="play-pause-icon" width="18" height="18" viewBox="0 0 24 24" fill="#000000">
+                  <polygon id="play-poly" points="6 4 20 12 6 20 6 4"></polygon>
+                  <rect id="pause-bar1" x="5" y="4" width="4" height="16" rx="1" style="display:none;"></rect>
+                  <rect id="pause-bar2" x="15" y="4" width="4" height="16" rx="1" style="display:none;"></rect>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Scrubber timeline -->
+            <div style="width: 100%; margin-top: 14px;">
+              <div id="player-track" style="position: relative; width: 100%; height: 6px; background: #27272a; border-radius: 3px;">
+                <div id="player-fill" style="position: absolute; left: 0; top: 0; height: 100%; width: 30%; background: #ffffff; border-radius: 3px;"></div>
+                <div id="player-thumb" style="position: absolute; top: 50%; left: 30%; width: 14px; height: 14px; background: #ffffff; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 6px rgba(0,0,0,0.5);"></div>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; font-family: 'Geist Mono', monospace; color: #71717a;">
+                <span id="player-time-cur">1:12</span>
+                <span>4:03</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- State 6: Volume Slider -->
+          <div id="layer-volume" class="state-layer">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+            <div id="vol-track" style="position: relative; flex: 1; height: 12px; background: #27272a; border-radius: 6px; overflow: visible;">
+              <div id="vol-fill" style="position: absolute; left: 0; top: 0; height: 100%; width: 65%; background: #ffffff; border-radius: 6px;"></div>
+              <div id="vol-thumb" style="position: absolute; top: 50%; left: 65%; width: 22px; height: 22px; background: #ffffff; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 3px 8px rgba(0,0,0,0.6);"></div>
+            </div>
+            <span id="vol-text" style="font-family: 'Geist Mono', monospace; font-size: 13px; font-weight: 600; width: 44px; text-align: right; color: #ffffff;">65%</span>
+          </div>
+
+          <!-- State 7: Toggle Switch -->
+          <div id="layer-toggle" class="state-layer">
+            <div id="toggle-housing" style="position: absolute; inset: 0; border-radius: inherit; background: #27272a; transition: none;">
+              <div id="toggle-knob" style="position: absolute; top: 8px; left: 8px; height: calc(100% - 16px); background: #ffffff; border-radius: 9999px; box-shadow: 0 4px 12px rgba(0,0,0,0.35);"></div>
+            </div>
+          </div>
+
+          <!-- State 8: Segmented Tabs -->
+          <div id="layer-tabs" class="state-layer">
+            <div id="tabs-liquid-pill" style="position: absolute; top: 6px; bottom: 6px; background: #ffffff; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"></div>
+            <div class="tab-item" id="tab-0" style="flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 550; position: relative; z-index: 2; color: #000000;">Overview</div>
+            <div class="tab-item" id="tab-1" style="flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 550; position: relative; z-index: 2; color: #a1a1aa;">Analytics</div>
+            <div class="tab-item" id="tab-2" style="flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 550; position: relative; z-index: 2; color: #a1a1aa;">Settings</div>
+          </div>
+
+          <!-- State 9: Interactive Chart -->
+          <div id="layer-chart" class="state-layer">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%;">
+              <div>
+                <div style="font-size: 13px; font-weight: 500; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.05em;">Revenue Velocity</div>
+                <div style="font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.03em; margin-top: 4px;">$48,250</div>
+              </div>
+              <div style="background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                +32.4%
+              </div>
+            </div>
+
+            <!-- SVG Line Chart Canvas -->
+            <div style="position: relative; width: 100%; height: 180px; margin-top: 10px;">
+              <svg id="chart-svg" width="100%" height="100%" viewBox="0 0 500 160" style="overflow: visible;">
+                <defs>
+                  <linearGradient id="chart-area-grad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="#ffffff" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <!-- Dotted Baseline -->
+                <line x1="0" y1="140" x2="500" y2="140" stroke="#27272a" stroke-dasharray="4 4" stroke-width="1.5"/>
+                <!-- Area path -->
+                <path id="chart-area" d="" fill="url(#chart-area-grad)"/>
+                <!-- Line path -->
+                <path id="chart-stroke" d="" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                
+                <!-- Tooltip Hairline & Circle Target -->
+                <line id="chart-hairline" x1="380" y1="20" x2="380" y2="140" stroke="#ffffff" stroke-dasharray="3 3" stroke-width="1.5" opacity="0"/>
+                <circle id="chart-target-dot" cx="380" cy="35" r="5" fill="#ffffff" stroke="#09090b" stroke-width="2.5" opacity="0"/>
+              </svg>
+
+              <!-- Hover Tooltip Pill -->
+              <div id="chart-tooltip" style="position: absolute; top: -14px; left: 380px; transform: translate(-50%, -100%); background: #ffffff; color: #000000; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; font-family: 'Geist Mono', monospace; box-shadow: 0 8px 24px rgba(0,0,0,0.5); opacity: 0; pointer-events: none; white-space: nowrap;">
+                $48,250 · Peak
+              </div>
+            </div>
+          </div>
+
+          <!-- State 10: Command Palette -->
+          <div id="layer-cmdk" class="state-layer">
+            <div style="display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid #27272a; width: 100%;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <div style="flex: 1; font-size: 16px; font-weight: 450; color: #ffffff; display: flex; align-items: center;">
+                <span id="cmdk-typed-text"></span>
+                <span id="cmdk-caret" style="display: inline-block; width: 2px; height: 18px; background: #ffffff; margin-left: 2px;"></span>
+              </div>
+              <div style="font-size: 11px; font-family: 'Geist Mono', monospace; background: #27272a; color: #a1a1aa; padding: 2px 6px; border-radius: 4px;">ESC</div>
+            </div>
+            <!-- Results List -->
+            <div id="cmdk-results" style="display: flex; flex-direction: column; gap: 6px; margin-top: 12px; width: 100%;">
+              <div id="cmdk-item-0" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; background: #27272a; color: #ffffff; font-size: 14px; font-weight: 500;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                  <span>Deploy to Production</span>
+                </div>
+                <span style="font-size: 11px; font-family: 'Geist Mono', monospace; color: #71717a;">↵ Enter</span>
+              </div>
+              <div id="cmdk-item-1" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 8px; color: #71717a; font-size: 14px; font-weight: 500;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                  <span>Deploy Preview Branch</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- State 11: Toast -->
+          <div id="layer-toast" class="state-layer">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: #22c55e; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div style="flex: 1; color: #ffffff; font-size: 14px; font-weight: 500; letter-spacing: -0.01em;">
+              Deployed to Production
+            </div>
+            <div style="width: 48px; height: 4px; background: #27272a; border-radius: 2px; overflow: hidden;">
+              <div id="toast-progress" style="width: 100%; height: 100%; background: #ffffff; border-radius: 2px;"></div>
+            </div>
+          </div>
+
+        </div> <!-- /morph-container -->
+      </div> <!-- /anchor-point -->
+    </div> <!-- /camera-layer -->
+
+    <!-- Interactive Cursor Element -->
+    <div id="cursor">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));">
+        <path d="M5.5 3.5 L18.5 10.5 L12 13.5 L9.5 20 L5.5 3.5 Z" fill="#000000" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div> <!-- /canvas-plane -->
+</div> <!-- /viewport-wrapper -->
+
+<!-- Bottom Inspector & Scrubber Controls -->
+<div id="inspector-bar">
+  <div class="timeline-row">
+    <button class="ctrl-btn" id="btn-play">Pause</button>
+    <button class="ctrl-btn" id="btn-audio">Mute</button>
+    <input type="range" id="scrubber" min="0" max="14000" step="1" value="0">
+    <span id="time-display" style="min-width: 80px; text-align: right; font-family: 'Geist Mono', monospace; font-size: 13px;">0.000s</span>
+  </div>
+  <div id="beat-track"></div>
+  <div class="controls-row">
+    <div id="state-name-display" style="font-weight: 600; color: #ffffff;">State: Button (Beat 1.0)</div>
+    <div class="button-group">
+      <button class="ctrl-btn speed-btn" data-speed="0.25">0.25x</button>
+      <button class="ctrl-btn speed-btn" data-speed="0.5">0.5x</button>
+      <button class="ctrl-btn speed-btn active" data-speed="1.0">1.0x</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/**
+ * CLOSED-FORM SPRING MATHEMATICS
+ * Harmonic step response: pure function of delta time (t - t0).
+ * No state accumulation, no Euler integration, zero drift across loops.
+ */
+function springStep(dt, delta, omega = 20, zeta = 0.88) {
+  if (dt <= 0) return 0;
+  if (zeta >= 1.0) {
+    return delta * (1 - Math.exp(-omega * dt) * (1 + omega * dt));
+  }
+  const wd = omega * Math.sqrt(1 - zeta * zeta);
+  const decay = Math.exp(-zeta * omega * dt);
+  const response = 1 - decay * (Math.cos(wd * dt) + (zeta * omega / wd) * Math.sin(wd * dt));
+  return delta * response;
+}
+
+/**
+ * Multi-target spring step superposition:
+ * targets: array of [t_timestamp, target_value, omega, zeta]
+ */
+function multiSpring(t, baseVal, steps) {
+  let val = baseVal;
+  for (let i = 0; i < steps.length; i++) {
+    const [tStep, targetVal, omega, zeta] = steps[i];
+    const prevTarget = i === 0 ? baseVal : steps[i - 1][1];
+    const delta = targetVal - prevTarget;
+    val += springStep(t - tStep, delta, omega || 20, zeta || 0.88);
+  }
+  return val;
+}
+
+/**
+ * Hermite Smoothstep for soft cross-fades and blurs
+ */
+function smoothstep(edge0, edge1, x) {
+  const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+  return t * t * (3 - 2 * t);
+}
+
+function clamp(v, min, max) {
+  return Math.max(min, Math.min(max, v));
+}
+
+// 120 BPM: 1 beat = 0.500s | 7 bars = 28 beats = 14.000s
+const TOTAL_DURATION = 14.0;
+const BEAT = 0.500;
+
+// State timeline definitions (Beats 1 to 28)
+// 1: Button (0.0s)
+// 2: Loader (0.5s)
+// 3: Checkmark (1.0s)
+// 4: Dynamic Island (1.5s)
+// 5: Music Player (2.0s)
+// 6: Play/Pause hit (2.5s)
+// 7: Progress scrub (3.0s)
+// 8: Progress drag (3.5s)
+// 9: Volume Slider (4.0s)
+// 10: Volume stretch drag (4.5s)
+// 11: Volume release (5.0s)
+// 12: Toggle Switch (5.5s)
+// 13: Toggle flip (6.0s)
+// 14: Segmented Tabs (6.5s)
+// 15: Tab 2 click (7.0s)
+// 16: Tab 3 click (7.5s)
+// 17: Interactive Chart (8.0s)
+// 18: Chart draw (8.5s)
+// 19: Tooltip hover (9.0s)
+// 20: Tooltip exit (9.5s)
+// 21: Command Palette ⌘K (10.0s)
+// 22: Type query (10.5s)
+// 23: Results populate (11.0s)
+// 24: Enter / select (11.5s)
+// 25: Toast notification (12.0s)
+// 26: Toast dwell (12.5s)
+// 27: Morph back to Button (13.0s)
+// 28: Settle to initial frame (13.5s - 14.0s)
+
+/**
+ * Shape Width, Height, Radius steps
+ */
+const WIDTH_STEPS = [
+  // [time, targetWidth, omega, zeta]
+  [0.5, 64, 22, 0.88],       // Loader
+  [1.0, 64, 22, 0.88],       // Check
+  [1.5, 320, 20, 0.86],      // Dynamic Island
+  [2.0, 460, 20, 0.86],      // Music Player
+  [4.0, 360, 22, 0.86],      // Volume Slider
+  // Overstretch at 4.5s handled dynamically in seek()
+  [5.5, 144, 22, 0.88],      // Toggle Switch
+  [6.5, 460, 20, 0.86],      // Segmented Tabs
+  [8.0, 560, 19, 0.86],      // Interactive Chart
+  [10.0, 520, 20, 0.86],     // Command Palette
+  [12.0, 340, 21, 0.86],     // Toast
+  [13.0, 240, 22, 0.88],     // Button (Loop return)
+];
+
+const HEIGHT_STEPS = [
+  [0.5, 64, 22, 0.88],       // Loader
+  [1.0, 64, 22, 0.88],       // Check
+  [1.5, 48, 20, 0.86],       // Dynamic Island
+  [2.0, 180, 20, 0.86],      // Music Player
+  [4.0, 76, 22, 0.86],       // Volume Slider
+  [5.5, 80, 22, 0.88],       // Toggle Switch
+  [6.5, 68, 20, 0.86],       // Segmented Tabs
+  [8.0, 340, 19, 0.86],      // Interactive Chart
+  [10.0, 260, 20, 0.86],     // Command Palette
+  [12.0, 56, 21, 0.86],      // Toast
+  [13.0, 64, 22, 0.88],      // Button (Loop return)
+];
+
+const RADIUS_STEPS = [
+  [0.5, 32, 22, 0.88],       // Loader
+  [1.0, 32, 22, 0.88],       // Check
+  [1.5, 24, 20, 0.86],       // Dynamic Island
+  [2.0, 28, 20, 0.86],       // Music Player
+  [4.0, 24, 22, 0.86],       // Volume Slider
+  [5.5, 40, 22, 0.88],       // Toggle Switch
+  [6.5, 20, 20, 0.86],       // Segmented Tabs
+  [8.0, 24, 19, 0.86],       // Interactive Chart
+  [10.0, 20, 20, 0.86],      // Command Palette
+  [12.0, 28, 21, 0.86],      // Toast
+  [13.0, 32, 22, 0.88],      // Button (Loop return)
+];
+
+const CAMERA_ZOOM_STEPS = [
+  [0.5, 3.2, 18, 0.88],      // Zoom into Loader
+  [1.0, 3.2, 18, 0.88],      // Keep tight on Check
+  [1.5, 2.2, 18, 0.88],      // Dynamic Island
+  [2.0, 1.8, 18, 0.88],      // Music Player
+  [4.0, 2.1, 18, 0.88],      // Volume Slider
+  [5.5, 3.0, 18, 0.88],      // Toggle Switch
+  [6.5, 1.85, 18, 0.88],     // Segmented Tabs
+  [8.0, 1.45, 18, 0.88],     // Chart
+  [10.0, 1.6, 18, 0.88],     // Command Palette
+  [12.0, 2.2, 18, 0.88],     // Toast
+  [13.0, 2.4, 18, 0.88],     // Button return
+];
+
+// Precompute Chart Spline Path
+const CHART_POINTS = [
+  [10, 125], [70, 110], [140, 85], [210, 95], [280, 50], [350, 60], [380, 35], [440, 48], [490, 25]
+];
+function createSmoothPath(points) {
+  let d = `M ${points[0][0]} ${points[0][1]}`;
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[i === 0 ? 0 : i - 1];
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const p3 = points[i + 2] || p2;
+    const cp1x = p1[0] + (p2[0] - p0[0]) / 6;
+    const cp1y = p1[1] + (p2[1] - p0[1]) / 6;
+    const cp2x = p2[0] - (p3[0] - p1[0]) / 6;
+    const cp2y = p2[1] - (p3[1] - p1[1]) / 6;
+    d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d;
+}
+const CHART_LINE_PATH = createSmoothPath(CHART_POINTS);
+const CHART_AREA_PATH = `${CHART_LINE_PATH} L 490 140 L 10 140 Z`;
+
+// DOM references
+const morphContainer = document.getElementById('morph-container');
+const cameraLayer = document.getElementById('camera-layer');
+const cursorEl = document.getElementById('cursor');
+
+const layerButton = document.getElementById('layer-button');
+const layerLoader = document.getElementById('layer-loader');
+const layerCheck = document.getElementById('layer-check');
+const layerIsland = document.getElementById('layer-island');
+const layerPlayer = document.getElementById('layer-player');
+const layerVolume = document.getElementById('layer-volume');
+const layerToggle = document.getElementById('layer-toggle');
+const layerTabs = document.getElementById('layer-tabs');
+const layerChart = document.getElementById('layer-chart');
+const layerCmdk = document.getElementById('layer-cmdk');
+const layerToast = document.getElementById('layer-toast');
+
+const loaderSpinner = document.getElementById('loader-spinner-path');
+const checkPath = document.getElementById('check-path');
+const playPoly = document.getElementById('play-poly');
+const pauseBar1 = document.getElementById('pause-bar1');
+const pauseBar2 = document.getElementById('pause-bar2');
+const playerFill = document.getElementById('player-fill');
+const playerThumb = document.getElementById('player-thumb');
+const playerTimeCur = document.getElementById('player-time-cur');
+const volFill = document.getElementById('vol-fill');
+const volThumb = document.getElementById('vol-thumb');
+const volText = document.getElementById('vol-text');
+const toggleKnob = document.getElementById('toggle-knob');
+const toggleHousing = document.getElementById('toggle-housing');
+const tabsLiquidPill = document.getElementById('tabs-liquid-pill');
+const tabItems = [document.getElementById('tab-0'), document.getElementById('tab-1'), document.getElementById('tab-2')];
+const chartStroke = document.getElementById('chart-stroke');
+const chartArea = document.getElementById('chart-area');
+const chartHairline = document.getElementById('chart-hairline');
+const chartTargetDot = document.getElementById('chart-target-dot');
+const chartTooltip = document.getElementById('chart-tooltip');
+const cmdkTypedText = document.getElementById('cmdk-typed-text');
+const cmdkItem0 = document.getElementById('cmdk-item-0');
+const toastProgress = document.getElementById('toast-progress');
+
+// Set SVG charts
+chartStroke.setAttribute('d', CHART_LINE_PATH);
+chartArea.setAttribute('d', CHART_AREA_PATH);
+const chartTotalLength = 620; // approximate path length
+chartStroke.style.strokeDasharray = chartTotalLength;
+
+// Checkmark path length
+const checkTotalLength = 40;
+checkPath.style.strokeDasharray = checkTotalLength;
+
+/**
+ * PURE FUNCTION seek(t):
+ * Computes exact state at any time t in [0.0, 14.0]
+ */
+window.seek = function(t) {
+  // Wrap exactly at TOTAL_DURATION for infinite seamless loop
+  t = ((t % TOTAL_DURATION) + TOTAL_DURATION) % TOTAL_DURATION;
+
+  // Base dimensions via closed-form spring superposition
+  let w = multiSpring(t, 240, WIDTH_STEPS);
+  let h = multiSpring(t, 64, HEIGHT_STEPS);
+  let r = multiSpring(t, 32, RADIUS_STEPS);
+  let zoom = multiSpring(t, 2.4, CAMERA_ZOOM_STEPS);
+
+  // Apply Volume Overstretch Direct Manipulation (Beat 10: 4.5s to 5.5s)
+  if (t >= 4.5 && t < 5.5) {
+    // cursor drags past max volume thumb
+    const stretchProgress = smoothstep(4.5, 4.85, t) * (1 - smoothstep(5.0, 5.35, t));
+    const stretchAmount = 45 * stretchProgress;
+    w += stretchAmount; // stretches horizontally
+  }
+
+  // Camera transform (sharp scaling, no will-change)
+  cameraLayer.style.transform = `scale(${zoom})`;
+
+  // Morph Container geometry
+  morphContainer.style.width = `${w.toFixed(2)}px`;
+  morphContainer.style.height = `${h.toFixed(2)}px`;
+  morphContainer.style.borderRadius = `${r.toFixed(2)}px`;
+
+  // Morph Container theme/background
+  // Standard: pure black (#09090b). Toggle state at 6.0-6.5s switches to high contrast
+  let bgR = 9, bgG = 9, bgB = 11;
+  morphContainer.style.background = `rgb(${bgR}, ${bgG}, ${bgB})`;
+
+  // Helper for crossfade + micro-blur swap
+  function setLayerStyle(el, activeStart, activeEnd, fadeInDur = 0.15, fadeOutDur = 0.15) {
+    let opacity = 0;
+    if (t >= activeStart - fadeInDur && t <= activeEnd + fadeOutDur) {
+      if (t < activeStart) {
+        opacity = smoothstep(activeStart - fadeInDur, activeStart, t);
+      } else if (t > activeEnd) {
+        opacity = 1 - smoothstep(activeEnd, activeEnd + fadeOutDur, t);
+      } else {
+        opacity = 1;
+      }
+    }
+    const blur = (1 - opacity) * 6;
+    el.style.opacity = opacity.toFixed(3);
+    el.style.filter = blur > 0.1 ? `blur(${blur.toFixed(1)}px)` : 'none';
+    el.style.display = opacity <= 0.001 ? 'none' : 'flex';
+    return opacity;
+  }
+
+  // 1. Button (0.0s - 0.5s & 13.5s - 14.0s)
+  const isBtnLoopEnd = t >= 13.5;
+  const opBtn = isBtnLoopEnd 
+    ? smoothstep(13.4, 13.8, t) 
+    : (1 - smoothstep(0.42, 0.60, t));
+  layerButton.style.opacity = opBtn.toFixed(3);
+  layerButton.style.filter = opBtn < 0.99 ? `blur(${((1 - opBtn) * 6).toFixed(1)}px)` : 'none';
+  layerButton.style.display = opBtn <= 0.001 ? 'none' : 'flex';
+
+  // 2. Loader (0.5s - 1.0s)
+  const opLoader = setLayerStyle(layerLoader, 0.58, 0.95, 0.12, 0.12);
+  if (opLoader > 0.01) {
+    const rot = (t - 0.5) * 720; // 2 revolutions per second
+    loaderSpinner.style.transformOrigin = '18px 18px';
+    loaderSpinner.style.transform = `rotate(${rot.toFixed(1)}deg)`;
+  }
+
+  // 3. Checkmark (1.0s - 1.5s)
+  const opCheck = setLayerStyle(layerCheck, 1.05, 1.45, 0.10, 0.12);
+  if (opCheck > 0.01) {
+    const drawProg = clamp(springStep(t - 1.05, 1.0, 24, 0.9), 0, 1);
+    checkPath.style.strokeDashoffset = (checkTotalLength * (1 - drawProg)).toFixed(1);
+  }
+
+  // 4. Dynamic Island (1.5s - 2.0s)
+  setLayerStyle(layerIsland, 1.55, 1.95, 0.12, 0.12);
+
+  // 5. Music Player (2.0s - 4.0s)
+  const opPlayer = setLayerStyle(layerPlayer, 2.08, 3.92, 0.15, 0.15);
+  if (opPlayer > 0.01) {
+    // Play / Pause Icon morph at Beat 6 (2.5s)
+    const isPaused = t >= 2.65;
+    if (isPaused) {
+      playPoly.style.display = 'none';
+      pauseBar1.style.display = 'block';
+      pauseBar2.style.display = 'block';
+    } else {
+      playPoly.style.display = 'block';
+      pauseBar1.style.display = 'none';
+      pauseBar2.style.display = 'none';
+    }
+
+    // Direct scrub interaction (Beat 7-8: 3.0s to 3.8s)
+    let scrubPct = 0.28;
+    if (t >= 3.1 && t <= 3.7) {
+      // Cursor drags scrub thumb from 28% to 76%
+      const p = smoothstep(3.1, 3.7, t);
+      scrubPct = 0.28 + p * 0.48;
+    } else if (t > 3.7) {
+      scrubPct = 0.76;
+    }
+    playerFill.style.width = `${(scrubPct * 100).toFixed(1)}%`;
+    playerThumb.style.left = `${(scrubPct * 100).toFixed(1)}%`;
+    const curSec = Math.floor(scrubPct * 243);
+    const m = Math.floor(curSec / 60);
+    const s = curSec % 60;
+    playerTimeCur.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+  }
+
+  // 6. Volume Slider (4.0s - 5.5s)
+  const opVolume = setLayerStyle(layerVolume, 4.08, 5.42, 0.15, 0.15);
+  if (opVolume > 0.01) {
+    let volVal = 0.65;
+    if (t >= 4.5 && t < 5.0) {
+      // Drag past max (overdrag up to 1.15)
+      const p = smoothstep(4.5, 4.9, t);
+      volVal = 0.65 + p * 0.50; // up to 1.15
+    } else if (t >= 5.0 && t < 5.5) {
+      // Snaps back from 1.15 to 1.0 on release
+      volVal = 1.0 + springStep(t - 5.0, -0.15, 24, 0.85);
+    }
+    const displayVal = Math.min(100, Math.round(volVal * 100));
+    const thumbX = Math.min(100, volVal * 100);
+    volFill.style.width = `${clamp(thumbX, 0, 100).toFixed(1)}%`;
+    volThumb.style.left = `${clamp(thumbX, 0, 100).toFixed(1)}%`;
+    volText.textContent = `${displayVal}%`;
+  }
+
+  // 7. Toggle Switch (5.5s - 6.5s)
+  const opToggle = setLayerStyle(layerToggle, 5.58, 6.42, 0.12, 0.12);
+  if (opToggle > 0.01) {
+    // DUAL-SPRING ASYMMETRIC EDGES FOR LIQUID TOGGLE KNOB
+    // Leading right edge springs faster than trailing left edge!
+    const tFlip = 6.0;
+    let leadingX = 8;
+    let trailingX = 8;
+    const travelDist = 72; // width 144 - knob width 56 - padding
+    if (t >= tFlip) {
+      // Right edge moves with fast spring (omega 24, zeta 0.86)
+      leadingX = 8 + springStep(t - tFlip, travelDist, 24, 0.86);
+      // Left edge moves with lag spring (omega 17, zeta 0.90)
+      trailingX = 8 + springStep(t - tFlip, travelDist, 17, 0.90);
+    }
+    const knobLeft = trailingX;
+    const knobWidth = Math.max(56, 56 + (leadingX - trailingX));
+    toggleKnob.style.left = `${knobLeft.toFixed(1)}px`;
+    toggleKnob.style.width = `${knobWidth.toFixed(1)}px`;
+
+    // High contrast container fill shift on toggle
+    const toggleFillProg = t >= tFlip ? clamp(springStep(t - tFlip, 1.0, 20, 0.9), 0, 1) : 0;
+    toggleHousing.style.background = toggleFillProg > 0.5 ? '#ffffff' : '#27272a';
+    toggleKnob.style.background = toggleFillProg > 0.5 ? '#000000' : '#ffffff';
+  }
+
+  // 8. Segmented Tabs (6.5s - 8.0s)
+  const opTabs = setLayerStyle(layerTabs, 6.58, 7.92, 0.12, 0.12);
+  if (opTabs > 0.01) {
+    // 3 Tabs: positions at ~6px, 158px, 310px (width ~148px)
+    const tabWidth = 146;
+    const posTab0 = 6;
+    const posTab1 = 156;
+    const posTab2 = 306;
+
+    // Asymmetric dual-spring for tab indicator pill:
+    // Leading edge expands forward, trailing edge catches up!
+    let pillLeft = posTab0;
+    let pillRight = posTab0 + tabWidth;
+
+    const tClick1 = 7.0; // Click Tab 2
+    const tClick2 = 7.5; // Click Tab 3
+
+    if (t < tClick1) {
+      pillLeft = posTab0;
+      pillRight = posTab0 + tabWidth;
+      tabItems[0].style.color = '#000000';
+      tabItems[1].style.color = '#a1a1aa';
+      tabItems[2].style.color = '#a1a1aa';
+    } else if (t < tClick2) {
+      // Moving from Tab 1 to Tab 2
+      const rightTarget = posTab1 + tabWidth;
+      const leftTarget = posTab1;
+      // Leading (right) edge uses snappy spring (omega 24, zeta 0.85)
+      pillRight = (posTab0 + tabWidth) + springStep(t - tClick1, rightTarget - (posTab0 + tabWidth), 24, 0.85);
+      // Trailing (left) edge uses lag spring (omega 17, zeta 0.90)
+      pillLeft = posTab0 + springStep(t - tClick1, leftTarget - posTab0, 17, 0.90);
+
+      const isPastHalf = t > tClick1 + 0.12;
+      tabItems[0].style.color = isPastHalf ? '#a1a1aa' : '#000000';
+      tabItems[1].style.color = isPastHalf ? '#000000' : '#a1a1aa';
+      tabItems[2].style.color = '#a1a1aa';
+    } else {
+      // Moving from Tab 2 to Tab 3
+      const rightTarget = posTab2 + tabWidth;
+      const leftTarget = posTab2;
+      pillRight = (posTab1 + tabWidth) + springStep(t - tClick2, rightTarget - (posTab1 + tabWidth), 24, 0.85);
+      pillLeft = posTab1 + springStep(t - tClick2, leftTarget - posTab1, 17, 0.90);
+
+      const isPastHalf = t > tClick2 + 0.12;
+      tabItems[0].style.color = '#a1a1aa';
+      tabItems[1].style.color = isPastHalf ? '#a1a1aa' : '#000000';
+      tabItems[2].style.color = isPastHalf ? '#000000' : '#a1a1aa';
+    }
+
+    tabsLiquidPill.style.left = `${pillLeft.toFixed(1)}px`;
+    tabsLiquidPill.style.width = `${Math.max(tabWidth, pillRight - pillLeft).toFixed(1)}px`;
+  }
+
+  // 9. Interactive Chart (8.0s - 10.0s)
+  const opChart = setLayerStyle(layerChart, 8.08, 9.92, 0.15, 0.15);
+  if (opChart > 0.01) {
+    // Sparkline draws itself on Beat 18 (8.5s)
+    const drawProg = clamp(springStep(t - 8.35, 1.0, 18, 0.92), 0, 1);
+    chartStroke.style.strokeDashoffset = (chartTotalLength * (1 - drawProg)).toFixed(1);
+    chartArea.style.opacity = drawProg.toFixed(2);
+
+    // Tooltip & Hairline pop on Beat 19 (9.0s to 9.6s)
+    let tipOpacity = 0;
+    if (t >= 9.0 && t <= 9.65) {
+      tipOpacity = smoothstep(9.0, 9.2, t) * (1 - smoothstep(9.5, 9.65, t));
+    }
+    chartHairline.style.opacity = tipOpacity.toFixed(2);
+    chartTargetDot.style.opacity = tipOpacity.toFixed(2);
+    chartTooltip.style.opacity = tipOpacity.toFixed(2);
+    if (tipOpacity > 0.01) {
+      const scale = 0.8 + 0.2 * tipOpacity;
+      chartTooltip.style.transform = `translate(-50%, -100%) scale(${scale.toFixed(2)})`;
+    }
+  }
+
+  // 10. Command Palette ⌘K (10.0s - 12.0s)
+  const opCmdk = setLayerStyle(layerCmdk, 10.08, 11.92, 0.15, 0.15);
+  if (opCmdk > 0.01) {
+    // Type query: "deploy prod" (Beat 22: 10.5s - 11.2s)
+    const fullText = "deploy prod";
+    const typeProg = clamp((t - 10.5) / 0.65, 0, 1);
+    const charsCount = Math.floor(typeProg * fullText.length);
+    cmdkTypedText.textContent = fullText.slice(0, charsCount);
+
+    // Blinking Caret
+    const caretVis = Math.sin(t * 12) > 0 ? 'inline-block' : 'none';
+    document.getElementById('cmdk-caret').style.display = caretVis;
+
+    // Item selection flash at Beat 24 (11.5s)
+    if (t >= 11.5) {
+      cmdkItem0.style.background = '#ffffff';
+      cmdkItem0.style.color = '#000000';
+    } else {
+      cmdkItem0.style.background = '#27272a';
+      cmdkItem0.style.color = '#ffffff';
+    }
+  }
+
+  // 11. Toast (12.0s - 13.0s)
+  const opToast = setLayerStyle(layerToast, 12.08, 12.92, 0.12, 0.12);
+  if (opToast > 0.01) {
+    // Depleting timer bar
+    const toastTimeProg = clamp(1 - (t - 12.1) / 0.85, 0, 1);
+    toastProgress.style.width = `${(toastTimeProg * 100).toFixed(1)}%`;
+  }
+
+  // CURSOR INTERACTION TRAJECTORY: Analytical Closed-Form Coordinates (x(t), y(t))
+  // The cursor arrives precisely at interaction hot spots on beat downbeats
+  let curX = 720;
+  let curY = 720;
+  let curPress = false;
+
+  // Exact trajectory piecewise functions
+  if (t < 0.5) {
+    // Beat 1: Button click
+    curX = 720;
+    curY = 720;
+    curPress = (t >= 0.08 && t <= 0.28);
+  } else if (t < 1.5) {
+    // Loader & Check: cursor backs away slightly
+    curX = 720 + 35 * smoothstep(0.5, 0.9, t);
+    curY = 720 + 35 * smoothstep(0.5, 0.9, t);
+  } else if (t < 2.5) {
+    // Dynamic island & approach Music Player Play Button
+    // Play button center in 1440 canvas is ~ (870, 680)
+    const p = smoothstep(1.8, 2.4, t);
+    curX = 755 + p * (870 - 755);
+    curY = 755 + p * (680 - 755);
+  } else if (t < 3.0) {
+    // Beat 6: Play / Pause click at (870, 680)
+    curX = 870;
+    curY = 680;
+    curPress = (t >= 2.62 && t <= 2.80);
+  } else if (t < 3.5) {
+    // Beat 7: Cursor moves to scrubber playhead thumb at ~ (630, 765)
+    const p = smoothstep(3.0, 3.25, t);
+    curX = 870 + p * (630 - 870);
+    curY = 680 + p * (765 - 680);
+    curPress = t >= 3.25;
+  } else if (t < 4.0) {
+    // Beat 8: Cursor drags scrubber from (630, 765) to (820, 765)
+    const p = smoothstep(3.25, 3.75, t);
+    curX = 630 + p * (820 - 630);
+    curY = 765;
+    curPress = t <= 3.75;
+  } else if (t < 4.5) {
+    // Move to Volume Slider thumb at ~ (770, 720)
+    const p = smoothstep(4.0, 4.35, t);
+    curX = 820 + p * (770 - 820);
+    curY = 765 + p * (720 - 765);
+  } else if (t < 5.2) {
+    // Beat 10: Drag volume slider thumb past max to (880, 720) - Overstretch!
+    const p = smoothstep(4.5, 4.85, t);
+    curX = 770 + p * (880 - 770);
+    curY = 720;
+    curPress = (t >= 4.45 && t <= 5.15);
+  } else if (t < 5.8) {
+    // Move to Toggle Knob at ~ (690, 720)
+    const p = smoothstep(5.25, 5.7, t);
+    curX = 880 + p * (690 - 880);
+    curY = 720;
+  } else if (t < 6.5) {
+    // Beat 13: Click toggle switch at (690, 720)
+    curX = 690;
+    curY = 720;
+    curPress = (t >= 5.95 && t <= 6.15);
+  } else if (t < 7.2) {
+    // Move to Tab 2 at (720, 720)
+    const p = smoothstep(6.6, 7.0, t);
+    curX = 690 + p * (720 - 690);
+    curY = 720;
+    curPress = (t >= 6.95 && t <= 7.15);
+  } else if (t < 7.8) {
+    // Move to Tab 3 at (870, 720)
+    const p = smoothstep(7.2, 7.5, t);
+    curX = 720 + p * (870 - 720);
+    curY = 720;
+    curPress = (t >= 7.45 && t <= 7.65);
+  } else if (t < 9.6) {
+    // Move to Chart peak at (815, 680)
+    const p = smoothstep(8.2, 8.8, t);
+    curX = 870 + p * (815 - 870);
+    curY = 720 + p * (680 - 720);
+  } else if (t < 10.4) {
+    // Move to Command Palette search input at (650, 680)
+    const p = smoothstep(9.7, 10.2, t);
+    curX = 815 + p * (650 - 815);
+    curY = 680;
+  } else if (t < 11.6) {
+    // Move down to Command Palette item 1 at (720, 735)
+    const p = smoothstep(11.0, 11.45, t);
+    curX = 650 + p * (720 - 650);
+    curY = 680 + p * (735 - 680);
+  } else if (t < 12.2) {
+    // Click Command Palette item at (720, 735)
+    curX = 720;
+    curY = 735;
+    curPress = (t >= 11.48 && t <= 11.75);
+  } else {
+    // Return seamlessly to starting position (720, 720) with 0 velocity
+    const p = smoothstep(12.6, 13.9, t);
+    curX = 720 * (1 - p) + 720 * p;
+    curY = 735 * (1 - p) + 720 * p;
+    curPress = false;
+  }
+
+  // Update cursor element
+  cursorEl.style.transform = `translate(${curX.toFixed(1)}px, ${curY.toFixed(1)}px) scale(${curPress ? 0.88 : 1.0})`;
+
+  // Update Inspector display
+  timeDisplay.textContent = `${t.toFixed(3)}s`;
+  scrubber.value = Math.round(t * 1000);
+  updateInspectorStateName(t);
+};
+
+// UI Inspector helper
+const scrubber = document.getElementById('scrubber');
+const timeDisplay = document.getElementById('time-display');
+const stateNameDisplay = document.getElementById('state-name-display');
+const btnPlay = document.getElementById('btn-play');
+const btnAudio = document.getElementById('btn-audio');
+const beatTrack = document.getElementById('beat-track');
+
+// Create 28 beat track pills
+for (let b = 1; b <= 28; b++) {
+  const seg = document.createElement('div');
+  seg.className = `beat-segment ${b % 4 === 1 ? 'downbeat' : ''}`;
+  seg.title = `Beat ${b} (${((b - 1) * 0.5).toFixed(1)}s)`;
+  seg.addEventListener('click', () => {
+    seekTime = (b - 1) * 0.5;
+    window.seek(seekTime);
+  });
+  beatTrack.appendChild(seg);
+}
+
+function updateInspectorStateName(t) {
+  const beatNum = (t / 0.5) + 1;
+  const beatIndex = Math.min(27, Math.floor(t / 0.5));
+  const segs = beatTrack.children;
+  for (let i = 0; i < segs.length; i++) {
+    if (i === beatIndex) segs[i].classList.add('active');
+    else segs[i].classList.remove('active');
+  }
+
+  let stateName = "Button";
+  if (t < 0.5) stateName = "Button (Click)";
+  else if (t < 1.0) stateName = "Morphing to Loader";
+  else if (t < 1.5) stateName = "Checkmark Drawn";
+  else if (t < 2.0) stateName = "Dynamic Island";
+  else if (t < 2.5) stateName = "Dynamic Island → Music Player";
+  else if (t < 3.0) stateName = "Music Player (Play → Pause)";
+  else if (t < 3.5) stateName = "Scrubber Grab";
+  else if (t < 4.0) stateName = "Scrubber Drag";
+  else if (t < 4.5) stateName = "Morphing to Volume Slider";
+  else if (t < 5.0) stateName = "Volume Overdrag (Elastic Stretch)";
+  else if (t < 5.5) stateName = "Volume Snap Release";
+  else if (t < 6.0) stateName = "Volume → Toggle Switch";
+  else if (t < 6.5) stateName = "Toggle Flip (Asymmetric Springs)";
+  else if (t < 7.0) stateName = "Toggle → Segmented Tabs";
+  else if (t < 7.5) stateName = "Tab 1 → Tab 2 (Liquid Indicator)";
+  else if (t < 8.0) stateName = "Tab 2 → Tab 3 (Liquid Indicator)";
+  else if (t < 8.5) stateName = "Tabs → Chart Expand";
+  else if (t < 9.0) stateName = "Chart Line Auto-Draw";
+  else if (t < 9.5) stateName = "Data Point Hover & Tooltip";
+  else if (t < 10.0) stateName = "Tooltip Dismiss";
+  else if (t < 10.5) stateName = "Chart → ⌘K Command Palette";
+  else if (t < 11.0) stateName = "Type to Filter ('deploy prod')";
+  else if (t < 11.5) stateName = "Results Cascaded";
+  else if (t < 12.0) stateName = "Item Enter / Select Hit";
+  else if (t < 12.5) stateName = "Command Palette → Toast";
+  else if (t < 13.0) stateName = "Toast Floating Dwell";
+  else if (t < 13.5) stateName = "Toast → Initial Button Morph";
+  else stateName = "Seamless Loop Settle";
+
+  stateNameDisplay.textContent = `Beat ${beatNum.toFixed(1)}: ${stateName}`;
+}
+
+// Playback Engine
+let isPlaying = true;
+let playbackSpeed = 1.0;
+let seekTime = 0.0;
+let lastPerfTime = performance.now();
+
+function animationLoop(now) {
+  const dt = (now - lastPerfTime) / 1000;
+  lastPerfTime = now;
+
+  if (isPlaying) {
+    seekTime = (seekTime + dt * playbackSpeed) % TOTAL_DURATION;
+    window.seek(seekTime);
+  }
+  requestAnimationFrame(animationLoop);
+}
+requestAnimationFrame(animationLoop);
+
+// Controls
+btnPlay.addEventListener('click', () => {
+  isPlaying = !isPlaying;
+  btnPlay.textContent = isPlaying ? 'Pause' : 'Play';
+  lastPerfTime = performance.now();
+});
+
+scrubber.addEventListener('input', (e) => {
+  isPlaying = false;
+  btnPlay.textContent = 'Play';
+  seekTime = parseFloat(e.target.value) / 1000;
+  window.seek(seekTime);
+});
+
+document.querySelectorAll('.speed-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    playbackSpeed = parseFloat(btn.dataset.speed);
+  });
+});
+
+// Initial seek
+window.seek(0.0);
+
+/**
+ * High-Precision 120 BPM Web Audio Synthesizer:
+ * Generates rhythmic downbeats and crisp tactile UI clicks on exact beat timestamps.
+ */
+let audioCtx = null;
+let isMuted = true;
+btnAudio.addEventListener('click', () => {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  isMuted = !isMuted;
+  btnAudio.textContent = isMuted ? 'Unmute' : 'Mute';
+  btnAudio.classList.toggle('active', !isMuted);
+});
+
+// Trigger UI click acoustic tick
+function playTick(freq = 1800, dur = 0.02) {
+  if (isMuted || !audioCtx) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + dur);
+  gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + dur);
+}
+</script>
+</body>
+</html>

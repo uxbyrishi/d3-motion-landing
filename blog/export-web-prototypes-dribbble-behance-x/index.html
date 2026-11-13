@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How to Prepare Interactive Web Prototypes for Dribbble, Behance, and X &mdash; D3motion</title>
+  <meta name="title" content="How to Prepare Interactive Web Prototypes for Dribbble, Behance, and X &mdash; D3motion">
+  <meta name="description" content="Learn how to format, loop, and export interactive web prototypes and code animations into high-engagement 60fps MP4 videos for Dribbble, Behance, X, and LinkedIn.">
+  <meta name="keywords" content="export web prototype for Dribbble, Behance UI animation video, X Twitter UI motion video, portfolio motion design, seamless looping UI video, D3motion">
+  <meta name="author" content="Yash (@heyyashd)">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://d3motion.pro/blog/export-web-prototypes-dribbble-behance-x">
+  <link rel="icon" type="image/png" href="/assets/icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://d3motion.pro/blog/export-web-prototypes-dribbble-behance-x">
+  <meta property="og:site_name" content="D3motion Insights">
+  <meta property="og:title" content="Prepare Web Prototypes for Dribbble, Behance, and X">
+  <meta property="og:description" content="Platform specs, aspect ratios, seamless loop formulas, and 60fps MP4 export settings for portfolio showcases.">
+  <meta property="og:image" content="https://d3motion.pro/assets/covers/cover-export-web-prototypes-dribbble-behance-x.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prepare Web Prototypes for Dribbble, Behance, and X">
+  <meta name="twitter:description" content="Platform specs, aspect ratios, seamless loop formulas, and 60fps MP4 export settings for portfolio showcases.">
+  <meta name="twitter:image" content="https://d3motion.pro/assets/covers/cover-export-web-prototypes-dribbble-behance-x.jpg">
+  <meta property="article:published_time" content="2026-11-13T10:00:00+00:00">
+
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blog/styles.css?v=3.6">
+  <link rel="stylesheet" href="../styles.css?v=3.6">
+
+  <!-- Vercel Analytics -->
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": "https://d3motion.pro/blog/export-web-prototypes-dribbble-behance-x#article",
+        "headline": "How to Prepare Interactive Web Prototypes for Dribbble, Behance, and X",
+        "description": "Comprehensive guide for designers and engineers preparing HTML/CSS prototypes for video export across social portfolio platforms.",
+        "url": "https://d3motion.pro/blog/export-web-prototypes-dribbble-behance-x",
+        "datePublished": "2026-11-13T10:00:00+00:00",
+        "author": { "@type": "Person", "name": "Yash", "url": "https://x.com/heyyashd" },
+        "publisher": { "@type": "Organization", "name": "D3motion", "url": "https://d3motion.pro" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What aspect ratio should I use for Dribbble UI animation shots?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Dribbble natively highlights 4:3 aspect ratios (such as 1600x1200 or 1200x900). Rendering in 4:3 fills the gallery thumbnail perfectly without letterboxing."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I make an animation loop seamlessly without a stutter at the loop point?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ensure your 0% keyframe state matches your 100% keyframe state identically in CSS or JavaScript, and render for the exact cycle duration (e.g. 4.00s) inside D3motion."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div id="readingProgress" class="reading-progress-bar" aria-hidden="true"></div>
+
+  <header class="site-nav">
+    <div class="site-nav-container">
+      <a href="/" class="brand-group" aria-label="D3motion Home">
+        <div class="brand-icon-box">
+          <svg width="24" height="17" viewBox="0 0 240 170" fill="none">
+            <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/>
+            <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+          </svg>
+        </div>
+        <div class="brand-title">D3motion <span class="brand-badge">Blog</span></div>
+      </a>
+
+      <div class="nav-actions">
+        <a href="/blog" class="nav-portal-link nav-link-desktop"><span>&larr; All Articles</span></a>
+        <a href="/" class="nav-portal-link nav-link-desktop"><span>App Studio</span></a>
+        <a href="/tutorial" class="nav-portal-link nav-link-desktop"><span>Tutorials</span></a>
+
+        <button type="button" class="btn-theme-toggle" id="themeToggleBtn" aria-label="Toggle Theme">
+          <svg class="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-container" id="top">
+
+    <header class="article-header">
+      <div class="article-header-grid">
+        <div class="eyebrow-row">
+          <span class="eyebrow-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Portfolio Guides &bull; Design Engineering
+          </span>
+          <span class="eyebrow-divider"></span>
+          <span>Dribbble 4:3 &bull; Behance 16:9 &bull; X (Twitter) 1:1</span>
+        </div>
+
+        <h1 class="article-title">
+          How to Prepare Interactive Web Prototypes for Dribbble, Behance, and X
+        </h1>
+
+        <p class="article-subtitle">
+          Static screenshots are dead. Here is how design engineers format, loop, and export live code prototypes into viral 60fps MP4 showcase videos across every major portfolio platform.
+        </p>
+
+        <div class="article-meta-bar">
+          <a href="https://x.com/heyyashd" target="_blank" rel="noopener noreferrer" class="author-pill">
+            <img src="/assets/heyyashd.jpg" alt="Yash (@heyyashd)" class="author-avatar-img">
+            <span>Yash (@heyyashd)</span>
+          </a>
+          <div class="meta-item"><time datetime="2026-11-13">November 13, 2026</time></div>
+          <div class="meta-item"><span>7 min read</span></div>
+          <div class="meta-item"><span class="brand-badge">Portfolio Strategy</span></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-layout">
+
+      <article class="article-body">
+
+        <section class="executive-summary-card">
+          <div class="exec-header">
+            <div class="exec-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--signal-primary)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>Executive Summary</span>
+            </div>
+            <span class="exec-badge">Platform Optimization</span>
+          </div>
+          <ul class="exec-list">
+            <li><span class="exec-bullet">01.</span><div><strong>Motion Wins Engagement:</strong> Animated video prototypes receive 4&times; to 7&times; higher engagement and reposts on X, Dribbble, and Behance than static renders.</div></li>
+            <li><span class="exec-bullet">02.</span><div><strong>Respect Aspect Ratios:</strong> Dribbble favors 4:3 (1600&times;1200), Behance prefers 16:9 (1920&times;1080), and X thrives on 1:1 square or 4:5 vertical reels.</div></li>
+            <li><span class="exec-bullet">03.</span><div><strong>Seamless Looping Math:</strong> Ensure initial 0% states equal terminal 100% states, and export exact millisecond durations in D3motion to eliminate loop hitching.</div></li>
+          </ul>
+        </section>
+
+        <!-- LIVE COMPONENT EMBED -->
+        <section id="motion-preview">
+          <h2>Live Showcase: Interactive Mobile Portfolio Prototype</h2>
+          <p>
+            Experience an authentic mobile onboarding prototype built for portfolio showcase videos. Notice how clean typography, card elevation, and smooth spring transitions command attention:
+          </p>
+
+          <div class="d3-media-frame">
+            <div class="d3-media-chrome">
+              <div class="chrome-dots">
+                <span class="c-dot c-red"></span><span class="c-dot c-yellow"></span><span class="c-dot c-green"></span>
+              </div>
+              <div class="chrome-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>D3motion Live Component &bull; Mobile Prototype Flow</span>
+              </div>
+              <span class="chrome-specs">Mobile 9:16 &bull; Spring Easing</span>
+            </div>
+
+            <div class="d3-media-stage" style="padding: 0; background: #F7F7F5; border-radius: 0 0 16px 16px;">
+              <div class="bento-iframe-scaler">
+                <iframe id="protoFrame" src="/assets/previews/mono-onboarding-preview.html" title="Mobile Showcase Prototype" loading="lazy"></iframe>
+              </div>
+            </div>
+
+            <div class="d3-player-controls">
+              <div class="player-transport">
+                <button type="button" class="btn-transport" title="Restart" onclick="const f=document.getElementById('protoFrame'); f.src=f.src;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                </button>
+              </div>
+              <div class="player-scrubber-track"><div class="player-scrubber-fill" style="width: 70%;"></div></div>
+              <div class="player-telemetry">
+                <span class="telemetry-item">Ratio: <strong>Vertical / Mobile</strong></span>
+                <span class="telemetry-item">Rate: <strong>60.00 FPS</strong></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PLATFORM SPECS -->
+        <section id="platform-matrix">
+          <h2>1. Platform-by-Platform Aspect Ratio &amp; Spec Matrix</h2>
+          <p>
+            Each creative platform has unique presentation geometry. Always match your export dimensions to the platform feed:
+          </p>
+
+          <div class="table-container" style="margin:24px 0;">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Platform</th>
+                  <th>Target Ratio</th>
+                  <th>Ideal Dimensions</th>
+                  <th>Loop &amp; Duration Strategy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Dribbble</strong></td>
+                  <td>4:3 (Classic)</td>
+                  <td>1600&times;1200 or 1200&times;900</td>
+                  <td>Seamless 4-8 second loop (under 20MB)</td>
+                </tr>
+                <tr>
+                  <td><strong>Behance</strong></td>
+                  <td>16:9 (Widescreen)</td>
+                  <td>1920&times;1080 or 2560&times;1440</td>
+                  <td>10-20s narrative showcase or feature demo</td>
+                </tr>
+                <tr>
+                  <td><strong>X (Twitter)</strong></td>
+                  <td>1:1 or 4:5 Portrait</td>
+                  <td>1080&times;1080 or 1080&times;1350</td>
+                  <td>Instant hook in first 1.2 seconds, 60fps locked</td>
+                </tr>
+                <tr>
+                  <td><strong>LinkedIn</strong></td>
+                  <td>1:1 Square</td>
+                  <td>1080&times;1080</td>
+                  <td>Polished product walkthrough with text callouts</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- SEAMLESS LOOPING -->
+        <section id="seamless-loop">
+          <h2>2. The Art of the Seamless Loop</h2>
+          <p>
+            Nothing degrades a portfolio shot faster than a video that "jerks" or stutters every time it loops. To guarantee an endless loop in HTML/CSS:
+          </p>
+          <ul style="margin: 16px 0 24px 20px; line-height: 1.8;">
+            <li><strong>Symmetrical Keyframes:</strong> Ensure your <code>0%</code> and <code>100%</code> states are identical.</li>
+            <li><strong>Spring Oscillator Reset:</strong> If using physics, ensure the dampening settles to rest before the loop boundary.</li>
+            <li><strong>Exact Recording Frame Slice:</strong> In D3motion, set the recording duration to match the CSS animation duration down to the millisecond.</li>
+          </ul>
+
+          <div class="code-window">
+            <div class="code-header">
+              <span class="code-filename">CSS &bull; Perfectly Looping Card Animation</span>
+              <button type="button" class="code-copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-window').querySelector('code').innerText); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000);">Copy</button>
+            </div>
+            <pre class="code-content"><code>/* 4-Second Total Cycle */
+@keyframes infiniteLoopCard {
+  0% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-24px) scale(1.02); }
+  70% { transform: translateY(4px) scale(0.99); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.portfolio-card {
+  animation: infiniteLoopCard 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- EXPORT SETTINGS -->
+        <section id="d3motion-export">
+          <h2>3. Instant Export with D3motion</h2>
+          <p>
+            When exporting for Dribbble or social media:
+          </p>
+          <ol style="margin: 16px 0 24px 20px; line-height: 1.8;">
+            <li>Drop your prototype into D3motion.</li>
+            <li>Select <strong>4:3 (1600&times;1200)</strong> for Dribbble, or <strong>1:1 (1080&times;1080)</strong> for X.</li>
+            <li>Select <strong>60 FPS</strong>.</li>
+            <li>Click <strong>Export Video</strong>.</li>
+          </ol>
+          <p>
+            The resulting MP4 uses high-efficiency H.264 profile compression, keeping file sizes well under 15MB while maintaining 4K clarity.
+          </p>
+        </section>
+
+        <!-- DOWNLOADS -->
+        <section id="downloads">
+          <h2>Download Free Starter Templates</h2>
+          <div style="background:var(--bg-card); border:1px solid var(--signal-border); border-radius:16px; padding:24px; margin:24px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div>
+              <div style="font-weight:700; font-size:18px; color:var(--text-primary);">Mobile Onboarding Flow Template (.HTML)</div>
+              <div style="font-size:14px; color:var(--text-muted); margin-top:4px;">Multi-screen mobile onboarding prototype ready for 9:16 or 4:3 video export</div>
+            </div>
+            <a href="/assets/templates/mono-onboarding.html" download class="btn-primary-action" style="text-decoration:none; padding:10px 20px; font-size:14px;">
+              Download Template &darr;
+            </a>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq">
+          <h2>Frequently Asked Questions</h2>
+          <div style="display:flex; flex-direction:column; gap:16px; margin-top:20px;">
+            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:20px;">
+              <h4 style="font-size:16px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">Does Dribbble support MP4 video uploads directly?</h4>
+              <p style="font-size:14px; color:var(--text-secondary);">Yes! Dribbble supports MP4 video shots for Pro and standard accounts, and videos achieve significantly higher engagement than static images.</p>
+            </div>
+            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:20px;">
+              <h4 style="font-size:16px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">How do I prevent social media compression blur on X?</h4>
+              <p style="font-size:14px; color:var(--text-secondary);">Always export at a constant 60fps frame rate with D3motion and use dark backgrounds with high-contrast text to avoid macroblock artifacts.</p>
+            </div>
+          </div>
+        </section>
+
+      </article>
+
+      <aside class="article-sidebar">
+        <div class="sidebar-widget">
+          <div class="sidebar-title">Contents</div>
+          <ul class="toc-list">
+            <li><a href="#motion-preview" class="toc-link">Live Showcase</a></li>
+            <li><a href="#platform-matrix" class="toc-link">1. Platform Specs</a></li>
+            <li><a href="#seamless-loop" class="toc-link">2. Seamless Loops</a></li>
+            <li><a href="#d3motion-export" class="toc-link">3. Export Settings</a></li>
+            <li><a href="#downloads" class="toc-link">4. Free Templates</a></li>
+            <li><a href="#faq" class="toc-link">5. FAQs</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-widget" style="background:linear-gradient(145deg, #161A24 0%, #0F131D 100%); color:#fff; border-color:var(--signal-border);">
+          <div style="font-family:var(--font-mono); font-size:11px; color:#60A5FA; text-transform:uppercase; margin-bottom:8px;">Portfolio Reels</div>
+          <h4 style="font-size:17px; font-weight:700; margin-bottom:8px;">Export 60fps Showcases</h4>
+          <p style="font-size:13px; color:#94A3B8; line-height:1.5; margin-bottom:16px;">
+            Transform your HTML prototypes into stunning portfolio videos with D3motion.
+          </p>
+          <a href="/" class="btn-primary-action" style="display:block; text-align:center; padding:10px 16px; font-size:13px; text-decoration:none;">
+            Download D3motion &rarr;
+          </a>
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Related Publications -->
+    <section style="max-width:1160px; margin:80px auto 40px; padding-top:40px; border-top:1px solid var(--border-subtle);">
+      <h3 style="font-family:var(--font-display); font-size:1.5rem; font-weight:700; margin-bottom:24px;">Recommended Next Reads</h3>
+      <div class="blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
+        <a href="/blog/5-micro-interactions-html-export-video" class="blog-card">
+          <div class="blog-card-body">
+            <span class="blog-card-tag">Portfolio Guides</span>
+            <h4 class="blog-card-title">5 Micro-Interaction Examples You Can Build in HTML and Export for Client Pitches</h4>
+            <p class="blog-card-desc">Production-ready UI motion components with free downloadable code templates.</p>
+          </div>
+        </a>
+        <a href="/blog/html5-to-mp4-without-losing-frame-rate" class="blog-card">
+          <div class="blog-card-body">
+            <span class="blog-card-tag">Tutorials</span>
+            <h4 class="blog-card-title">How to Convert HTML5 Animations to MP4 Without Losing Frame Rate</h4>
+            <p class="blog-card-desc">Why screen recording stutters and how deterministic frame stepping guarantees 60fps.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="brand-group">
+          <div class="brand-icon-box" style="width: 32px; height: 32px;">
+            <svg width="20" height="14" viewBox="0 0 240 170" fill="none"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg>
+          </div>
+          <span style="font-family: var(--font-display); font-weight: 700;">D3motion Design System</span>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 D3motion. Visit <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer">d3motion.pro</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const savedTheme = localStorage.getItem('d3motion_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggleBtn.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('d3motion_theme', next);
+    });
+
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / docHeight) * 100;
+      document.getElementById('readingProgress').style.width = scrolled + '%';
+    });
+
+    function scaleLiveFrame() {
+      const scaler = document.querySelector('.bento-iframe-scaler');
+      const iframe = scaler ? scaler.querySelector('iframe') : null;
+      if (scaler && iframe) {
+        const containerWidth = scaler.getBoundingClientRect().width;
+        if (containerWidth > 0) {
+          const scale = containerWidth / 1024;
+          iframe.style.transform = `scale(${scale})`;
+        }
+      }
+    }
+    window.addEventListener('resize', scaleLiveFrame);
+    window.addEventListener('load', scaleLiveFrame);
+    setTimeout(scaleLiveFrame, 50);
+    setTimeout(scaleLiveFrame, 300);
+  </script>
+</body>
+</html>

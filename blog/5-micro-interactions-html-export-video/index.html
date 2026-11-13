@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5 Micro-Interaction Examples You Can Build in HTML and Export for Client Pitches &mdash; D3motion</title>
+  <meta name="title" content="5 Micro-Interaction Examples You Can Build in HTML and Export for Client Pitches &mdash; D3motion">
+  <meta name="description" content="5 high-converting UI micro-interaction components built in HTML and CSS. Includes full code snippets, free downloadable templates, and 60fps MP4 export guide.">
+  <meta name="keywords" content="micro-interaction examples HTML CSS, UI micro-interactions, client pitch video demo, animated button HTML, 2FA code animation, D3motion">
+  <meta name="author" content="Yash (@heyyashd)">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://d3motion.pro/blog/5-micro-interactions-html-export-video">
+  <link rel="icon" type="image/png" href="/assets/icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://d3motion.pro/blog/5-micro-interactions-html-export-video">
+  <meta property="og:site_name" content="D3motion Insights">
+  <meta property="og:title" content="5 Micro-Interaction Examples in HTML for Client Pitches">
+  <meta property="og:description" content="Copy-paste code recipes and downloadable 60fps templates for 5 stunning UI micro-interactions.">
+  <meta property="og:image" content="https://d3motion.pro/assets/covers/cover-5-micro-interactions-html-export-video.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="5 Micro-Interaction Examples in HTML for Client Pitches">
+  <meta name="twitter:description" content="Copy-paste code recipes and downloadable 60fps templates for 5 stunning UI micro-interactions.">
+  <meta name="twitter:image" content="https://d3motion.pro/assets/covers/cover-5-micro-interactions-html-export-video.jpg">
+  <meta property="article:published_time" content="2026-11-13T10:00:00+00:00">
+
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blog/styles.css?v=3.6">
+  <link rel="stylesheet" href="../styles.css?v=3.6">
+
+  <!-- Vercel Analytics -->
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": "https://d3motion.pro/blog/5-micro-interactions-html-export-video#article",
+        "headline": "5 Micro-Interaction Examples You Can Build in HTML and Export for Client Pitches",
+        "description": "Practical UI engineering showcase providing 5 copy-paste interactive micro-interaction examples with downloadable HTML starter templates.",
+        "url": "https://d3motion.pro/blog/5-micro-interactions-html-export-video",
+        "datePublished": "2026-11-13T10:00:00+00:00",
+        "author": { "@type": "Person", "name": "Yash", "url": "https://x.com/heyyashd" },
+        "publisher": { "@type": "Organization", "name": "D3motion", "url": "https://d3motion.pro" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can I download these micro-interaction templates for free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes! We provide the complete standalone HTML files with zero external dependencies, ready to test directly in D3motion or customize in your own code editor."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I embed these animations into pitch decks like Pitch or Keynote?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Export the animation as a 60fps MP4 video using D3motion, then drag the MP4 directly onto your Keynote, Pitch, or PowerPoint slide for high-framerate autoplay."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div id="readingProgress" class="reading-progress-bar" aria-hidden="true"></div>
+
+  <header class="site-nav">
+    <div class="site-nav-container">
+      <a href="/" class="brand-group" aria-label="D3motion Home">
+        <div class="brand-icon-box">
+          <svg width="24" height="17" viewBox="0 0 240 170" fill="none">
+            <path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/>
+            <path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/>
+          </svg>
+        </div>
+        <div class="brand-title">D3motion <span class="brand-badge">Blog</span></div>
+      </a>
+
+      <div class="nav-actions">
+        <a href="/blog" class="nav-portal-link nav-link-desktop"><span>&larr; All Articles</span></a>
+        <a href="/" class="nav-portal-link nav-link-desktop"><span>App Studio</span></a>
+        <a href="/tutorial" class="nav-portal-link nav-link-desktop"><span>Tutorials</span></a>
+
+        <button type="button" class="btn-theme-toggle" id="themeToggleBtn" aria-label="Toggle Theme">
+          <svg class="theme-icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="theme-icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-container" id="top">
+
+    <header class="article-header">
+      <div class="article-header-grid">
+        <div class="eyebrow-row">
+          <span class="eyebrow-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Interactive Templates &bull; Client Delivery
+          </span>
+          <span class="eyebrow-divider"></span>
+          <span>OTP Rolling Code &bull; Equalizer &bull; Drawn Checks</span>
+        </div>
+
+        <h1 class="article-title">
+          5 Micro-Interaction Examples You Can Build in HTML and Export for Client Pitches
+        </h1>
+
+        <p class="article-subtitle">
+          Elevate your client proposals with 5 production-grade UI micro-interactions. Includes copy-paste HTML/CSS snippets, downloadable starter templates, and instant 4K MP4 export settings.
+        </p>
+
+        <div class="article-meta-bar">
+          <a href="https://x.com/heyyashd" target="_blank" rel="noopener noreferrer" class="author-pill">
+            <img src="/assets/heyyashd.jpg" alt="Yash (@heyyashd)" class="author-avatar-img">
+            <span>Yash (@heyyashd)</span>
+          </a>
+          <div class="meta-item"><time datetime="2026-11-13">November 13, 2026</time></div>
+          <div class="meta-item"><span>8 min read</span></div>
+          <div class="meta-item"><span class="brand-badge">5 Free Templates</span></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="article-layout">
+
+      <article class="article-body">
+
+        <section class="executive-summary-card">
+          <div class="exec-header">
+            <div class="exec-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--signal-primary)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>Executive Summary</span>
+            </div>
+            <span class="exec-badge">Pitch Decks</span>
+          </div>
+          <ul class="exec-list">
+            <li><span class="exec-bullet">01.</span><div><strong>Pitch with Video, Not Wireframes:</strong> Showing interactive micro-interactions embedded in high-framerate 60fps MP4 video proves craft and engineering feasibility.</div></li>
+            <li><span class="exec-bullet">02.</span><div><strong>5 Core Motion Patterns:</strong> Includes rolling OTP verification digits, music equalizer waves, drawn SVG task checkmarks, calendar glider, and streak counters.</div></li>
+            <li><span class="exec-bullet">03.</span><div><strong>Free Downloads:</strong> All templates are provided as clean HTML files using the original light theme with zero external framework dependencies.</div></li>
+          </ul>
+        </section>
+
+        <!-- LIVE COMPONENT EMBED: BENTO TRIO -->
+        <section id="motion-preview">
+          <h2>Live Showcase: Interactive Bento Motion Trio</h2>
+          <p>
+            Experience three synchronized micro-interactions below: dynamic music player with equalizer spectrum, design streak counter, and weekly calendar spring glider:
+          </p>
+
+          <div class="d3-media-frame">
+            <div class="d3-media-chrome">
+              <div class="chrome-dots">
+                <span class="c-dot c-red"></span><span class="c-dot c-yellow"></span><span class="c-dot c-green"></span>
+              </div>
+              <div class="chrome-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>D3motion Live Component &bull; Bento Trio (Music &bull; Streak &bull; Calendar)</span>
+              </div>
+              <span class="chrome-specs">Original Light Styles &bull; 60 FPS</span>
+            </div>
+
+            <div class="d3-media-stage">
+              <div class="bento-iframe-scaler">
+                <iframe id="microTrioFrame" src="/assets/previews/preview-micro.html" title="5 Micro-Interactions Live Preview" loading="lazy"></iframe>
+              </div>
+            </div>
+
+            <div class="d3-player-controls">
+              <div class="player-transport">
+                <button type="button" class="btn-transport" title="Restart" onclick="const f=document.getElementById('microTrioFrame'); f.src=f.src;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                </button>
+              </div>
+              <div class="player-scrubber-track"><div class="player-scrubber-fill" style="width: 60%;"></div></div>
+              <div class="player-telemetry">
+                <span class="telemetry-item">Components: <strong>3 Synchronized</strong></span>
+                <span class="telemetry-item">Rate: <strong>60.00 FPS</strong></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- COMPONENT 1: OTP -->
+        <section id="otp-input">
+          <h2>1. 6-Digit 2FA Verification Code with Rolling Numbers</h2>
+          <p>
+            Discrete security inputs that animate character entry with rolling odometer math, active blue caret, and circular countdown timer:
+          </p>
+
+          <div class="code-window">
+            <div class="code-header">
+              <span class="code-filename">CSS &bull; Rolling Digit Odometer Math</span>
+              <button type="button" class="code-copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-window').querySelector('code').innerText); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000);">Copy</button>
+            </div>
+            <pre class="code-content"><code>.digit-strip {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* Roll digit to target value */
+.digit-strip[data-val="7"] {
+  transform: translateY(calc(-7 * 100% / 10));
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- COMPONENT 2: EQUALIZER -->
+        <section id="equalizer">
+          <h2>2. Dynamic Audio Equalizer Spectrum</h2>
+          <p>
+            Staggered CSS scaling bars that simulate continuous frequency changes without audio analysis overhead:
+          </p>
+
+          <div class="code-window">
+            <div class="code-header">
+              <span class="code-filename">CSS &bull; Staggered Spectrum Waves</span>
+              <button type="button" class="code-copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-window').querySelector('code').innerText); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000);">Copy</button>
+            </div>
+            <pre class="code-content"><code>.eq-bar {
+  width: 3px;
+  background: var(--acc, #2F5BFF);
+  border-radius: 2px;
+  animation: eqBounce 0.8s ease-in-out infinite alternate;
+}
+.eq-bar:nth-child(2) { animation-delay: -0.2s; }
+.eq-bar:nth-child(3) { animation-delay: -0.5s; }
+.eq-bar:nth-child(4) { animation-delay: -0.1s; }
+
+@keyframes eqBounce {
+  0% { transform: scaleY(0.2); }
+  100% { transform: scaleY(1.0); }
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- COMPONENT 3: DRAWN CHECKMARKS -->
+        <section id="svg-checkmarks">
+          <h2>3. Tasks Checklist with Drawn SVG Checkmarks</h2>
+          <p>
+            An animated task list where checkboxes draw their checkmark path using SVG <code>stroke-dashoffset</code>, strike through completed text, and decrement the counter with spring easing:
+          </p>
+
+          <div class="code-window">
+            <div class="code-header">
+              <span class="code-filename">SVG &bull; Stroke Drawing Technique</span>
+              <button type="button" class="code-copy-btn" onclick="navigator.clipboard.writeText(this.closest('.code-window').querySelector('code').innerText); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000);">Copy</button>
+            </div>
+            <pre class="code-content"><code>.check-path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.checked .check-path {
+  stroke-dashoffset: 0;
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- COMPONENT 4: SPRING CALENDAR -->
+        <section id="calendar-glider">
+          <h2>4. Weekly Calendar with Spring Glider</h2>
+          <p>
+            A pill-shaped magnetic active selector that slides between calendar day cells with natural overshoot physics.
+          </p>
+        </section>
+
+        <!-- COMPONENT 5: STREAK COUNTER -->
+        <section id="streak-counter">
+          <h2>5. Gamified Design Streak Counter</h2>
+          <p>
+            A warm badge displaying consecutive streak metrics with active pulsing flame icons and spring counter rollups.
+          </p>
+        </section>
+
+        <!-- DOWNLOAD SUITE -->
+        <section id="download-suite">
+          <h2>Download Free Starter Templates</h2>
+          <p>
+            All templates are ready to drop directly into D3motion for instant 4K 60fps MP4 video export:
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:16px; margin:24px 0;">
+            <div style="background:var(--bg-card); border:1px solid var(--signal-border); border-radius:14px; padding:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+              <div>
+                <div style="font-weight:700; font-size:16px; color:var(--text-primary);">Bento Motion Trio (Music &bull; Calendar &bull; Streak)</div>
+                <div style="font-size:13px; color:var(--text-muted); margin-top:2px;">Original light theme components (.html)</div>
+              </div>
+              <a href="/assets/templates/bento-widget-group.html" download class="btn-primary-action" style="text-decoration:none; padding:8px 16px; font-size:13px;">Download &darr;</a>
+            </div>
+
+            <div style="background:var(--bg-card); border:1px solid var(--signal-border); border-radius:14px; padding:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+              <div>
+                <div style="font-weight:700; font-size:16px; color:var(--text-primary);">Bento OTP Verification Code</div>
+                <div style="font-size:13px; color:var(--text-muted); margin-top:2px;">6-digit rolling odometer code + active caret (.html)</div>
+              </div>
+              <a href="/assets/templates/bento-otp-verification.html" download class="btn-primary-action" style="text-decoration:none; padding:8px 16px; font-size:13px;">Download &darr;</a>
+            </div>
+
+            <div style="background:var(--bg-card); border:1px solid var(--signal-border); border-radius:14px; padding:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+              <div>
+                <div style="font-weight:700; font-size:16px; color:var(--text-primary);">Bento Tasks Checklist</div>
+                <div style="font-size:13px; color:var(--text-muted); margin-top:2px;">Drawn SVG checkmarks + rolling task counter (.html)</div>
+              </div>
+              <a href="/assets/templates/bento-tasks.html" download class="btn-primary-action" style="text-decoration:none; padding:8px 16px; font-size:13px;">Download &darr;</a>
+            </div>
+
+            <div style="background:linear-gradient(135deg, rgba(47,91,255,0.08) 0%, rgba(47,91,255,0.02) 100%); border:1px solid var(--signal-primary); border-radius:14px; padding:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+              <div>
+                <div style="font-weight:700; font-size:16px; color:var(--text-primary);">Complete D3motion Free Templates Bundle (.ZIP)</div>
+                <div style="font-size:13px; color:var(--text-secondary); margin-top:2px;">All 6 standalone templates in one clean download</div>
+              </div>
+              <a href="/assets/templates/d3motion-free-templates.zip" download class="btn-primary-action" style="text-decoration:none; padding:10px 20px; font-size:14px;">Download Full Bundle (.ZIP) &darr;</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq">
+          <h2>Frequently Asked Questions</h2>
+          <div style="display:flex; flex-direction:column; gap:16px; margin-top:20px;">
+            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:20px;">
+              <h4 style="font-size:16px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">Can I use these templates in commercial client projects?</h4>
+              <p style="font-size:14px; color:var(--text-secondary);">Yes, 100%. All templates are free and open for commercial client deliverables, pitches, and portfolio reels.</p>
+            </div>
+            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:20px;">
+              <h4 style="font-size:16px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">How long does it take D3motion to export this showcase?</h4>
+              <p style="font-size:14px; color:var(--text-secondary);">Typically less than 8 seconds for a 60fps 1080p video on modern Apple Silicon or Intel/NVIDIA GPUs.</p>
+            </div>
+          </div>
+        </section>
+
+      </article>
+
+      <aside class="article-sidebar">
+        <div class="sidebar-widget">
+          <div class="sidebar-title">Contents</div>
+          <ul class="toc-list">
+            <li><a href="#motion-preview" class="toc-link">Live Showcase</a></li>
+            <li><a href="#otp-input" class="toc-link">1. Rolling OTP Code</a></li>
+            <li><a href="#equalizer" class="toc-link">2. Audio Spectrum</a></li>
+            <li><a href="#svg-checkmarks" class="toc-link">3. SVG Checkmarks</a></li>
+            <li><a href="#calendar-glider" class="toc-link">4. Spring Calendar</a></li>
+            <li><a href="#streak-counter" class="toc-link">5. Streak Counter</a></li>
+            <li><a href="#download-suite" class="toc-link">Free Downloads</a></li>
+            <li><a href="#faq" class="toc-link">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-widget" style="background:linear-gradient(145deg, #161A24 0%, #0F131D 100%); color:#fff; border-color:var(--signal-border);">
+          <div style="font-family:var(--font-mono); font-size:11px; color:#60A5FA; text-transform:uppercase; margin-bottom:8px;">Desktop Studio</div>
+          <h4 style="font-size:17px; font-weight:700; margin-bottom:8px;">Win More Pitches</h4>
+          <p style="font-size:13px; color:#94A3B8; line-height:1.5; margin-bottom:16px;">
+            Export crisp 60fps micro-interaction videos directly from your HTML/CSS code.
+          </p>
+          <a href="/" class="btn-primary-action" style="display:block; text-align:center; padding:10px 16px; font-size:13px; text-decoration:none;">
+            Download D3motion &rarr;
+          </a>
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Related Publications -->
+    <section style="max-width:1160px; margin:80px auto 40px; padding-top:40px; border-top:1px solid var(--border-subtle);">
+      <h3 style="font-family:var(--font-display); font-size:1.5rem; font-weight:700; margin-bottom:24px;">Recommended Next Reads</h3>
+      <div class="blog-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">
+        <a href="/blog/export-web-prototypes-dribbble-behance-x" class="blog-card">
+          <div class="blog-card-body">
+            <span class="blog-card-tag">Portfolio Guides</span>
+            <h4 class="blog-card-title">How to Prepare Interactive Web Prototypes for Dribbble, Behance, and X</h4>
+            <p class="blog-card-desc">Platform specs, aspect ratios, seamless loop formulas, and 60fps MP4 export.</p>
+          </div>
+        </a>
+        <a href="/blog/turn-claude-gemini-html-animations-into-mp4" class="blog-card">
+          <div class="blog-card-body">
+            <span class="blog-card-tag">AI Workflows</span>
+            <h4 class="blog-card-title">How to Turn Claude &amp; Gemini HTML Animations into Shareable MP4s</h4>
+            <p class="blog-card-desc">From prompt to 60fps MP4 video in under 60 seconds.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="brand-group">
+          <div class="brand-icon-box" style="width: 32px; height: 32px;">
+            <svg width="20" height="14" viewBox="0 0 240 170" fill="none"><path d="M 68 10 L 158 10 C 168 10 173 17 168 25 L 128 85 C 124 91 117 95 107 95 L 17 95 C 7 95 2 88 7 80 L 47 20 C 51 14 58 10 68 10 Z" fill="#F0EFEA"/><path d="M 108 55 L 198 55 C 208 55 213 62 208 70 L 168 130 C 164 136 157 140 147 140 L 57 140 C 47 140 42 133 47 125 L 87 65 C 91 59 98 55 108 55 Z" fill="#3B62F6"/></svg>
+          </div>
+          <span style="font-family: var(--font-display); font-weight: 700;">D3motion Design System</span>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 D3motion. Visit <a href="https://d3motion.pro" target="_blank" rel="noopener noreferrer">d3motion.pro</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const savedTheme = localStorage.getItem('d3motion_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggleBtn.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('d3motion_theme', next);
+    });
+
+    function scaleLiveFrame() {
+      const scaler = document.querySelector('.bento-iframe-scaler');
+      const iframe = document.getElementById('microTrioFrame');
+      if (scaler && iframe) {
+        const containerWidth = scaler.getBoundingClientRect().width;
+        if (containerWidth > 0) {
+          const scale = containerWidth / 1024;
+          iframe.style.transform = `scale(${scale})`;
+        }
+      }
+    }
+    window.addEventListener('resize', scaleLiveFrame);
+    window.addEventListener('load', scaleLiveFrame);
+    setTimeout(scaleLiveFrame, 50);
+    setTimeout(scaleLiveFrame, 300);
+
+    window.addEventListener('scroll', () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / docHeight) * 100;
+      document.getElementById('readingProgress').style.width = scrolled + '%';
+    });
+  </script>
+</body>
+</html>

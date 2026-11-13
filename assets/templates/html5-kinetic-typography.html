@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kinetic Typography &mdash; 60fps D3motion Template</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #090A0F;
+      color: #FFFFFF;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+    .stage {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      background: radial-gradient(circle at 50% 50%, #151824 0%, #080A0E 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px;
+      overflow: hidden;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+    }
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #3B62F6;
+      background: rgba(59, 98, 246, 0.12);
+      border: 1px solid rgba(59, 98, 246, 0.3);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      margin-bottom: 24px;
+      animation: pulseBadge 3s ease-in-out infinite;
+    }
+    .title-line {
+      font-size: 72px;
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      text-align: center;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+    .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(60px) rotateX(-40deg);
+      animation: revealWord 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+    .word:nth-child(1) { animation-delay: 0.1s; }
+    .word:nth-child(2) { animation-delay: 0.25s; }
+    .word:nth-child(3) { animation-delay: 0.4s; }
+    .word:nth-child(4) { animation-delay: 0.55s; }
+
+    .highlight {
+      background: linear-gradient(135deg, #3B62F6 0%, #60A5FA 50%, #A855F7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtext {
+      margin-top: 28px;
+      font-size: 20px;
+      color: #8E95A2;
+      max-width: 680px;
+      text-align: center;
+      line-height: 1.5;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 4s cubic-bezier(0.16, 1, 0.3, 1) 0.7s infinite;
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .glow-orb {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(59, 98, 246, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(50px);
+      animation: floatOrb 6s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes revealWord {
+      0% { opacity: 0; transform: translateY(60px) rotateX(-40deg); filter: blur(8px); }
+      15%, 80% { opacity: 1; transform: translateY(0) rotateX(0); filter: blur(0); }
+      95%, 100% { opacity: 0; transform: translateY(-40px) scale(0.96); filter: blur(6px); }
+    }
+
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      18%, 80% { opacity: 1; transform: translateY(0); }
+      95%, 100% { opacity: 0; transform: translateY(-10px); }
+    }
+
+    @keyframes pulseBadge {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.04); opacity: 1; }
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(-100px, -50px); }
+      100% { transform: translate(120px, 60px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="grid-bg"></div>
+    <div class="glow-orb"></div>
+    <div class="badge">D3motion Kinetic Engine &bull; 60 FPS</div>
+    
+    <div class="title-line">
+      <span class="word">Render</span>
+      <span class="word">Code-Driven</span>
+      <span class="word highlight">Motion</span>
+      <span class="word">Locally</span>
+    </div>
+
+    <p class="subtext">
+      Zero dropped frames. No cloud credit burn. High-resolution MP4 export directly from your HTML, CSS, and WebGL code.
+    </p>
+  </div>
+</body>
+</html>
