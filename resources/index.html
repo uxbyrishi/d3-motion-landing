@@ -135,7 +135,31 @@
 
   <!-- Filter Controls Sticky Bar -->
   <section class="resources-controls">
-    <div class="container filter-pills-wrap">
+    <div class="container filter-pills-wrap" id="filterPillsWrap">
+      <!-- Mobile Filter Bar (Phone Only: default state is hidden filter pills) -->
+      <div class="filter-mobile-bar">
+        <button 
+          type="button" 
+          class="filter-toggle-btn" 
+          id="filterToggleBtn" 
+          aria-expanded="false" 
+          aria-controls="categoryFilters"
+          aria-label="Toggle category filter pills">
+          <svg class="filter-funnel-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+          </svg>
+          <span class="filter-toggle-label">Filters</span>
+          <span class="filter-active-badge" id="filterActiveBadge">All</span>
+          <svg class="filter-chevron-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <div class="filter-meta-count filter-count-mobile" id="resourceCountDisplayMobile">
+          Showing <strong>24</strong> resources
+        </div>
+      </div>
+
       <nav class="filter-pills" aria-label="Filter animations by category" id="categoryFilters">
         
         <button 
@@ -189,7 +213,7 @@
         </button>
       </nav>
 
-      <div class="filter-meta-count" id="resourceCountDisplay">
+      <div class="filter-meta-count filter-count-desktop" id="resourceCountDisplay">
         Showing <strong>24</strong> resources
       </div>
     </div>
@@ -1750,11 +1774,29 @@
       }, 1600);
     }
 
-    // Category Filtering Logic
+    // Category Filtering Logic & Mobile Filter Drawer
     (function initFiltering() {
+      const filterWrap = document.getElementById('filterPillsWrap');
+      const toggleBtn = document.getElementById('filterToggleBtn');
+      const activeBadge = document.getElementById('filterActiveBadge');
+      const toggleLabel = toggleBtn ? toggleBtn.querySelector('.filter-toggle-label') : null;
       const filterButtons = document.querySelectorAll('#categoryFilters .filter-btn');
       const cards = document.querySelectorAll('#resourcesGrid .resource-card');
-      const countDisplay = document.getElementById('resourceCountDisplay');
+      const countDisplays = [
+        document.getElementById('resourceCountDisplay'),
+        document.getElementById('resourceCountDisplayMobile')
+      ].filter(Boolean);
+
+      // Mobile toggle button listener (Default state: hidden; click to expand/hide)
+      if (toggleBtn && filterWrap) {
+        toggleBtn.addEventListener('click', () => {
+          const isExpanded = filterWrap.classList.toggle('is-expanded');
+          toggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+          if (toggleLabel) {
+            toggleLabel.textContent = isExpanded ? 'Hide Filters' : 'Filters';
+          }
+        });
+      }
 
       filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1762,8 +1804,11 @@
           btn.classList.add('active');
 
           const selectedCategory = btn.getAttribute('data-filter');
-          let visibleCount = 0;
+          if (activeBadge) {
+            activeBadge.textContent = selectedCategory;
+          }
 
+          let visibleCount = 0;
           cards.forEach(card => {
             const cardCat = card.getAttribute('data-category');
             if (selectedCategory === 'All' || cardCat === selectedCategory) {
@@ -1774,10 +1819,11 @@
             }
           });
 
-          if (countDisplay) {
-            countDisplay.innerHTML = 'Showing <strong>' + visibleCount + '</strong> resources' + 
-              (selectedCategory !== 'All' ? ' in <em>' + selectedCategory + '</em>' : '');
-          }
+          const countHtml = 'Showing <strong>' + visibleCount + '</strong> resources' + 
+            (selectedCategory !== 'All' ? ' in <em>' + selectedCategory + '</em>' : '');
+          countDisplays.forEach(el => {
+            el.innerHTML = countHtml;
+          });
         });
       });
     })();

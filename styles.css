@@ -2466,6 +2466,129 @@ body.resources-page .ambient-glow-top {
   font-family: var(--font-mono);
 }
 
+/* Mobile Filter Bar & Toggles (Hidden on Desktop) */
+.filter-mobile-bar {
+  display: none;
+}
+
+.filter-count-desktop {
+  display: block;
+}
+
+.filter-count-mobile {
+  display: none;
+}
+
+/* Phone version only (<= 600px): Fix navbar gap & provide toggle to hide filter pills (default: hidden) */
+@media (max-width: 600px) {
+  /* Fix gap below sticky 58px navbar in phone version */
+  .resources-controls {
+    top: 58px;
+    padding: 10px 0;
+    margin-bottom: 20px;
+  }
+
+  .filter-pills-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .filter-mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .filter-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 13px;
+    background: #12141A;
+    border: 1px solid #262933;
+    border-radius: 9999px;
+    color: #E5E7EB;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  [data-theme="light"] .filter-toggle-btn {
+    background: #F3F4F6;
+    border-color: #E5E7EB;
+    color: #111827;
+  }
+
+  .filter-toggle-btn:hover,
+  .filter-toggle-btn:active {
+    background: #1A1D26;
+    border-color: #374151;
+  }
+
+  [data-theme="light"] .filter-toggle-btn:hover,
+  [data-theme="light"] .filter-toggle-btn:active {
+    background: #E5E7EB;
+  }
+
+  .filter-active-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 7px;
+    background: var(--signal, #3B62F6);
+    color: #FFFFFF;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .filter-chevron-icon {
+    transition: transform 0.2s ease;
+  }
+
+  .filter-toggle-btn[aria-expanded="true"] .filter-chevron-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Default state on phone: HIDE filter pills */
+  .filter-pills {
+    display: none;
+    width: 100%;
+    gap: 6px;
+    padding-top: 4px;
+    flex-wrap: wrap;
+  }
+
+  /* When expanded by user */
+  .filter-pills-wrap.is-expanded .filter-pills {
+    display: flex;
+  }
+
+  .filter-count-desktop {
+    display: none;
+  }
+
+  .filter-count-mobile {
+    display: block;
+    font-size: 11.5px;
+    color: #9CA3AF;
+    font-family: var(--font-mono);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  [data-theme="light"] .filter-count-mobile {
+    color: #6B7280;
+  }
+}
+
 /* Resources Grid */
 .resources-grid {
   display: grid;
