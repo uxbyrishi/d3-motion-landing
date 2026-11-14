@@ -13,6 +13,18 @@
       btn.setAttribute('aria-label', 'Switch to ' + next + ' theme');
       btn.setAttribute('title', 'Switch to ' + next + ' theme');
     }
+    // Broadcast theme to resource animation iframes
+    var iframes = document.querySelectorAll('.resource-iframe');
+    for (var i = 0; i < iframes.length; i++) {
+      try {
+        if (iframes[i].contentWindow) {
+          iframes[i].contentWindow.postMessage({ type: 'theme', theme: theme }, '*');
+        }
+        if (iframes[i].contentDocument) {
+          iframes[i].contentDocument.documentElement.style.colorScheme = theme;
+        }
+      } catch(e) {}
+    }
   }
 
   // Vercel Web Analytics Initialization

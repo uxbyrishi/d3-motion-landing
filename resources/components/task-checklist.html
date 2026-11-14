@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Interactive Task Checklist &mdash; D3 Motion Component</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;580;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  color-scheme: dark;
+  --acc:#2F5BFF;--acc2:#6E8BFF;--tint:#EEF2FF;
+  --bg:#F7F7F5;--tray:#EEEEEA;--ink:#141416;
+  --mut:#8B8B87;--mut2:#B8B8B3;
+}
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:transparent !important;
+  color-scheme: dark;
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"cv11","ss01","tnum";
+  letter-spacing:-.01em;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.stage{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+}
+.t{
+  position:relative;
+  border-radius:22px;
+  background:var(--tray);
+  overflow:hidden;
+  width:200px;
+  height:186px;
+  box-shadow:0 1px 2px rgba(20,20,30,.05),0 8px 24px rgba(20,20,30,.05);
+}
+.t.w{background:#fff;box-shadow:0 1px 2px rgba(20,20,30,.05),0 8px 24px rgba(20,20,30,.05)}
+.t.d{background:#0F0F12;color:#fff}
+.in{position:absolute;inset:0}
+.c{background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(20,20,30,.06),0 4px 14px rgba(20,20,30,.05)}
+.row{display:flex;align-items:center}.sp{flex:1}
+.lbl{font-size:9px;color:var(--mut);font-weight:460}
+.h{font-size:11px;font-weight:580}
+.av{border-radius:50%;color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.rl{display:inline-flex;vertical-align:top;overflow:hidden;height:1.2em;line-height:1.2em}
+.rc{display:inline-block;height:1.2em;overflow:hidden;position:relative}
+.rc b{display:block;height:1.2em;line-height:1.2em;font-weight:inherit}
+svg{display:block}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="widget" class="t "></div>
+</div>
+<script>
+// Standalone default background fallback when opened directly
+if (window === window.top) {
+  document.body.style.backgroundColor = '#F7F7F5';
+} else {
+  try {
+    var pTheme = window.parent && window.parent.document && window.parent.document.documentElement.getAttribute('data-theme');
+    if (pTheme) {
+      document.documentElement.style.colorScheme = pTheme;
+      document.documentElement.setAttribute('data-theme', pTheme);
+    }
+  } catch(e) {}
+}
+
+// D3 Motion Pure Animation Component
+const A='#2F5BFF';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const mix=(a,b,p)=>a+(b-a)*p;
+const expo=p=>p<=0?0:p>=1?1:(1-Math.pow(2,-10*p))/(1-Math.pow(2,-10));
+const sprRaw=p=>1-Math.exp(-6.5*p)*(Math.cos(9.86*p)+(6.5/9.86)*Math.sin(9.86*p));
+const spring=p=>p<=0?0:p>=1?1:sprRaw(p)/sprRaw(1);
+const soft=p=>{const f=q=>1-Math.exp(-7*q)*(1+7*q);return p<=0?0:p>=1?1:f(p)/f(1)};
+const io=p=>{p=clamp(p);return p<.5?16*p**5:1-Math.pow(-2*p+2,5)/2};
+const md=(k,n)=>((k%n)+n)%n;
+
+function st(t,P,o){const x=t-o;if(x<0)return {k:0,l:0,pre:1};const k=Math.floor(x/P);return {k,l:x-k*P}}
+function st2(t,P,o){const x=t-o;if(x<0)return {k:0,l:99};const k=Math.floor(x/P)+1;return {k,l:x-(k-1)*P}}
+function tw(t,P,o,vals,dur,e=spring){const {k,l}=st2(t,P,o);const a=vals[md(k-1,vals.length)],b=vals[md(k,vals.length)];return mix(a,b,e(clamp(l/dur)))}
+function hexmix(a,b,p){const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),pb=[1,3,5].map(i=>parseInt(b.substr(i,2),16));return `rgb(${pa.map((v,i)=>Math.round(mix(v,pb[i],p))).join(',')})`}
+
+function roll(f,to,l,dur=.7,stg=.045){
+  const n=Math.max(f.length,to.length);
+  f=f.padStart(n,' ');to=to.padStart(n,' ');let s='';
+  for(let i=0;i<n;i++){
+    const a=f[i],b=to[i];
+    const p=spring(clamp((l-i*stg)/dur));
+    const da=/\d/.test(a),db=/\d/.test(b);
+    if(da&&db){
+      const y=mix(+a,+b,p);
+      s+=`<span class="rc"><span style="display:block;transform:translateY(${-y*1.2}em)">${[0,1,2,3,4,5,6,7,8,9].map(d=>`<b style="height:1.2em">${d}</b>`).join('')}</span></span>`;
+    }else if(a===b){
+      s+=a===' '?'':`<span class="rc">${a}</span>`;
+    }else{
+      const pe=expo(clamp((l-i*stg)/(dur*.6)));
+      if(a===' '&&!db){s+=`<span class="rc" style="opacity:${pe}">${b}</span>`;continue}
+      const w=a===' '?pe:b===' '?1-pe:1;
+      s+=`<span class="rc" style="max-width:${w*0.7}em"><span style="display:block;transform:translateY(${-pe*1.2}em)"><b style="height:1.2em;opacity:${1-pe}">${a===' '?'&nbsp;':a}</b><b style="height:1.2em;opacity:${pe}">${b===' '?'&nbsp;':b}</b></span></span>`;
+    }
+  }
+  return `<span class="rl">${s}</span>`;
+}
+
+function rollV(t,P,o,vals,fmt,dur,stg){
+  const {k,l}=st2(t,P,o);
+  const a=vals[md(k-1,vals.length)],b=vals[md(k,vals.length)];
+  return roll(fmt(a),fmt(b),l,dur,stg);
+}
+
+const chkPath=(p,c='#fff',s=10,w=3.2)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="${1-p}"/></svg>`;
+
+const ic={
+  play:(c='#000',s=10)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><path d="M7 4.5v15l12.5-7.5z"/></svg>`,
+  pause:(c='#000',s=10)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><rect x="6" y="4.5" width="4" height="15" rx="1.2"/><rect x="14" y="4.5" width="4" height="15" rx="1.2"/></svg>`,
+  prev:(c='#fff')=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="${c}"><path d="M19 5v14L8 12z"/><rect x="5" y="5" width="2.6" height="14" rx="1"/></svg>`,
+  next:(c='#fff')=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="${c}"><path d="M5 5v14l11-7z"/><rect x="16.4" y="5" width="2.6" height="14" rx="1"/></svg>`,
+  sun:(c,s=12,r=0)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" style="transform:rotate(${r}deg)"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>`,
+  moon:(c,s=12)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></svg>`,
+  file:(c='#141416')=>`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg>`,
+  heart:(f,s)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${f}" stroke="${f==='none'?'#141416':f}" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0112 7.4 4.3 4.3 0 0119.5 10c0 5.4-7.5 10-7.5 10z"/></svg>`,
+  bolt:(c)=>`<svg width="9" height="9" viewBox="0 0 24 24" fill="${c}"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>`,
+  vol:(c)=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5z" fill="${c}"/><path d="M16 9a4 4 0 010 6"/></svg>`,
+  search:(c='#9A9A95')=>`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>`,
+  bell:(c)=>`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15z"/><path d="M10 21h4"/></svg>`,
+  lock:(c)=>`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>`,
+};
+
+const AVC=['#2F5BFF','#141416','#FF7A59','#16A37F','#9B6BFF','#E84D8A','#F2B23A'];
+const PEOPLE=['Rae','Theo','Ines','Omar','Lia','Jun','Mae','Ezra','Noa'];
+const av=(n,s,extra='')=>`<div class="av" style="width:${s}px;height:${s}px;font-size:${s*.38}px;background:${AVC[PEOPLE.indexOf(n)%AVC.length]};${extra}">${n[0]}</div>`;
+
+function noise(x){return .5*Math.sin(x*.9)+.32*Math.sin(x*2.3+1.3)+.18*Math.sin(x*4.1+2.1)+.1*Math.sin(x*7.3)}
+function hsl2hex(h,s,l){s/=100;l/=100;const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l),f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1));return '#'+[f(0),f(8),f(4)].map(x=>Math.round(x*255).toString(16).padStart(2,'0')).join('').toUpperCase()}
+
+const W={};
+W.tasks=(t)=>{
+  const T=['Wireframe the hero','Pick a type scale','Build the grid','Ship it'];const P=6,o=1.8;const {l}=st(t,P,o);const fade=1-expo(clamp((l-5.3)/.5));const done=T.filter((_,i)=>l>.5+i*1.1).length;
+  return `<div class="in" style="padding:14px"><div class="row"><span class="h">Today</span><span class="sp"></span><span class="lbl">${roll(String(Math.max(0,done-1)),String(done),l-.5-(done-1)*1.1,.6)} of 4 done</span></div>
+  <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">${T.map((tx,i)=>{const q=clamp((l-.5-i*1.1)/.5)*fade;const pp=spring(q),ch=expo(clamp((l-.62-i*1.1)/.35))*fade,sk=expo(clamp((l-.7-i*1.1)/.5))*fade;
+  return `<div class="c row" style="height:30px;padding:0 10px;gap:9px;border-radius:10px"><div style="width:15px;height:15px;border-radius:5px;position:relative;box-shadow:inset 0 0 0 1.5px ${hexmix('#D4D4CF',A,clamp(q*2))}"><div style="position:absolute;inset:0;border-radius:5px;background:${A};transform:scale(${pp})"></div><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">${chkPath(ch,'#fff',9)}</div></div><span style="position:relative;font-size:9.5px;font-weight:520;color:${hexmix('#141416','#A3A39E',sk)}">${tx}<i style="position:absolute;left:0;top:52%;height:1.2px;background:#A3A39E;width:${sk*100}%"></i></span></div>`}).join('')}</div></div>`;
+};
+
+const widgetEl = document.getElementById('widget');
+
+function draw(t) {
+  const ctx = {};
+  const content = W['tasks'](t, ctx);
+  if (ctx.bg) {
+    widgetEl.style.backgroundColor = ctx.bg;
+  }
+  widgetEl.innerHTML = `<div class="in">${content}</div>`;
+}
+
+// Global hooks for D3 Motion deterministic rendering & time seeking
+window.draw = draw;
+window.renderFrame = draw;
+window.seek = draw;
+window.duration = 24.0;
+
+// Auto-play loop with visibility & postMessage play/pause controls
+let isPlaying = true;
+let startTime = null;
+let lastT = 0;
+
+function tick(ts) {
+  if (!isPlaying) return;
+  if (!startTime) startTime = ts - (lastT * 1000);
+  const t = ((ts - startTime) / 1000) % window.duration;
+  lastT = t;
+  draw(t);
+  requestAnimationFrame(tick);
+}
+
+// PostMessage controls for lazy-loaded iframes in D3 Motion Library
+window.addEventListener('message', (e) => {
+  if (!e.data) return;
+  if (e.data.type === 'theme') {
+    document.documentElement.style.colorScheme = e.data.theme;
+    document.documentElement.setAttribute('data-theme', e.data.theme);
+  } else if (e.data.type === 'pause') {
+    isPlaying = false;
+  } else if (e.data.type === 'play') {
+    if (!isPlaying) {
+      isPlaying = true;
+      startTime = performance.now() - (lastT * 1000);
+      requestAnimationFrame(tick);
+    }
+  }
+});
+
+// Render initial state and start loop
+draw(0);
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
